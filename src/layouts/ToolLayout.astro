@@ -1,0 +1,41 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import RelatedTools from '@/components/seo/RelatedTools.astro'
+import FaqSection from '@/components/seo/FaqSection.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { webApplicationSchema } from '@/lib/schema'
+import { getToolMeta } from '@/lib/seo'
+import { categoryLabels, type Tool } from '@/data/tools'
+import { faqs as allFaqs } from '@/data/faqs'
+
+interface Props {
+  tool: Tool
+}
+
+const { tool } = Astro.props
+const meta = getToolMeta(tool)
+const toolFaqs = allFaqs[tool.id] ?? []
+const categoryLabel = categoryLabels[tool.category]
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={webApplicationSchema(tool)} slot="head" />
+
+  <Breadcrumbs items={[
+    { name: categoryLabel, url: `https://toolprime.dev/#${tool.category}` },
+    { name: tool.name, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">{tool.name}</h1>
+  <p class="text-[var(--color-text-muted)] mb-6">{tool.longDescription}</p>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:p-6">
+    <slot />
+  </div>
+
+  <slot name="content" />
+
+  <FaqSection faqs={toolFaqs} />
+  <RelatedTools toolId={tool.id} />
+</BaseLayout>

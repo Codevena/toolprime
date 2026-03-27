@@ -1,0 +1,59 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description: string
+  canonical: string
+  ogTitle?: string
+  ogDescription?: string
+  ogType?: string
+}
+
+const { title, description, canonical, ogTitle, ogDescription, ogType = 'website' } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={ogTitle ?? title} />
+    <meta property="og:description" content={ogDescription ?? description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <slot name="head" />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <header class="border-b border-[var(--color-border)] bg-[var(--color-surface)]">
+      <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold text-[var(--color-primary)]">ToolPrime</a>
+        <nav class="hidden sm:flex gap-4 text-sm text-[var(--color-text-muted)]">
+          <a href="/#developer" class="hover:text-[var(--color-text)]">Developer</a>
+          <a href="/#text" class="hover:text-[var(--color-text)]">Text</a>
+          <a href="/#image" class="hover:text-[var(--color-text)]">Image</a>
+          <a href="/#math" class="hover:text-[var(--color-text)]">Math</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
+      <slot />
+    </main>
+
+    <footer class="border-t border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-muted)]">
+      <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between gap-4">
+        <p>© {new Date().getFullYear()} ToolPrime. All tools are free and process data locally in your browser.</p>
+        <div class="flex gap-4">
+          <a href="/impressum" class="hover:text-[var(--color-text)]">Impressum</a>
+          <a href="/datenschutz" class="hover:text-[var(--color-text)]">Privacy</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+---
+import { faqPageSchema } from '@/lib/schema'
+import SchemaMarkup from './SchemaMarkup.astro'
+import type { Faq } from '@/data/faqs'
+
+interface Props {
+  faqs: Faq[]
+}
+
+const { faqs } = Astro.props
+---
+
+{faqs.length > 0 && (
+  <section class="mt-12">
+    <SchemaMarkup json={faqPageSchema(faqs)} />
+    <h2 class="text-xl font-semibold mb-4">Frequently Asked Questions</h2>
+    <div class="space-y-4">
+      {faqs.map((faq) => (
+        <details class="group border border-[var(--color-border)] rounded-lg bg-[var(--color-surface)]">
+          <summary class="px-4 py-3 cursor-pointer font-medium hover:text-[var(--color-primary)] list-none flex justify-between items-center">
+            {faq.question}
+            <span class="text-[var(--color-text-muted)] group-open:rotate-180 transition-transform">▾</span>
+          </summary>
+          <p class="px-4 pb-4 text-[var(--color-text-muted)]">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+)}

@@ -1,0 +1,27 @@
+---
+import { getRelatedTools } from '@/data/tools'
+
+interface Props {
+  toolId: string
+}
+
+const { toolId } = Astro.props
+const related = getRelatedTools(toolId)
+---
+
+{related.length > 0 && (
+  <section class="mt-12">
+    <h2 class="text-xl font-semibold mb-4">Related Tools</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {related.map((tool) => (
+        <a
+          href={tool.path}
+          class="block p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-primary)] transition-colors"
+        >
+          <h3 class="font-medium text-[var(--color-text)]">{tool.name}</h3>
+          <p class="text-sm text-[var(--color-text-muted)] mt-1 line-clamp-2">{tool.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+)}

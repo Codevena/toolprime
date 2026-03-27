@@ -1,0 +1,32 @@
+---
+import { breadcrumbSchema } from '@/lib/schema'
+import SchemaMarkup from './SchemaMarkup.astro'
+
+interface BreadcrumbItem {
+  name: string
+  url: string
+}
+
+interface Props {
+  items: BreadcrumbItem[]
+}
+
+const { items } = Astro.props
+const allItems = [{ name: 'Home', url: 'https://toolprime.dev/' }, ...items]
+---
+
+<SchemaMarkup json={breadcrumbSchema(allItems)} />
+<nav aria-label="Breadcrumb" class="text-sm text-[var(--color-text-muted)] mb-4">
+  <ol class="flex flex-wrap gap-1">
+    {allItems.map((item, i) => (
+      <li class="flex items-center gap-1">
+        {i > 0 && <span aria-hidden="true">›</span>}
+        {i < allItems.length - 1 ? (
+          <a href={item.url} class="hover:text-[var(--color-text)]">{item.name}</a>
+        ) : (
+          <span class="text-[var(--color-text)]">{item.name}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
