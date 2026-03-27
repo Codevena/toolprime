@@ -1,0 +1,31 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { JsonFormatter } from '@/components/tools/JsonFormatter'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('json-formatter')!
+---
+
+<ToolLayout tool={tool}>
+  <JsonFormatter client:load />
+
+  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+    <h2>How to Use the JSON Formatter</h2>
+    <p>
+      Paste your JSON data into the input field and click <strong>Format</strong> to beautify it with proper indentation, <strong>Minify</strong> to compress it to a single line, or <strong>Validate</strong> to check if the syntax is correct.
+    </p>
+    <p>
+      Choose between 2-space or 4-space indentation for formatted output. If your JSON has syntax errors, the tool will show the error message with details about what went wrong.
+    </p>
+
+    <h2>What is JSON?</h2>
+    <p>
+      JSON (JavaScript Object Notation) is a lightweight data format used for data exchange between servers and web applications. It is human-readable and easy to parse. JSON is the most common format for REST APIs, configuration files, and data storage.
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      All JSON processing happens locally in your browser using JavaScript's built-in <code>JSON.parse()</code> and <code>JSON.stringify()</code>. Your data never leaves your device.
+    </p>
+  </section>
+</ToolLayout>
