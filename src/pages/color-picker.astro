@@ -1,0 +1,46 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { ColorPicker } from '@/components/tools/ColorPicker'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('color-picker')!
+---
+
+<ToolLayout tool={tool}>
+  <ColorPicker client:load />
+
+  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+    <h2>How to Use the Color Picker</h2>
+    <p>
+      Click the color picker control to open your browser's native color chooser and select any color visually. The large color swatch on the left updates instantly to show your chosen color. The HEX, RGB, and HSL values all update automatically when you pick a color.
+    </p>
+    <p>
+      You can also type values directly into any of the format fields. Enter a HEX code (like <code>#ff5733</code>) into the HEX field, or type R, G, and B values (0–255 each) into the RGB fields. The HSL fields accept hue (0–360 degrees), saturation (0–100%), and lightness (0–100%). All three panels stay in sync — change one and the others update immediately.
+    </p>
+    <p>
+      Use the <strong>Copy</strong> button next to each format to copy the value to your clipboard. Copy the HEX value for CSS, the RGB value for use in design tools, or the HSL value for more intuitive color adjustments in stylesheets.
+    </p>
+
+    <h2>Understanding Color Formats</h2>
+    <p>
+      Colors on screens are represented in different ways depending on the context. The three most common formats used in web design and CSS are HEX, RGB, and HSL.
+    </p>
+    <p>
+      <strong>HEX</strong> (hexadecimal) is the most compact format, representing each color channel as a two-character hex number from 00 to FF. For example, <code>#ff0000</code> is pure red. HEX codes are widely supported in CSS and accepted by virtually all design tools.
+    </p>
+    <p>
+      <strong>RGB</strong> (Red, Green, Blue) specifies each channel as a decimal from 0 to 255. This format is useful when you need to work with individual channel values, blend colors programmatically, or apply transparency with <code>rgba()</code> in CSS.
+    </p>
+    <p>
+      <strong>HSL</strong> (Hue, Saturation, Lightness) is arguably the most human-friendly format. Hue (0–360°) corresponds to the position on the color wheel. Saturation (0–100%) controls how vivid the color is. Lightness (0–100%) controls how light or dark it is. This makes it easy to create color variations — for example, incrementing the hue creates a complementary color, while reducing saturation produces a grey version.
+    </p>
+    <p>
+      Converting between these formats is pure math — no external services are needed — which is why this tool works entirely offline in your browser.
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      All color conversions are performed locally in your browser using JavaScript math. No color values or any other data are ever sent to a server.
+    </p>
+  </section>
+</ToolLayout>
