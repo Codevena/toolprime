@@ -23,20 +23,24 @@ function findConversion(from: string, to: string): Conversion | null {
 }
 
 function doConvert(from: string, to: string, value: number): number | null {
-  if (from === to) return value
-  const direct = findConversion(from, to)
-  if (direct) return convert(direct, value)
-  // Try reverse
-  const reverse = findConversion(to, from)
-  if (reverse) {
-    if (reverse.factor !== undefined) return value / reverse.factor
-    if (reverse.reverseFormula) {
-      const fn = formulaFunctions[reverse.reverseFormula]
-      if (!fn) throw new Error(`Unknown formula: ${reverse.reverseFormula}`)
-      return fn(value)
+  try {
+    if (from === to) return value
+    const direct = findConversion(from, to)
+    if (direct) return convert(direct, value)
+    // Try reverse
+    const reverse = findConversion(to, from)
+    if (reverse) {
+      if (reverse.factor !== undefined) return value / reverse.factor
+      if (reverse.reverseFormula) {
+        const fn = formulaFunctions[reverse.reverseFormula]
+        if (!fn) return null
+        return fn(value)
+      }
     }
+    return null
+  } catch {
+    return null
   }
-  return null
 }
 
 export function UnitConverter() {

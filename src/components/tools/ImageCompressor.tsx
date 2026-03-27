@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import imageCompression from 'browser-image-compression'
 
 interface FileInfo {
@@ -23,6 +23,8 @@ export function ImageCompressor() {
   const [error, setError] = useState('')
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const originalFileRef = useRef<File | null>(null)
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const compress = useCallback(async (file: File, q: number) => {
     setLoading(true)
@@ -54,11 +56,25 @@ export function ImageCompressor() {
     }
   }, [])
 
+  // Re-compress with debounce when quality changes and a file is already loaded
+  useEffect(() => {
+    if (!originalFileRef.current) return
+    const file = originalFileRef.current
+    if (debounceTimerRef.current != null) clearTimeout(debounceTimerRef.current)
+    debounceTimerRef.current = setTimeout(() => {
+      compress(file, quality)
+    }, 400)
+    return () => {
+      if (debounceTimerRef.current != null) clearTimeout(debounceTimerRef.current)
+    }
+  }, [quality, compress])
+
   const handleFile = useCallback((file: File) => {
     if (!file.type.startsWith('image/')) {
       setError('Please select an image file (JPEG, PNG, WebP, etc.)')
       return
     }
+    originalFileRef.current = file
     // Revoke the previous originalUrl to avoid memory leaks
     setFileInfo((prev) => {
       if (prev?.originalUrl) URL.revokeObjectURL(prev.originalUrl)
