@@ -1,0 +1,43 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { ImageCompressor } from '@/components/tools/ImageCompressor'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('image-compressor')!
+---
+
+<ToolLayout tool={tool}>
+  <ImageCompressor client:load />
+
+  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+    <h2>How to Use the Image Compressor</h2>
+    <p>
+      Drag and drop an image onto the upload area, or click it to open a file browser and select a JPEG, PNG, or WebP image. The tool immediately compresses the image using the quality setting you choose. You can see the original file size and compressed file size side by side, along with the percentage reduction achieved.
+    </p>
+    <p>
+      Use the <strong>Quality</strong> slider to control the trade-off between file size and visual quality. Lower values produce smaller files but more visible compression artifacts. Higher values preserve more detail but produce larger files. A quality of 70–85% is usually the sweet spot for web images — significantly smaller than the original with no perceptible quality loss in most cases.
+    </p>
+    <p>
+      Once you are satisfied with the result, click <strong>Download Compressed Image</strong> to save the file. The downloaded filename is prefixed with "compressed-" to distinguish it from the original. You can adjust the quality slider after uploading to re-compress with different settings without re-uploading the file.
+    </p>
+
+    <h2>Why Compress Images?</h2>
+    <p>
+      Images typically account for 50–80% of a web page's total weight. Unoptimized images are one of the single biggest causes of slow page load times, which directly impacts user experience, bounce rates, and search engine rankings. Google's Core Web Vitals metrics — particularly Largest Contentful Paint (LCP) — are heavily influenced by image sizes.
+    </p>
+    <p>
+      For a practical example: a typical smartphone photo is 3–8 MB. For a website, that same image would almost never need to be larger than 200–500 KB — and often much less. That is a 10× to 40× reduction with no visible quality loss when the image is displayed at normal web sizes.
+    </p>
+    <p>
+      Image compression comes in two forms. <strong>Lossless compression</strong> removes redundant metadata and applies mathematical tricks to reduce file size without changing any pixel values — the image is bit-for-bit identical when decoded. <strong>Lossy compression</strong> (used by JPEG and most WebP encoding) discards visual information that human eyes are less sensitive to, achieving much higher compression ratios at the cost of slight quality reduction.
+    </p>
+    <p>
+      This tool uses lossy compression, which is appropriate for the vast majority of web use cases including photos, hero images, product images, and thumbnails. For logos, icons, and images with sharp text, consider using lossless PNG or SVG formats instead.
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      Your images are compressed entirely within your browser using the <code>browser-image-compression</code> library. Images are never uploaded to a server. They never leave your device. This makes the tool safe to use with sensitive or confidential images.
+    </p>
+  </section>
+</ToolLayout>
