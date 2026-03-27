@@ -1,0 +1,49 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { QrCodeGenerator } from '@/components/tools/QrCodeGenerator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('qr-code-generator')!
+---
+
+<ToolLayout tool={tool}>
+  <QrCodeGenerator client:load />
+
+  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+    <h2>How to Use the QR Code Generator</h2>
+    <p>
+      Type or paste any text or URL into the input field at the top. A QR code is generated instantly as you type. Choose a size — 256×256 for standard use, 512×512 for higher resolution printing, or 1024×1024 for large-format materials. Click <strong>Download PNG</strong> to save the QR code as a PNG image file you can use anywhere.
+    </p>
+    <p>
+      The QR code preview always shows at 256 pixels on screen for easy viewing, but the downloaded file will be the full resolution you selected. This means a 1024×1024 download gives you a crisp, high-quality image even when printed on posters, banners, or product packaging.
+    </p>
+    <p>
+      QR codes work for any text content — URLs are the most common use case, but you can also encode plain text, email addresses, phone numbers, SMS messages, or WiFi network credentials. Most smartphones can scan QR codes natively with their camera app.
+    </p>
+
+    <h2>What Are QR Codes Used For?</h2>
+    <p>
+      QR codes (Quick Response codes) are two-dimensional barcodes that can store significantly more information than traditional one-dimensional barcodes. They were originally developed for tracking car parts in manufacturing but have become ubiquitous in everyday life.
+    </p>
+    <p>
+      Common QR code use cases include:
+    </p>
+    <ul>
+      <li><strong>Restaurant menus:</strong> Link to a digital menu that can be updated without reprinting.</li>
+      <li><strong>Business cards:</strong> Encode contact information (vCard format) for instant saving to phone contacts.</li>
+      <li><strong>Marketing campaigns:</strong> Track offline-to-online conversions by linking print ads to landing pages.</li>
+      <li><strong>Event tickets:</strong> Generate unique codes per ticket for fast, fraud-resistant scanning.</li>
+      <li><strong>WiFi sharing:</strong> Encode network credentials so guests can connect without typing a password.</li>
+      <li><strong>Product packaging:</strong> Link to instructional videos, warranty registration, or reorder pages.</li>
+      <li><strong>Payments:</strong> Many payment apps use QR codes for contactless transactions.</li>
+    </ul>
+    <p>
+      The error correction built into QR codes means they can still be scanned even if up to 30% of the code is obscured or damaged, making them robust for real-world use.
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      QR codes are generated entirely in your browser using the open-source <code>qrcode</code> library. The text you enter is never sent to our servers. The generated image is created locally and downloaded directly from your browser.
+    </p>
+  </section>
+</ToolLayout>
