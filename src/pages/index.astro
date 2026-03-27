@@ -1,20 +1,39 @@
 ---
-import '../styles/global.css'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import { tools, categoryLabels, type ToolCategory } from '@/data/tools'
+import { getHomeMeta } from '@/lib/seo'
+
+const meta = getHomeMeta()
+
+const categories = Object.entries(categoryLabels) as [ToolCategory, string][]
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>ToolPrime — Free Online Tools</title>
-    <meta name="description" content="Fast, free online tools for developers and everyday use." />
-  </head>
-  <body>
-    <main>
-      <h1>ToolPrime</h1>
-      <p>Free online tools — coming soon.</p>
-    </main>
-  </body>
-</html>
+<BaseLayout {...meta}>
+  <section class="text-center mb-12">
+    <h1 class="text-4xl font-bold mb-3">Free Online Tools</h1>
+    <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
+      Developer tools, text utilities, image processors, calculators, and more. No signup, no server uploads — everything runs in your browser.
+    </p>
+  </section>
+
+  {categories.map(([category, label]) => {
+    const categoryTools = tools.filter(t => t.category === category)
+    if (categoryTools.length === 0) return null
+    return (
+      <section id={category} class="mb-10">
+        <h2 class="text-2xl font-semibold mb-4">{label}</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {categoryTools.map((tool) => (
+            <a
+              href={tool.path}
+              class="block p-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-primary)] hover:shadow-sm transition-all"
+            >
+              <h3 class="font-semibold text-[var(--color-text)] mb-1">{tool.name}</h3>
+              <p class="text-sm text-[var(--color-text-muted)] line-clamp-2">{tool.longDescription}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  })}
+</BaseLayout>
