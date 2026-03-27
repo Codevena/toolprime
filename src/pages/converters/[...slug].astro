@@ -1,0 +1,113 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import { conversions, getSlug, convert, conversionCategoryLabels } from '@/data/conversions'
+import { getConversionMeta } from '@/lib/seo'
+
+export function getStaticPaths() {
+  return conversions.map((conv) => ({
+    params: { slug: getSlug(conv) },
+    props: { conversion: conv },
+  }))
+}
+
+const { conversion } = Astro.props
+const meta = getConversionMeta(conversion.from, conversion.fromAbbr, conversion.to, conversion.toAbbr)
+const categoryLabel = conversionCategoryLabels[conversion.category]
+
+// Generate conversion table
+const tableValues = [1, 2, 5, 10, 15, 20, 25, 50, 75, 100]
+const tableRows = tableValues.map(v => ({
+  input: v,
+  output: Number(convert(conversion, v).toFixed(6)),
+}))
+---
+
+<BaseLayout {...meta}>
+  <Breadcrumbs items={[
+    { name: 'Unit Converter', url: 'https://toolprime.dev/unit-converter' },
+    { name: categoryLabel, url: `https://toolprime.dev/unit-converter#${conversion.category}` },
+    { name: `${conversion.from} to ${conversion.to}`, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">
+    Convert {conversion.from} ({conversion.fromAbbr}) to {conversion.to} ({conversion.toAbbr})
+  </h1>
+  <p class="text-[var(--color-text-muted)] mb-6">
+    Instantly convert {conversion.from} to {conversion.to} with our free online converter. Enter a value below.
+  </p>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <div class="flex flex-col sm:flex-row items-center gap-4" id="converter">
+      <div class="flex-1 w-full">
+        <label class="block text-sm font-medium mb-1">{conversion.from} ({conversion.fromAbbr})</label>
+        <input
+          type="number"
+          id="input-value"
+          value="1"
+          class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+        />
+      </div>
+      <span class="text-2xl text-[var(--color-text-muted)]">=</span>
+      <div class="flex-1 w-full">
+        <label class="block text-sm font-medium mb-1">{conversion.to} ({conversion.toAbbr})</label>
+        <input
+          type="text"
+          id="output-value"
+          value={convert(conversion, 1).toFixed(6)}
+          readonly
+          class="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-lg font-mono"
+        />
+      </div>
+    </div>
+  </div>
+
+  <script define:vars={{ factor: conversion.factor, formula: conversion.formula }}>
+    const input = document.getElementById('input-value')
+    const output = document.getElementById('output-value')
+    input.addEventListener('input', () => {
+      const val = parseFloat(input.value)
+      if (isNaN(val)) { output.value = ''; return }
+      let result
+      if (factor) {
+        result = val * factor
+      } else if (formula) {
+        result = new Function('x', `return ${formula}`)(val)
+      }
+      output.value = result.toFixed(6)
+    })
+  </script>
+
+  <h2 class="text-xl font-semibold mb-4">Conversion Table: {conversion.from} to {conversion.to}</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse border border-[var(--color-border)] mb-8">
+      <thead>
+        <tr class="bg-[var(--color-surface-alt)]">
+          <th class="border border-[var(--color-border)] px-4 py-2 text-left">{conversion.from} ({conversion.fromAbbr})</th>
+          <th class="border border-[var(--color-border)] px-4 py-2 text-left">{conversion.to} ({conversion.toAbbr})</th>
+        </tr>
+      </thead>
+      <tbody>
+        {tableRows.map(row => (
+          <tr>
+            <td class="border border-[var(--color-border)] px-4 py-2 font-mono">{row.input}</td>
+            <td class="border border-[var(--color-border)] px-4 py-2 font-mono">{row.output}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose prose-slate max-w-none">
+    <h2>How to Convert {conversion.from} to {conversion.to}</h2>
+    {conversion.factor ? (
+      <p>
+        To convert {conversion.from} to {conversion.to}, multiply the value by {conversion.factor}. For example, 10 {conversion.fromAbbr} × {conversion.factor} = {(10 * conversion.factor).toFixed(4)} {conversion.toAbbr}.
+      </p>
+    ) : (
+      <p>
+        To convert {conversion.from} to {conversion.to}, use the formula: {conversion.toAbbr} = {conversion.formula?.replace('x', conversion.fromAbbr)}. For example, 100 {conversion.fromAbbr} = {convert(conversion, 100).toFixed(2)} {conversion.toAbbr}.
+      </p>
+    )}
+  </div>
+</BaseLayout>

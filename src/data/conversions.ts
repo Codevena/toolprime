@@ -55,9 +55,9 @@ export const conversions: Conversion[] = [
   { from: 'tablespoon', fromAbbr: 'tbsp', to: 'milliliter', toAbbr: 'mL', factor: 14.7868, category: 'volume' },
 
   // Area
-  { from: 'square meter', fromAbbr: 'm²', to: 'square foot', toAbbr: 'ft²', factor: 10.7639, category: 'area' },
+  { from: 'square meter', fromAbbr: 'sq m', to: 'square foot', toAbbr: 'sq ft', factor: 10.7639, category: 'area' },
   { from: 'hectare', fromAbbr: 'ha', to: 'acre', toAbbr: 'ac', factor: 2.47105, category: 'area' },
-  { from: 'square kilometer', fromAbbr: 'km²', to: 'square mile', toAbbr: 'mi²', factor: 0.386102, category: 'area' },
+  { from: 'square kilometer', fromAbbr: 'sq km', to: 'square mile', toAbbr: 'sq mi', factor: 0.386102, category: 'area' },
 
   // Speed
   { from: 'km/h', fromAbbr: 'km/h', to: 'mph', toAbbr: 'mph', factor: 0.621371, category: 'speed' },
