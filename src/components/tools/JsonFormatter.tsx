@@ -77,7 +77,7 @@ export function JsonFormatter() {
             {output && !error && <CopyButton text={output} />}
           </div>
           {error ? (
-            <div className="w-full h-64 p-4 rounded-lg border border-red-300 bg-red-50 text-red-700 font-mono text-sm overflow-auto">
+            <div className="w-full h-64 p-4 rounded-lg font-mono text-sm overflow-auto" style={{ border: '1px solid var(--color-error-border)', background: 'var(--color-error-bg)', color: 'var(--color-error-text)' }}>
               {error}
             </div>
           ) : (

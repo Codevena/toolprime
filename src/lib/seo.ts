@@ -1,4 +1,6 @@
 import type { Tool } from '@/data/tools'
+import { getSlug } from '@/data/conversions'
+import type { Conversion } from '@/data/conversions'
 
 export interface MetaTags {
   title: string
@@ -26,7 +28,8 @@ export function getToolMeta(tool: Tool): MetaTags {
 export function getConversionMeta(from: string, fromAbbr: string, to: string, toAbbr: string): MetaTags {
   const title = `Convert ${from} (${fromAbbr}) to ${to} (${toAbbr}) — Free Online Converter | ${SITE_NAME}`
   const description = `Instantly convert ${from} to ${to} with our free online converter. Includes a conversion table and formula. No signup required.`
-  const slug = `${fromAbbr.toLowerCase().replace(/[^a-z0-9]/g, '')}-to-${toAbbr.toLowerCase().replace(/[^a-z0-9]/g, '')}`
+  // Use shared getSlug logic via a temporary partial Conversion object
+  const slug = getSlug({ fromAbbr, toAbbr } as Conversion)
 
   return {
     title: title.length > 60 ? `${from} to ${to} Converter | ${SITE_NAME}` : title,

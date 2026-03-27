@@ -34,13 +34,28 @@ export function QrCodeGenerator() {
     })
   }, [text, size])
 
-  const handleDownload = () => {
+  const handleDownloadPng = () => {
     const canvas = canvasRef.current
     if (!canvas || !text.trim()) return
     const link = document.createElement('a')
     link.download = 'qrcode.png'
     link.href = canvas.toDataURL('image/png')
     link.click()
+  }
+
+  const handleDownloadSvg = () => {
+    if (!text.trim()) return
+    QRCode.toString(text, { type: 'svg', width: size, margin: 2 })
+      .then((svg: string) => {
+        const blob = new Blob([svg], { type: 'image/svg+xml' })
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.download = 'qrcode.svg'
+        link.href = url
+        link.click()
+        URL.revokeObjectURL(url)
+      })
+      .catch(() => {/* ignore download errors */})
   }
 
   return (
@@ -76,7 +91,7 @@ export function QrCodeGenerator() {
       </div>
 
       {error && (
-        <div className="p-3 rounded-lg border border-red-300 bg-red-50 text-red-700 text-sm">
+        <div className="p-3 rounded-lg text-sm" style={{ border: '1px solid var(--color-error-border)', background: 'var(--color-error-bg)', color: 'var(--color-error-text)' }}>
           {error}
         </div>
       )}
@@ -94,13 +109,22 @@ export function QrCodeGenerator() {
           )}
         </div>
 
-        <button
-          onClick={handleDownload}
-          disabled={!text.trim() || !!error}
-          className="px-6 py-2 rounded-lg bg-[var(--color-primary)] text-white font-medium hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
-        >
-          Download PNG
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={handleDownloadPng}
+            disabled={!text.trim() || !!error}
+            className="px-6 py-2 rounded-lg bg-[var(--color-primary)] text-white font-medium hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Download PNG
+          </button>
+          <button
+            onClick={handleDownloadSvg}
+            disabled={!text.trim() || !!error}
+            className="px-6 py-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-medium hover:bg-[var(--color-border)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Download SVG
+          </button>
+        </div>
       </div>
     </div>
   )

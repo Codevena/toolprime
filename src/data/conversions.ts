@@ -71,24 +71,33 @@ export const conversions: Conversion[] = [
   { from: 'week', fromAbbr: 'wk', to: 'day', toAbbr: 'd', factor: 7, category: 'time' },
   { from: 'year', fromAbbr: 'yr', to: 'day', toAbbr: 'd', factor: 365.25, category: 'time' },
 
-  // Digital Storage
-  { from: 'megabyte', fromAbbr: 'MB', to: 'gigabyte', toAbbr: 'GB', factor: 0.001, category: 'digital' },
-  { from: 'gigabyte', fromAbbr: 'GB', to: 'terabyte', toAbbr: 'TB', factor: 0.001, category: 'digital' },
-  { from: 'kilobyte', fromAbbr: 'KB', to: 'megabyte', toAbbr: 'MB', factor: 0.001, category: 'digital' },
-  { from: 'megabit', fromAbbr: 'Mb', to: 'megabyte', toAbbr: 'MB', factor: 0.125, category: 'digital' },
+  // Digital Storage (SI decimal convention: 1 GB = 1000 MB, 1 MB = 1000 KB)
+  { from: 'megabyte (decimal)', fromAbbr: 'MB', to: 'gigabyte (decimal)', toAbbr: 'GB', factor: 0.001, category: 'digital' },
+  { from: 'gigabyte (decimal)', fromAbbr: 'GB', to: 'terabyte (decimal)', toAbbr: 'TB', factor: 0.001, category: 'digital' },
+  { from: 'kilobyte (decimal)', fromAbbr: 'KB', to: 'megabyte (decimal)', toAbbr: 'MB', factor: 0.001, category: 'digital' },
+  { from: 'megabit', fromAbbr: 'Mbit', to: 'megabyte (decimal)', toAbbr: 'MB', factor: 0.125, category: 'digital' },
 ]
 
 export function getSlug(conversion: Conversion): string {
   return `${conversion.fromAbbr.toLowerCase().replace(/[^a-z0-9]/g, '')}-to-${conversion.toAbbr.toLowerCase().replace(/[^a-z0-9]/g, '')}`
 }
 
+// Safe lookup table for temperature formula strings — avoids new Function() / eval()
+export const formulaFunctions: Record<string, (x: number) => number> = {
+  '(x * 9/5) + 32': (x) => (x * 9 / 5) + 32,
+  '(x - 32) * 5/9': (x) => (x - 32) * 5 / 9,
+  'x + 273.15': (x) => x + 273.15,
+  'x - 273.15': (x) => x - 273.15,
+}
+
 export function convert(conversion: Conversion, value: number): number {
-  if (conversion.factor) {
+  if (conversion.factor !== undefined) {
     return value * conversion.factor
   }
   if (conversion.formula) {
-    // eslint-disable-next-line no-new-func
-    return new Function('x', `return ${conversion.formula}`)(value) as number
+    const fn = formulaFunctions[conversion.formula]
+    if (!fn) throw new Error(`Unknown formula: ${conversion.formula}`)
+    return fn(value)
   }
   return value
 }

@@ -62,19 +62,27 @@ const tableRows = tableValues.map(v => ({
     </div>
   </div>
 
-  <script define:vars={{ factor: conversion.factor, formula: conversion.formula }}>
+  <script define:vars={{ factor: conversion.factor, formulaKey: conversion.formula }}>
+    // Safe formula lookup — avoids new Function() / eval()
+    const formulaFunctions = {
+      '(x * 9/5) + 32': (x) => (x * 9 / 5) + 32,
+      '(x - 32) * 5/9': (x) => (x - 32) * 5 / 9,
+      'x + 273.15': (x) => x + 273.15,
+      'x - 273.15': (x) => x - 273.15,
+    }
     const input = document.getElementById('input-value')
     const output = document.getElementById('output-value')
     input.addEventListener('input', () => {
       const val = parseFloat(input.value)
       if (isNaN(val)) { output.value = ''; return }
       let result
-      if (factor) {
+      if (factor !== undefined && factor !== null) {
         result = val * factor
-      } else if (formula) {
-        result = new Function('x', `return ${formula}`)(val)
+      } else if (formulaKey) {
+        const fn = formulaFunctions[formulaKey]
+        if (fn) result = fn(val)
       }
-      output.value = result.toFixed(6)
+      if (result !== undefined) output.value = result.toFixed(6)
     })
   </script>
 

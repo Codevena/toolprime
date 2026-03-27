@@ -4,6 +4,7 @@ import {
   convert,
   getConversionsByCategory,
   conversionCategoryLabels,
+  formulaFunctions,
   type ConversionCategory,
   type Conversion,
 } from '@/data/conversions'
@@ -28,10 +29,11 @@ function doConvert(from: string, to: string, value: number): number | null {
   // Try reverse
   const reverse = findConversion(to, from)
   if (reverse) {
-    if (reverse.factor) return value / reverse.factor
+    if (reverse.factor !== undefined) return value / reverse.factor
     if (reverse.reverseFormula) {
-      // eslint-disable-next-line no-new-func
-      return new Function('x', `return ${reverse.reverseFormula}`)(value) as number
+      const fn = formulaFunctions[reverse.reverseFormula]
+      if (!fn) throw new Error(`Unknown formula: ${reverse.reverseFormula}`)
+      return fn(value)
     }
   }
   return null
@@ -109,6 +111,7 @@ export function UnitConverter() {
           onClick={swap}
           className="px-3 py-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:bg-[var(--color-border)] transition-colors self-end"
           title="Swap units"
+          aria-label="Swap units"
         >
           ⇄
         </button>
@@ -138,7 +141,7 @@ export function UnitConverter() {
       )}
 
       {result == null && fromUnit && toUnit && fromUnit !== toUnit && !isNaN(numVal) && (
-        <div className="p-3 rounded-lg border border-yellow-300 bg-yellow-50 text-yellow-700 text-sm">
+        <div className="p-3 rounded-lg text-sm" style={{ border: '1px solid var(--color-warning-border)', background: 'var(--color-warning-bg)', color: 'var(--color-warning-text)' }}>
           Direct conversion between {fromUnit} and {toUnit} is not available. Try a different unit combination.
         </div>
       )}

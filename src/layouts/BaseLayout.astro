@@ -26,7 +26,9 @@ const { title, description, canonical, ogTitle, ogDescription, ogType = 'website
     <meta property="og:description" content={ogDescription ?? description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://toolprime.dev/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://toolprime.dev/og-image.png" />
     <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">

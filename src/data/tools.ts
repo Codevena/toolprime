@@ -31,7 +31,7 @@ export const tools: Tool[] = [
     path: '/word-counter',
     icon: 'Type',
     keywords: ['word counter', 'character counter', 'word count online', 'letter counter'],
-    relatedTools: ['case-converter', 'lorem-ipsum-generator', 'diff-checker'],
+    relatedTools: ['lorem-ipsum-generator', 'json-formatter'],
   },
   {
     id: 'json-formatter',
@@ -42,7 +42,7 @@ export const tools: Tool[] = [
     path: '/json-formatter',
     icon: 'Braces',
     keywords: ['json formatter', 'json validator', 'json beautifier', 'json online'],
-    relatedTools: ['base64-encode-decode', 'regex-tester', 'sql-formatter', 'url-encode-decode'],
+    relatedTools: ['base64-encode-decode', 'password-generator'],
   },
   {
     id: 'password-generator',
@@ -64,7 +64,7 @@ export const tools: Tool[] = [
     path: '/qr-code-generator',
     icon: 'QrCode',
     keywords: ['qr code generator', 'qr code maker', 'create qr code', 'qr code online'],
-    relatedTools: ['favicon-generator', 'color-picker'],
+    relatedTools: ['color-picker', 'image-compressor'],
   },
   {
     id: 'color-picker',
@@ -75,7 +75,7 @@ export const tools: Tool[] = [
     path: '/color-picker',
     icon: 'Palette',
     keywords: ['color picker', 'hex to rgb', 'color converter', 'rgb to hex'],
-    relatedTools: ['css-gradient-generator', 'favicon-generator'],
+    relatedTools: ['qr-code-generator', 'image-compressor'],
   },
   {
     id: 'base64-encode-decode',
@@ -86,7 +86,7 @@ export const tools: Tool[] = [
     path: '/base64-encode-decode',
     icon: 'Binary',
     keywords: ['base64 encode', 'base64 decode', 'base64 converter', 'base64 online'],
-    relatedTools: ['json-formatter', 'url-encode-decode', 'timestamp-converter'],
+    relatedTools: ['json-formatter', 'password-generator'],
   },
   {
     id: 'image-compressor',
@@ -97,7 +97,7 @@ export const tools: Tool[] = [
     path: '/image-compressor',
     icon: 'ImageDown',
     keywords: ['image compressor', 'compress image online', 'reduce image size', 'compress png', 'compress jpeg'],
-    relatedTools: ['favicon-generator', 'qr-code-generator'],
+    relatedTools: ['qr-code-generator', 'color-picker'],
   },
   {
     id: 'lorem-ipsum-generator',
@@ -108,7 +108,7 @@ export const tools: Tool[] = [
     path: '/lorem-ipsum-generator',
     icon: 'FileText',
     keywords: ['lorem ipsum', 'lorem ipsum generator', 'placeholder text', 'dummy text generator'],
-    relatedTools: ['word-counter', 'case-converter'],
+    relatedTools: ['word-counter', 'json-formatter'],
   },
   {
     id: 'unit-converter',
@@ -119,7 +119,7 @@ export const tools: Tool[] = [
     path: '/unit-converter',
     icon: 'ArrowLeftRight',
     keywords: ['unit converter', 'convert units', 'metric converter', 'unit conversion online'],
-    relatedTools: ['percentage-calculator', 'timestamp-converter'],
+    relatedTools: ['percentage-calculator'],
   },
   {
     id: 'percentage-calculator',

@@ -3,7 +3,8 @@ import ToolLayout from '@/layouts/ToolLayout.astro'
 import { WordCounter } from '@/components/tools/WordCounter'
 import { getToolById } from '@/data/tools'
 
-const tool = getToolById('word-counter')!
+const tool = getToolById('word-counter')
+if (!tool) throw new Error('Tool not found: word-counter')
 ---
 
 <ToolLayout tool={tool}>

@@ -3,7 +3,8 @@ import ToolLayout from '@/layouts/ToolLayout.astro'
 import { ColorPicker } from '@/components/tools/ColorPicker'
 import { getToolById } from '@/data/tools'
 
-const tool = getToolById('color-picker')!
+const tool = getToolById('color-picker')
+if (!tool) throw new Error('Tool not found: color-picker')
 ---
 
 <ToolLayout tool={tool}>

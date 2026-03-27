@@ -126,7 +126,7 @@ export function PercentageCalculator() {
       )}
 
       {!calc && x && y && (
-        <div className="p-3 rounded-lg border border-yellow-300 bg-yellow-50 text-yellow-700 text-sm">
+        <div className="p-3 rounded-lg text-sm" style={{ border: '1px solid var(--color-warning-border)', background: 'var(--color-warning-bg)', color: 'var(--color-warning-text)' }}>
           Cannot calculate: check your inputs (division by zero or invalid numbers).
         </div>
       )}

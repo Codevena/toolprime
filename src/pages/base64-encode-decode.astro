@@ -3,7 +3,8 @@ import ToolLayout from '@/layouts/ToolLayout.astro'
 import { Base64EncodeDecode } from '@/components/tools/Base64EncodeDecode'
 import { getToolById } from '@/data/tools'
 
-const tool = getToolById('base64-encode-decode')!
+const tool = getToolById('base64-encode-decode')
+if (!tool) throw new Error('Tool not found: base64-encode-decode')
 ---
 
 <ToolLayout tool={tool}>

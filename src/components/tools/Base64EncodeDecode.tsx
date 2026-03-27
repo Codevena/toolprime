@@ -10,16 +10,16 @@ function encodeBase64(text: string): string {
   return btoa(binary)
 }
 
-function decodeBase64(text: string): { result: string; error: string } {
+function decodeBase64(text: string): { text: string; error: string } {
   try {
     const binary = atob(text.trim())
     const bytes = new Uint8Array(binary.length)
     for (let i = 0; i < binary.length; i++) {
       bytes[i] = binary.charCodeAt(i)
     }
-    return { result: new TextDecoder().decode(bytes), error: '' }
+    return { text: new TextDecoder().decode(bytes), error: '' }
   } catch {
-    return { result: '', error: 'Invalid Base64 string' }
+    return { text: '', error: 'Invalid Base64 string' }
   }
 }
 
@@ -72,7 +72,7 @@ export function Base64EncodeDecode() {
             {output.text && !output.error && <CopyButton text={output.text} />}
           </div>
           {output.error ? (
-            <div className="w-full h-48 p-4 rounded-lg border border-red-300 bg-red-50 text-red-700 font-mono text-sm overflow-auto">
+            <div className="w-full h-48 p-4 rounded-lg font-mono text-sm overflow-auto" style={{ border: '1px solid var(--color-error-border)', background: 'var(--color-error-bg)', color: 'var(--color-error-text)' }}>
               {output.error}
             </div>
           ) : (

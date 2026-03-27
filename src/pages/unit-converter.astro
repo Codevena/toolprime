@@ -3,7 +3,8 @@ import ToolLayout from '@/layouts/ToolLayout.astro'
 import { UnitConverter } from '@/components/tools/UnitConverter'
 import { getToolById } from '@/data/tools'
 
-const tool = getToolById('unit-converter')!
+const tool = getToolById('unit-converter')
+if (!tool) throw new Error('Tool not found: unit-converter')
 ---
 
 <ToolLayout tool={tool}>

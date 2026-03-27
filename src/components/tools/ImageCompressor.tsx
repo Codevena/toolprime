@@ -59,14 +59,18 @@ export function ImageCompressor() {
       setError('Please select an image file (JPEG, PNG, WebP, etc.)')
       return
     }
-    const originalUrl = URL.createObjectURL(file)
-    setFileInfo({
-      name: file.name,
-      originalSize: file.size,
-      compressedSize: null,
-      originalUrl,
-      compressedUrl: null,
-      compressedBlob: null,
+    // Revoke the previous originalUrl to avoid memory leaks
+    setFileInfo((prev) => {
+      if (prev?.originalUrl) URL.revokeObjectURL(prev.originalUrl)
+      if (prev?.compressedUrl) URL.revokeObjectURL(prev.compressedUrl)
+      return {
+        name: file.name,
+        originalSize: file.size,
+        compressedSize: null,
+        originalUrl: URL.createObjectURL(file),
+        compressedUrl: null,
+        compressedBlob: null,
+      }
     })
     compress(file, quality)
   }, [compress, quality])
@@ -80,10 +84,12 @@ export function ImageCompressor() {
 
   const handleDownload = () => {
     if (!fileInfo?.compressedBlob) return
+    const url = URL.createObjectURL(fileInfo.compressedBlob)
     const link = document.createElement('a')
     link.download = `compressed-${fileInfo.name}`
-    link.href = URL.createObjectURL(fileInfo.compressedBlob)
+    link.href = url
     link.click()
+    URL.revokeObjectURL(url)
   }
 
   const savings = fileInfo?.compressedSize != null
@@ -137,7 +143,7 @@ export function ImageCompressor() {
       </div>
 
       {error && (
-        <div className="p-3 rounded-lg border border-red-300 bg-red-50 text-red-700 text-sm">
+        <div className="p-3 rounded-lg text-sm" style={{ border: '1px solid var(--color-error-border)', background: 'var(--color-error-bg)', color: 'var(--color-error-text)' }}>
           {error}
         </div>
       )}
@@ -156,7 +162,7 @@ export function ImageCompressor() {
               <div className="text-xs text-[var(--color-text-muted)] mt-1">Original size</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">
+              <div className="text-2xl font-bold" style={{ color: 'var(--color-success)' }}>
                 {fileInfo.compressedSize != null ? formatBytes(fileInfo.compressedSize) : '—'}
               </div>
               <div className="text-xs text-[var(--color-text-muted)] mt-1">Compressed size</div>
@@ -164,7 +170,7 @@ export function ImageCompressor() {
           </div>
 
           {savings != null && (
-            <div className="text-center text-sm font-medium text-green-700 bg-green-50 rounded-lg py-2">
+            <div className="text-center text-sm font-medium rounded-lg py-2" style={{ color: 'var(--color-success-text)', background: 'var(--color-success-bg)' }}>
               {savings > 0 ? `${savings}% smaller` : 'No size reduction at this quality'}
             </div>
           )}

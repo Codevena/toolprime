@@ -49,11 +49,19 @@ export function PasswordGenerator() {
 
   const strength = getStrength(password, charsetSize)
 
-  const handleOptionChange = (setter: (v: boolean) => void, value: boolean, others: boolean[]) => {
+  const handleOptionChange = (
+    field: 'upper' | 'lower' | 'numbers' | 'symbols',
+    newValue: boolean,
+  ) => {
+    const opts = { upper: useUpper, lower: useLower, numbers: useNumbers, symbols: useSymbols }
+    opts[field] = newValue
     // Prevent disabling all options
-    if (!value && others.every(v => !v)) return
-    setter(value)
-    setPassword(generatePassword(length, useUpper, useLower, useNumbers, useSymbols))
+    if (!Object.values(opts).some(Boolean)) return
+    setUseUpper(opts.upper)
+    setUseLower(opts.lower)
+    setUseNumbers(opts.numbers)
+    setUseSymbols(opts.symbols)
+    setPassword(generatePassword(length, opts.upper, opts.lower, opts.numbers, opts.symbols))
   }
 
   return (
@@ -111,16 +119,16 @@ export function PasswordGenerator() {
       {/* Toggles */}
       <div className="grid grid-cols-2 gap-3">
         {([
-          ['Uppercase (A–Z)', useUpper, setUseUpper, [useLower, useNumbers, useSymbols]],
-          ['Lowercase (a–z)', useLower, setUseLower, [useUpper, useNumbers, useSymbols]],
-          ['Numbers (0–9)', useNumbers, setUseNumbers, [useUpper, useLower, useSymbols]],
-          ['Symbols (!@#…)', useSymbols, setUseSymbols, [useUpper, useLower, useNumbers]],
-        ] as const).map(([label, value, setter, others]) => (
+          ['Uppercase (A–Z)', useUpper, 'upper'],
+          ['Lowercase (a–z)', useLower, 'lower'],
+          ['Numbers (0–9)', useNumbers, 'numbers'],
+          ['Symbols (!@#…)', useSymbols, 'symbols'],
+        ] as const).map(([label, value, field]) => (
           <label key={label} className="flex items-center gap-3 p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] cursor-pointer select-none">
             <input
               type="checkbox"
               checked={value}
-              onChange={(e) => handleOptionChange(setter as (v: boolean) => void, e.target.checked, others as boolean[])}
+              onChange={(e) => handleOptionChange(field, e.target.checked)}
               className="w-4 h-4 accent-[var(--color-primary)]"
             />
             <span className="text-sm">{label}</span>

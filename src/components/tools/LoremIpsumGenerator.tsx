@@ -41,7 +41,7 @@ function pick<T>(arr: T[], count: number, seed: number): T[] {
   let s = seed
   for (let i = 0; i < count; i++) {
     s = (s * 1664525 + 1013904223) & 0xffffffff
-    result.push(arr[Math.abs(s) % arr.length])
+    result.push(arr[Math.abs(s) % arr.length] as T)
   }
   return result
 }
