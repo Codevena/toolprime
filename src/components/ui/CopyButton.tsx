@@ -30,7 +30,7 @@ export function CopyButton({ text, className = '' }: CopyButtonProps) {
   return (
     <button
       onClick={handleCopy}
-      className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-md border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors ${className}`}
+      className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-md border border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface)] transition-colors ${className}`}
       title="Copy to clipboard"
     >
       {state === 'copied' && <Check size={14} style={{ color: 'var(--color-success)' }} />}

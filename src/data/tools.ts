@@ -21,6 +21,24 @@ export const categoryLabels: Record<ToolCategory, string> = {
   business: 'Business Tools',
 }
 
+export const categoryGradients: Record<ToolCategory, string> = {
+  developer: 'linear-gradient(135deg, #818cf8, #6366f1)',
+  text: 'linear-gradient(135deg, #f472b6, #ec4899)',
+  image: 'linear-gradient(135deg, #38bdf8, #0ea5e9)',
+  math: 'linear-gradient(135deg, #34d399, #10b981)',
+  design: 'linear-gradient(135deg, #fb923c, #f97316)',
+  business: 'linear-gradient(135deg, #c084fc, #a855f7)',
+}
+
+export const categoryColors: Record<ToolCategory, string> = {
+  developer: '#818cf8',
+  text: '#f472b6',
+  image: '#38bdf8',
+  math: '#34d399',
+  design: '#fb923c',
+  business: '#c084fc',
+}
+
 export const tools: Tool[] = [
   {
     id: 'word-counter',

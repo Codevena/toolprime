@@ -86,7 +86,7 @@ export function TimestampConverter() {
             value={unixInput}
             onChange={(e) => setUnixInput(e.target.value)}
             placeholder={unit === 'seconds' ? 'e.g. 1735689600' : 'e.g. 1735689600000'}
-            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           />
           {unixToDate && 'error' in unixToDate && (
             <div className="p-3 rounded-lg text-sm" style={{ border: '1px solid var(--color-error-border)', background: 'var(--color-error-bg)', color: 'var(--color-error-text)' }}>
@@ -118,7 +118,7 @@ export function TimestampConverter() {
             type="datetime-local"
             value={dateInput}
             onChange={(e) => setDateInput(e.target.value)}
-            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           />
           {dateToUnix && 'error' in dateToUnix && (
             <div className="p-3 rounded-lg text-sm" style={{ border: '1px solid var(--color-error-border)', background: 'var(--color-error-bg)', color: 'var(--color-error-text)' }}>

@@ -97,7 +97,7 @@ export function PercentageCalculator() {
             value={x}
             onChange={(e) => setX(e.target.value)}
             placeholder="Enter number..."
-            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-lg font-mono"
+            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-lg font-mono"
           />
         </div>
         <div>
@@ -107,7 +107,7 @@ export function PercentageCalculator() {
             value={y}
             onChange={(e) => setY(e.target.value)}
             placeholder="Enter number..."
-            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-lg font-mono"
+            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-lg font-mono"
           />
         </div>
       </div>

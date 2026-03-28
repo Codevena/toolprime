@@ -85,7 +85,7 @@ export function LoremIpsumGenerator() {
             max={50}
             value={count}
             onChange={(e) => setCount(Math.max(1, Math.min(50, Number(e.target.value))))}
-            className="w-24 p-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm"
+            className="w-24 p-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm"
           />
         </div>
 
@@ -124,7 +124,7 @@ export function LoremIpsumGenerator() {
         <textarea
           readOnly
           value={text}
-          className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm resize-y"
+          className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-output-bg)] text-[var(--color-text)] text-sm resize-y"
         />
       </div>
     </div>

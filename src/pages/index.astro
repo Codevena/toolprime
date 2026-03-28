@@ -1,39 +1,102 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
-import { tools, categoryLabels, type ToolCategory } from '@/data/tools'
+import { tools, categoryLabels, categoryGradients, categoryColors, type ToolCategory } from '@/data/tools'
 import { getHomeMeta } from '@/lib/seo'
+import { GradientIcon } from '@/components/ui/GradientIcon'
 
 const meta = getHomeMeta()
-
 const categories = Object.entries(categoryLabels) as [ToolCategory, string][]
 ---
 
 <BaseLayout {...meta}>
-  <section class="text-center mb-12">
-    <h1 class="text-4xl font-bold mb-3">Free Online Tools</h1>
-    <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
-      Developer tools, text utilities, image processors, calculators, and more. No signup, no server uploads — everything runs in your browser.
+  {/* Hero */}
+  <section class="text-center pt-8 pb-12" style={`background: radial-gradient(ellipse at 50% 0%, var(--hero-glow) 0%, transparent 60%);`}>
+    <div class="inline-block rounded-full px-4 py-1 text-xs font-medium text-[var(--color-primary-text)] mb-4"
+         style="background: var(--hero-badge-bg); border: 1px solid var(--hero-badge-border);">
+      20+ Free Tools — No Sign-Up
+    </div>
+    <h1 class="text-4xl sm:text-5xl font-extrabold mb-3 tracking-tight" style="letter-spacing: -0.03em;">
+      Free Online Tools<br />
+      <span class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 bg-clip-text text-transparent">
+        That Just Work
+      </span>
+    </h1>
+    <p class="text-[var(--color-text-muted)] text-base mb-8 max-w-lg mx-auto">
+      Fast, private, runs in your browser. No signup required.
     </p>
+    <div id="hero-search" class="max-w-md mx-auto">
+      <div class="relative">
+        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-subtle)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input
+          type="text"
+          id="tool-search"
+          placeholder="Search tools..."
+          aria-label="Search tools"
+          class="w-full pl-10 pr-4 py-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-colors"
+        />
+      </div>
+    </div>
   </section>
 
+  {/* Category Sections */}
   {categories.map(([category, label]) => {
     const categoryTools = tools.filter(t => t.category === category)
     if (categoryTools.length === 0) return null
     return (
-      <section id={category} class="mb-10">
-        <h2 class="text-2xl font-semibold mb-4">{label}</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <section id={category} class="mb-12" data-category={category}>
+        <div class="flex items-center gap-3 mb-4">
+          <h2 class="text-xs font-semibold uppercase tracking-wider whitespace-nowrap text-[var(--color-text-muted)]">
+            {label}
+          </h2>
+          <div class="flex-1 h-px" style={`background: ${categoryColors[category]};opacity:0.2;`} />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {categoryTools.map((tool) => (
             <a
               href={tool.path}
-              class="block p-5 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-primary)] hover:shadow-sm transition-all"
+              class="group flex items-start gap-3 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] hover:shadow-lg hover:-translate-y-px transition-all"
+              data-tool-name={tool.name.toLowerCase()}
+              data-tool-desc={tool.description.toLowerCase()}
+              data-tool-category={category}
             >
-              <h3 class="font-semibold text-[var(--color-text)] mb-1">{tool.name}</h3>
-              <p class="text-sm text-[var(--color-text-muted)] line-clamp-2">{tool.longDescription}</p>
+              <GradientIcon icon={tool.icon} category={tool.category} size={36} />
+              <div class="min-w-0">
+                <h3 class="text-sm font-semibold text-[var(--color-text)] mb-0.5">{tool.name}</h3>
+                <p class="text-xs text-[var(--color-text-muted)] line-clamp-2">{tool.description}</p>
+              </div>
             </a>
           ))}
         </div>
       </section>
     )
   })}
+
+  {/* Client-side search filtering */}
+  <script>
+    const searchInput = document.getElementById('tool-search') as HTMLInputElement
+    if (searchInput) {
+      let debounceTimer: ReturnType<typeof setTimeout>
+      searchInput.addEventListener('input', () => {
+        clearTimeout(debounceTimer)
+        debounceTimer = setTimeout(() => {
+          const query = searchInput.value.toLowerCase().trim()
+          const cards = document.querySelectorAll<HTMLAnchorElement>('[data-tool-name]')
+          const sections = document.querySelectorAll<HTMLElement>('[data-category]')
+
+          cards.forEach(card => {
+            const name = card.dataset.toolName ?? ''
+            const desc = card.dataset.toolDesc ?? ''
+            const cat = card.dataset.toolCategory ?? ''
+            const match = !query || name.includes(query) || desc.includes(query) || cat.includes(query)
+            card.classList.toggle('hidden', !match)
+          })
+
+          sections.forEach(section => {
+            const visibleCards = section.querySelectorAll<HTMLAnchorElement>('[data-tool-name]:not(.hidden)')
+            section.classList.toggle('hidden', visibleCards.length === 0)
+          })
+        }, 150)
+      })
+    }
+  </script>
 </BaseLayout>

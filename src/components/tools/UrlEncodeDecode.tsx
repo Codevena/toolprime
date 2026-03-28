@@ -47,7 +47,7 @@ export function UrlEncodeDecode() {
           <select
             value={encodeType}
             onChange={(e) => setEncodeType(e.target.value as EncodeType)}
-            className="px-3 py-2 rounded-md text-sm border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="px-3 py-2 rounded-md text-sm border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           >
             <option value="component">encodeURIComponent</option>
             <option value="uri">encodeURI</option>
@@ -64,7 +64,7 @@ export function UrlEncodeDecode() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={mode === 'encode' ? 'Enter text to encode...' : 'Enter URL-encoded text to decode...'}
-            className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           />
         </div>
         <div>
@@ -83,7 +83,7 @@ export function UrlEncodeDecode() {
               readOnly
               value={output.text}
               placeholder="Output will appear here..."
-              className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y"
+              className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-output-bg)] text-[var(--color-text)] font-mono text-sm resize-y"
             />
           )}
         </div>

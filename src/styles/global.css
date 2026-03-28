@@ -1,12 +1,23 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
 
 :root {
-  --color-primary: #2563eb;
-  --color-surface: #ffffff;
-  --color-surface-alt: #f8fafc;
+  /* Typography */
+  --font-sans: 'Geist Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Geist Mono Variable', 'SF Mono', 'Cascadia Code', monospace;
+
+  /* Light mode (default) */
+  --color-surface: #fafafa;
+  --color-surface-alt: #ffffff;
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-accent: #a855f7;
   --color-text: #0f172a;
   --color-text-muted: #64748b;
+  --color-text-subtle: #94a3b8;
   --color-border: #e2e8f0;
+  --color-border-subtle: #f1f5f9;
   --color-success: #16a34a;
   --color-success-bg: #f0fdf4;
   --color-success-text: #15803d;
@@ -14,34 +25,85 @@
   --color-error-bg: #fef2f2;
   --color-error-border: #fca5a5;
   --color-error-text: #b91c1c;
+  --color-warning: #f59e0b;
   --color-warning-bg: #fefce8;
   --color-warning-border: #fde047;
   --color-warning-text: #854d0e;
+
+  /* Hero glow */
+  --hero-glow: rgba(99, 102, 241, 0.08);
+  --hero-badge-bg: rgba(99, 102, 241, 0.08);
+  --hero-badge-border: rgba(99, 102, 241, 0.15);
+
+  /* Card hover */
+  --card-shadow-hover: 0 4px 12px rgba(99, 102, 241, 0.08);
+
+  /* Primary as text (AA-compliant) */
+  --color-primary-text: #4f46e5;
+
+  /* Output panel tint */
+  --color-output-bg: #f5f3ff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-primary: #60a5fa;
-    --color-surface: #0f172a;
-    --color-surface-alt: #1e293b;
+    --color-surface: #0c0e14;
+    --color-surface-alt: #131620;
+    --color-primary: #818cf8;
+    --color-primary-hover: #6366f1;
+    --color-accent: #c084fc;
     --color-text: #f1f5f9;
     --color-text-muted: #94a3b8;
-    --color-border: #334155;
-    --color-success: #4ade80;
+    --color-text-subtle: #6b7280;
+    --color-border: rgba(255, 255, 255, 0.07);
+    --color-border-subtle: rgba(255, 255, 255, 0.04);
+    --color-success: #34d399;
     --color-success-bg: #052e16;
-    --color-success-text: #4ade80;
+    --color-success-text: #34d399;
     --color-error: #f87171;
     --color-error-bg: #450a0a;
     --color-error-border: #7f1d1d;
     --color-error-text: #f87171;
+    --color-warning: #fbbf24;
     --color-warning-bg: #422006;
     --color-warning-border: #854d0e;
     --color-warning-text: #fde047;
+
+    --hero-glow: rgba(129, 140, 248, 0.15);
+    --hero-badge-bg: rgba(129, 140, 248, 0.1);
+    --hero-badge-border: rgba(129, 140, 248, 0.2);
+
+    --card-shadow-hover: 0 4px 12px rgba(129, 140, 248, 0.1);
+
+    --color-primary-text: #818cf8;
+
+    --color-output-bg: rgba(129, 140, 248, 0.03);
   }
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background-color: var(--color-surface-alt);
+  font-family: var(--font-sans);
+  background-color: var(--color-surface);
   color: var(--color-text);
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -87,7 +87,7 @@ export function DiffChecker() {
             value={original}
             onChange={(e) => setOriginal(e.target.value)}
             placeholder="Paste original text..."
-            className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           />
         </div>
         <div>
@@ -96,7 +96,7 @@ export function DiffChecker() {
             value={modified}
             onChange={(e) => setModified(e.target.value)}
             placeholder="Paste modified text..."
-            className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           />
         </div>
       </div>
@@ -108,7 +108,7 @@ export function DiffChecker() {
             <label className="text-sm font-medium">Diff Result</label>
             <CopyButton text={diffText} />
           </div>
-          <div className="w-full min-h-[12rem] max-h-96 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm overflow-auto whitespace-pre-wrap">
+          <div className="w-full min-h-[12rem] max-h-96 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-output-bg)] font-mono text-sm overflow-auto whitespace-pre-wrap">
             {renderUnifiedDiff(changes)}
           </div>
         </div>

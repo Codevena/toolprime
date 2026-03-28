@@ -157,7 +157,7 @@ export function InvoiceGenerator() {
     }
   }, [companyName, companyAddress, companyEmail, clientName, clientAddress, clientEmail, invoiceNumber, invoiceDate, dueDate, currency, taxRate, notes, items, subtotal, tax, total])
 
-  const inputClass = 'w-full p-2 rounded border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]'
+  const inputClass = 'w-full p-2 rounded border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]'
   const labelClass = 'block text-xs font-medium text-[var(--color-text-muted)] mb-1'
 
   return (

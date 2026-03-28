@@ -6,14 +6,14 @@ const LOWERCASE = 'abcdefghijklmnopqrstuvwxyz'
 const NUMBERS = '0123456789'
 const SYMBOLS = '!@#$%^&*()_+-=[]{}|;:,.<>?'
 
-function getStrength(password: string, charsetSize: number): { label: string; color: string; width: string } {
+function getStrength(password: string, charsetSize: number): { label: string; bgColor: string; width: string } {
   const len = password.length
-  if (len === 0) return { label: '', color: '', width: '0%' }
+  if (len === 0) return { label: '', bgColor: '', width: '0%' }
   const score = (len >= 16 ? 2 : len >= 12 ? 1 : 0) + (charsetSize >= 80 ? 2 : charsetSize >= 60 ? 1 : 0)
-  if (score <= 1) return { label: 'Weak', color: 'bg-red-500', width: '25%' }
-  if (score === 2) return { label: 'Fair', color: 'bg-yellow-500', width: '50%' }
-  if (score === 3) return { label: 'Strong', color: 'bg-blue-500', width: '75%' }
-  return { label: 'Very Strong', color: 'bg-green-500', width: '100%' }
+  if (score <= 1) return { label: 'Weak', bgColor: 'var(--color-error)', width: '25%' }
+  if (score === 2) return { label: 'Fair', bgColor: 'var(--color-warning)', width: '50%' }
+  if (score === 3) return { label: 'Good', bgColor: 'var(--color-primary)', width: '75%' }
+  return { label: 'Strong', bgColor: 'var(--color-success)', width: '100%' }
 }
 
 function generatePassword(length: number, useUpper: boolean, useLower: boolean, useNumbers: boolean, useSymbols: boolean): string {
@@ -85,8 +85,8 @@ export function PasswordGenerator() {
           </div>
           <div className="h-2 w-full rounded-full bg-[var(--color-border)]">
             <div
-              className={`h-2 rounded-full transition-all duration-300 ${strength.color}`}
-              style={{ width: strength.width }}
+              className="h-2 rounded-full transition-all duration-300"
+              style={{ width: strength.width, backgroundColor: strength.bgColor }}
             />
           </div>
         </div>

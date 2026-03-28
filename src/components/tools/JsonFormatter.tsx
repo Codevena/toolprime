@@ -53,7 +53,7 @@ export function JsonFormatter() {
           <select
             value={indent}
             onChange={(e) => setIndent(Number(e.target.value))}
-            className="px-3 py-2 rounded-md text-sm border border-[var(--color-border)] bg-[var(--color-surface)]"
+            className="px-3 py-2 rounded-md text-sm border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)]"
           >
             <option value={2}>2 spaces</option>
             <option value={4}>4 spaces</option>
@@ -68,7 +68,7 @@ export function JsonFormatter() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder='{"key": "value"}'
-            className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           />
         </div>
         <div>
@@ -84,7 +84,7 @@ export function JsonFormatter() {
             <textarea
               readOnly
               value={output}
-              className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y"
+              className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-output-bg)] font-mono text-sm resize-y"
             />
           )}
         </div>

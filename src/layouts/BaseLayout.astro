@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css'
+import { MobileNav } from '@/components/MobileNav'
+import { StickySearch } from '@/components/StickySearch'
 
 interface Props {
   title: string
@@ -31,28 +33,70 @@ const { title, description, canonical, ogTitle, ogDescription, ogType = 'website
     <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">
-    <header class="border-b border-[var(--color-border)] bg-[var(--color-surface)]">
-      <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="/" class="text-xl font-bold text-[var(--color-primary)]">ToolPrime</a>
-        <nav class="hidden sm:flex gap-4 text-sm text-[var(--color-text-muted)]">
-          <a href="/#developer" class="hover:text-[var(--color-text)]">Developer</a>
-          <a href="/#text" class="hover:text-[var(--color-text)]">Text</a>
-          <a href="/#image" class="hover:text-[var(--color-text)]">Image</a>
-          <a href="/#math" class="hover:text-[var(--color-text)]">Math</a>
+    <StickySearch client:load />
+    <header class="border-b border-[var(--color-border-subtle)] bg-[var(--color-surface)]">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg flex items-center justify-center text-white font-extrabold text-sm"
+               style="background: linear-gradient(135deg, #818cf8, #c084fc);">T</div>
+          <span class="text-base font-bold text-[var(--color-text)]">Tool<span class="bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 bg-clip-text text-transparent">Prime</span></span>
+        </a>
+        <nav class="hidden sm:flex gap-5 text-sm font-medium text-[var(--color-text-muted)]">
+          <a href="/" class="hover:text-[var(--color-text)] transition-colors">Tools</a>
+          <a href="/#developer" class="hover:text-[var(--color-text)] transition-colors">Categories</a>
         </nav>
+        <div class="sm:hidden">
+          <MobileNav client:load />
+        </div>
       </div>
     </header>
 
-    <main class="flex-1 max-w-5xl mx-auto w-full px-4 py-8">
+    <main class="flex-1 max-w-6xl mx-auto w-full px-4 py-8">
       <slot />
     </main>
 
-    <footer class="border-t border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text-muted)]">
-      <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between gap-4">
-        <p>© {new Date().getFullYear()} ToolPrime. All tools are free and process data locally in your browser.</p>
-        <div class="flex gap-4">
-          <a href="/impressum" class="hover:text-[var(--color-text)]">Impressum</a>
-          <a href="/datenschutz" class="hover:text-[var(--color-text)]">Privacy</a>
+    <footer class="border-t border-[var(--color-border-subtle)] bg-[var(--color-surface-alt)] text-sm">
+      <div class="max-w-6xl mx-auto px-4 py-10">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-8">
+          <div>
+            <h3 class="font-semibold text-[var(--color-text)] mb-3">Popular Tools</h3>
+            <ul class="space-y-2 text-[var(--color-text-muted)]">
+              <li><a href="/json-formatter" class="hover:text-[var(--color-text)] transition-colors">JSON Formatter</a></li>
+              <li><a href="/base64-encode-decode" class="hover:text-[var(--color-text)] transition-colors">Base64 Encode</a></li>
+              <li><a href="/word-counter" class="hover:text-[var(--color-text)] transition-colors">Word Counter</a></li>
+              <li><a href="/hash-generator" class="hover:text-[var(--color-text)] transition-colors">Hash Generator</a></li>
+              <li><a href="/password-generator" class="hover:text-[var(--color-text)] transition-colors">Password Generator</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[var(--color-text)] mb-3">Categories</h3>
+            <ul class="space-y-2 text-[var(--color-text-muted)]">
+              <li><a href="/#developer" class="hover:text-[var(--color-text)] transition-colors">Developer</a></li>
+              <li><a href="/#text" class="hover:text-[var(--color-text)] transition-colors">Text</a></li>
+              <li><a href="/#image" class="hover:text-[var(--color-text)] transition-colors">Image</a></li>
+              <li><a href="/#math" class="hover:text-[var(--color-text)] transition-colors">Math</a></li>
+              <li><a href="/#design" class="hover:text-[var(--color-text)] transition-colors">Design</a></li>
+              <li><a href="/#business" class="hover:text-[var(--color-text)] transition-colors">Business</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[var(--color-text)] mb-3">Resources</h3>
+            <ul class="space-y-2 text-[var(--color-text-muted)]">
+              <li><a href="/converters/kilometers-to-miles" class="hover:text-[var(--color-text)] transition-colors">Converters</a></li>
+              <li><a href="/percentage-calculator" class="hover:text-[var(--color-text)] transition-colors">Calculators</a></li>
+              <li><a href="/regex-tester" class="hover:text-[var(--color-text)] transition-colors">Regex Tester</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[var(--color-text)] mb-3">Legal</h3>
+            <ul class="space-y-2 text-[var(--color-text-muted)]">
+              <li><a href="/impressum" class="hover:text-[var(--color-text)] transition-colors">Impressum</a></li>
+              <li><a href="/datenschutz" class="hover:text-[var(--color-text)] transition-colors">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-[var(--color-border-subtle)] pt-6 text-center text-[var(--color-text-muted)]">
+          <p>© {new Date().getFullYear()} ToolPrime. All tools are free and process data locally in your browser.</p>
         </div>
       </div>
     </footer>

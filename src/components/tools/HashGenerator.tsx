@@ -55,13 +55,13 @@ export function HashGenerator() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Enter text to hash..."
-          className="w-full h-36 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="w-full h-36 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
         />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {algorithms.map(({ label, value }) => (
-          <div key={label} className="p-3 rounded-lg bg-[var(--color-surface-alt)] border border-[var(--color-border)]">
+          <div key={label} className="p-3 rounded-lg bg-[var(--color-output-bg)] border border-[var(--color-border)]">
             <div className="flex justify-between items-center mb-1">
               <span className="text-sm font-medium">{label}</span>
               {value && <CopyButton text={value} />}
