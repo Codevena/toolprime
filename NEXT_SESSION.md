@@ -78,12 +78,22 @@
   - NEW page type: 65 "Convert X to Y" landing pages with HowTo schema + index page
   - 3 rounds of 4-agent code review (12 reviews), all findings fixed
 
-- **3076 pages total, 0 errors, 0 TypeScript errors, ~4.4s build**
-- **Deployed to production** (pending push)
+- **UI Redesign — "Design C" (Visual Steps + Grid Cards)**:
+  - Converted "How to Use" from prose paragraphs to step-card format with gradient number badges
+  - Rendered Use Cases and Tips as responsive 2-column grid cards
+  - Custom-styled comparison tables outside prose wrapper
+  - Centralized Privacy banner in ToolLayout as semantic `<aside role="note">`
+  - Added .step-list CSS with WCAG AA compliant gradient badges (light + dark mode)
+  - Comprehensive accessibility: aria-labelledby on all 24 sections, role="list", aria-current="page", htmlFor/id labels, aria-live on calculator results
+  - 6 rounds of 4-agent code review (24 reviews), all findings fixed
+
+- **3076 pages total, 0 errors, 0 TypeScript errors, ~6s build**
+- **Deployed to production**
 
 ## Current state
 
-- **3076 pages** building in ~4.4 seconds
+- **Design C UI** — step-cards, grid cards, custom tables, privacy banner
+- **3076 pages** building in ~6 seconds
 - **20 tools** across 6 categories (text, developer, image, math, design, business)
 - **155 unit conversions** across 12 categories (incl. Cooking & Kitchen)
 - **~2340 percentage pages** (forward + reverse + index)
