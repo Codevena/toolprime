@@ -96,3 +96,20 @@ export function reversePercentageFaqSchema(x: number, y: number, result: number)
     ],
   })
 }
+
+export function regexFaqSchema(name: string, pattern: string, description: string): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `What is the regex for ${name}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `The regex pattern for ${name} is: /${pattern}/. ${description}`,
+        },
+      },
+    ],
+  })
+}

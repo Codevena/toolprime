@@ -1,0 +1,136 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { regexPatterns, getRelatedPatterns } from '@/data/regexPatterns'
+import { getRegexMeta } from '@/lib/seo'
+import { regexFaqSchema } from '@/lib/schema'
+
+export function getStaticPaths() {
+  return regexPatterns.map((pattern) => ({
+    params: { slug: pattern.slug },
+    props: { pattern },
+  }))
+}
+
+const { pattern } = Astro.props
+const meta = getRegexMeta(pattern.name, pattern.slug, pattern.pattern)
+const related = getRelatedPatterns(pattern.slug, pattern.tags)
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={regexFaqSchema(pattern.name, pattern.pattern, pattern.description)} />
+  <Breadcrumbs items={[
+    { name: 'Regex Tester', url: 'https://toolprime.dev/regex-tester' },
+    { name: pattern.name, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">Regex for {pattern.name}</h1>
+  <p class="text-[var(--color-text-muted)] mb-6">{pattern.description}</p>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <p class="text-sm text-[var(--color-text-muted)] mb-1">Pattern</p>
+    <div class="flex items-center gap-3">
+      <code id="pattern-value" class="flex-1 text-lg font-mono break-all text-[var(--color-primary-text)]">/{pattern.pattern}/{pattern.flags}</code>
+      <button id="copy-pattern" class="shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors">
+        Copy
+      </button>
+    </div>
+  </div>
+
+  <script define:vars={{ regexPattern: pattern.pattern, regexFlags: pattern.flags }}>
+    document.getElementById('copy-pattern').addEventListener('click', function() {
+      navigator.clipboard.writeText('/' + regexPattern + '/' + regexFlags)
+      this.textContent = 'Copied!'
+      setTimeout(() => { this.textContent = 'Copy' }, 2000)
+    })
+    const testInput = document.getElementById('test-input')
+    const testResult = document.getElementById('test-result')
+    if (testInput && testResult) {
+      testInput.addEventListener('input', function() {
+        const value = this.value
+        if (!value) { testResult.textContent = 'Enter a string to test'; testResult.className = 'text-sm text-[var(--color-text-muted)]'; return }
+        try {
+          const regex = new RegExp(regexPattern, regexFlags)
+          if (regex.test(value)) {
+            testResult.textContent = 'Match!'
+            testResult.className = 'text-sm font-medium text-green-600 dark:text-green-400'
+          } else {
+            testResult.textContent = 'No match'
+            testResult.className = 'text-sm font-medium text-red-600 dark:text-red-400'
+          }
+        } catch {
+          testResult.textContent = 'Invalid regex'
+          testResult.className = 'text-sm text-red-600 dark:text-red-400'
+        }
+      })
+    }
+  </script>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Live Tester</h2>
+    <input type="text" id="test-input" placeholder="Enter a string to test..."
+      class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] mb-2" />
+    <p id="test-result" class="text-sm text-[var(--color-text-muted)]">Enter a string to test</p>
+  </div>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Examples</h2>
+    <div class="grid gap-2">
+      {pattern.examples.match.map((ex) => (
+        <div class="flex items-center gap-2 font-mono text-sm">
+          <span class="w-5 h-5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center text-xs">&#x2713;</span>
+          <span>{ex}</span>
+        </div>
+      ))}
+      {pattern.examples.noMatch.map((ex) => (
+        <div class="flex items-center gap-2 font-mono text-sm">
+          <span class="w-5 h-5 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 flex items-center justify-center text-xs">&#x2717;</span>
+          <span>{ex}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Pattern Breakdown</h2>
+    <div class="space-y-2">
+      {pattern.explanation.map((part) => (
+        <p class="text-sm"><code class="bg-[var(--color-surface-alt)] px-1.5 py-0.5 rounded font-mono">{part.split(' — ')[0]}</code> <span class="text-[var(--color-text-muted)]">— {part.split(' — ')[1]}</span></p>
+      ))}
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Code Snippets</h2>
+    <div class="space-y-4">
+      <div>
+        <h3 class="text-sm font-semibold mb-2">JavaScript</h3>
+        <pre class="bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{pattern.codeSnippets.javascript}</code></pre>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold mb-2">Python</h3>
+        <pre class="bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{pattern.codeSnippets.python}</code></pre>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold mb-2">PHP</h3>
+        <pre class="bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{pattern.codeSnippets.php}</code></pre>
+      </div>
+    </div>
+  </div>
+
+  {related.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Related Patterns</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+        {related.map((r) => (
+          <a href={`/regex/${r.slug}`}
+            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
+            <span class="text-sm font-medium">{r.name}</span>
+            <span class="block text-xs text-[var(--color-text-muted)] font-mono truncate">/{r.pattern}/</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+</BaseLayout>

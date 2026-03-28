@@ -1,0 +1,433 @@
+export interface RegexPattern {
+  name: string
+  slug: string
+  pattern: string
+  flags: string
+  description: string
+  examples: {
+    match: string[]
+    noMatch: string[]
+  }
+  explanation: string[]
+  codeSnippets: {
+    javascript: string
+    python: string
+    php: string
+  }
+  tags: string[]
+}
+
+export const regexPatterns: RegexPattern[] = [
+  {
+    name: 'Email Address',
+    slug: 'email-validation',
+    pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$',
+    flags: 'i',
+    description: 'Validates email addresses following the standard format: local-part@domain.tld.',
+    examples: {
+      match: ['user@example.com', 'john.doe+tag@company.co.uk', 'info@test.org'],
+      noMatch: ['@example.com', 'user@', 'user@.com'],
+    },
+    explanation: [
+      '^[a-zA-Z0-9._%+-]+ — starts with one or more alphanumeric characters or ._%+-',
+      '@ — literal @ symbol',
+      '[a-zA-Z0-9.-]+ — domain name with alphanumeric characters, dots, or hyphens',
+      '\\.[a-zA-Z]{2,}$ — dot followed by a TLD of at least 2 letters',
+    ],
+    codeSnippets: {
+      javascript: 'const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/i;\nregex.test("user@example.com"); // true',
+      python: 'import re\npattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"\nbool(re.match(pattern, "user@example.com", re.IGNORECASE))  # True',
+      php: '$pattern = \'/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/i\';\npreg_match($pattern, "user@example.com"); // 1',
+    },
+    tags: ['validation', 'web'],
+  },
+  {
+    name: 'URL',
+    slug: 'url-validation',
+    pattern: '^https?:\\/\\/(www\\.)?[a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([a-zA-Z0-9()@:%_+.~#?&/=-]*)$',
+    flags: 'i',
+    description: 'Validates HTTP and HTTPS URLs with optional www prefix, domain, and path.',
+    examples: {
+      match: ['https://example.com', 'http://www.test.org/path?q=1', 'https://sub.domain.co.uk/page'],
+      noMatch: ['ftp://example.com', 'example.com', 'http://'],
+    },
+    explanation: [
+      '^https?:\\/\\/ — starts with http:// or https://',
+      '(www\\.)? — optional www. prefix',
+      '[a-zA-Z0-9@:%._+~#=]{1,256} — domain name characters',
+      '\\.[a-zA-Z0-9()]{1,6} — dot followed by TLD',
+      '\\b([...]*) $ — optional path, query string, and fragment',
+    ],
+    codeSnippets: {
+      javascript: 'const regex = /^https?:\\/\\/(www\\.)?[a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([a-zA-Z0-9()@:%_+.~#?&/=-]*)$/i;\nregex.test("https://example.com"); // true',
+      python: 'import re\npattern = r"^https?://(www\\.)?[a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([a-zA-Z0-9()@:%_+.~#?&/=-]*)$"\nbool(re.match(pattern, "https://example.com", re.IGNORECASE))  # True',
+      php: '$pattern = \'/^https?:\\/\\/(www\\.)?[a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([a-zA-Z0-9()@:%_+.~#?&\\/=-]*)$/i\';\npreg_match($pattern, "https://example.com"); // 1',
+    },
+    tags: ['validation', 'web'],
+  },
+  {
+    name: 'Phone Number (International)',
+    slug: 'phone-number-international',
+    pattern: '^\\+?[1-9]\\d{1,14}$',
+    flags: '',
+    description: 'Validates international phone numbers in E.164 format (up to 15 digits with optional + prefix).',
+    examples: {
+      match: ['+14155552671', '+442071838750', '491711234567'],
+      noMatch: ['+0123456789', '123', '+1234567890123456'],
+    },
+    explanation: [
+      '^\\+? — optional leading plus sign',
+      '[1-9] — first digit must be 1-9 (no leading zero)',
+      '\\d{1,14}$ — followed by 1 to 14 more digits (total max 15)',
+    ],
+    codeSnippets: {
+      javascript: 'const regex = /^\\+?[1-9]\\d{1,14}$/;\nregex.test("+14155552671"); // true',
+      python: 'import re\npattern = r"^\\+?[1-9]\\d{1,14}$"\nbool(re.match(pattern, "+14155552671"))  # True',
+      php: '$pattern = \'/^\\+?[1-9]\\d{1,14}$/\';\npreg_match($pattern, "+14155552671"); // 1',
+    },
+    tags: ['validation', 'phone'],
+  },
+  {
+    name: 'Phone Number (US)',
+    slug: 'phone-number-us',
+    pattern: '^\\(?[2-9]\\d{2}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$',
+    flags: '',
+    description: 'Validates US phone numbers in various formats: (555) 123-4567, 555-123-4567, 5551234567.',
+    examples: {
+      match: ['(555) 123-4567', '555-123-4567', '5551234567'],
+      noMatch: ['(055) 123-4567', '123-4567', '555-1234-567'],
+    },
+    explanation: [
+      '^\\(?[2-9]\\d{2}\\)? — area code with optional parentheses',
+      '[-.\\s]? — optional separator',
+      '\\d{3} — exchange code (3 digits)',
+      '[-.\\s]?\\d{4}$ — separator + subscriber number (4 digits)',
+    ],
+    codeSnippets: {
+      javascript: 'const regex = /^\\(?[2-9]\\d{2}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$/;\nregex.test("(555) 123-4567"); // true',
+      python: 'import re\npattern = r"^\\(?[2-9]\\d{2}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$"\nbool(re.match(pattern, "(555) 123-4567"))  # True',
+      php: '$pattern = \'/^\\(?[2-9]\\d{2}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$/\';\npreg_match($pattern, "(555) 123-4567"); // 1',
+    },
+    tags: ['validation', 'phone'],
+  },
+  {
+    name: 'IPv4 Address',
+    slug: 'ipv4-address',
+    pattern: '^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$',
+    flags: '',
+    description: 'Validates IPv4 addresses (four octets from 0-255 separated by dots).',
+    examples: {
+      match: ['192.168.1.1', '10.0.0.0', '255.255.255.255'],
+      noMatch: ['256.1.1.1', '192.168.1', '192.168.1.1.1'],
+    },
+    explanation: [
+      '(25[0-5]|2[0-4]\\d|[01]?\\d\\d?) — matches 0-255',
+      '\\. — literal dot separator',
+      '{3} — first three octets with dots',
+      'final octet without trailing dot',
+    ],
+    codeSnippets: {
+      javascript: 'const regex = /^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$/;\nregex.test("192.168.1.1"); // true',
+      python: 'import re\npattern = r"^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$"\nbool(re.match(pattern, "192.168.1.1"))  # True',
+      php: '$pattern = \'/^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$/\';\npreg_match($pattern, "192.168.1.1"); // 1',
+    },
+    tags: ['validation', 'network'],
+  },
+  {
+    name: 'IPv6 Address',
+    slug: 'ipv6-address',
+    pattern: '^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$',
+    flags: 'i',
+    description: 'Validates full IPv6 addresses (eight groups of four hexadecimal digits).',
+    examples: {
+      match: ['2001:0db8:85a3:0000:0000:8a2e:0370:7334', 'fe80:0000:0000:0000:0000:0000:0000:0001'],
+      noMatch: ['2001:db8::1', '192.168.1.1', '2001:db8:85a3:0000:0000:8a2e:0370'],
+    },
+    explanation: [
+      '([0-9a-fA-F]{1,4}:){7} — seven groups of 1-4 hex digits followed by colon',
+      '[0-9a-fA-F]{1,4}$ — final group without trailing colon',
+    ],
+    codeSnippets: {
+      javascript: 'const regex = /^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/i;\nregex.test("2001:0db8:85a3:0000:0000:8a2e:0370:7334"); // true',
+      python: 'import re\npattern = r"^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$"\nbool(re.match(pattern, "2001:0db8:85a3:0000:0000:8a2e:0370:7334", re.IGNORECASE))  # True',
+      php: '$pattern = \'/^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/i\';\npreg_match($pattern, "2001:0db8:85a3:0000:0000:8a2e:0370:7334"); // 1',
+    },
+    tags: ['validation', 'network'],
+  },
+  {
+    name: 'Date (YYYY-MM-DD)',
+    slug: 'date-yyyy-mm-dd',
+    pattern: '^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$',
+    flags: '',
+    description: 'Validates dates in ISO 8601 format with basic month/day range checking.',
+    examples: { match: ['2024-01-15', '2023-12-31', '2000-06-01'], noMatch: ['2024-13-01', '2024-00-15', '24-01-15'] },
+    explanation: ['^\\d{4} — four-digit year', '(0[1-9]|1[0-2]) — month 01-12', '(0[1-9]|[12]\\d|3[01])$ — day 01-31'],
+    codeSnippets: {
+      javascript: 'const regex = /^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$/;\nregex.test("2024-01-15"); // true',
+      python: 'import re\npattern = r"^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$"\nbool(re.match(pattern, "2024-01-15"))  # True',
+      php: '$pattern = \'/^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$/\';\npreg_match($pattern, "2024-01-15"); // 1',
+    },
+    tags: ['validation', 'date'],
+  },
+  {
+    name: 'Date (DD/MM/YYYY)',
+    slug: 'date-dd-mm-yyyy',
+    pattern: '^(0[1-9]|[12]\\d|3[01])\\/(0[1-9]|1[0-2])\\/\\d{4}$',
+    flags: '',
+    description: 'Validates dates in DD/MM/YYYY format with basic day/month range checking.',
+    examples: { match: ['15/01/2024', '31/12/2023', '01/06/2000'], noMatch: ['32/01/2024', '15/13/2024', '1/6/2000'] },
+    explanation: ['^(0[1-9]|[12]\\d|3[01]) — day 01-31', '\\/ — literal forward slash', '(0[1-9]|1[0-2]) — month 01-12', '\\/\\d{4}$ — slash + four-digit year'],
+    codeSnippets: {
+      javascript: 'const regex = /^(0[1-9]|[12]\\d|3[01])\\/(0[1-9]|1[0-2])\\/\\d{4}$/;\nregex.test("15/01/2024"); // true',
+      python: 'import re\npattern = r"^(0[1-9]|[12]\\d|3[01])/(0[1-9]|1[0-2])/\\d{4}$"\nbool(re.match(pattern, "15/01/2024"))  # True',
+      php: '$pattern = \'/^(0[1-9]|[12]\\d|3[01])\\/(0[1-9]|1[0-2])\\/\\d{4}$/\';\npreg_match($pattern, "15/01/2024"); // 1',
+    },
+    tags: ['validation', 'date'],
+  },
+  {
+    name: 'Time (HH:MM:SS)',
+    slug: 'time-hh-mm-ss',
+    pattern: '^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$',
+    flags: '',
+    description: 'Validates 24-hour time format with valid ranges.',
+    examples: { match: ['00:00:00', '12:30:45', '23:59:59'], noMatch: ['24:00:00', '12:60:00', '1:30:00'] },
+    explanation: ['^([01]\\d|2[0-3]) — hour 00-23', ':[0-5]\\d — minutes 00-59', ':[0-5]\\d$ — seconds 00-59'],
+    codeSnippets: {
+      javascript: 'const regex = /^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$/;\nregex.test("12:30:45"); // true',
+      python: 'import re\npattern = r"^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"\nbool(re.match(pattern, "12:30:45"))  # True',
+      php: '$pattern = \'/^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$/\';\npreg_match($pattern, "12:30:45"); // 1',
+    },
+    tags: ['validation', 'date'],
+  },
+  {
+    name: 'Hex Color Code',
+    slug: 'hex-color-code',
+    pattern: '^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$',
+    flags: 'i',
+    description: 'Validates CSS hex color codes in 3-digit or 6-digit format.',
+    examples: { match: ['#fff', '#FF5733', '#000000'], noMatch: ['#gg0000', 'FF5733', '#12345'] },
+    explanation: ['^# — starts with hash', '([0-9a-fA-F]{3} — 3 hex digits (shorthand)', '|[0-9a-fA-F]{6})$ — or 6 hex digits'],
+    codeSnippets: {
+      javascript: 'const regex = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/i;\nregex.test("#FF5733"); // true',
+      python: 'import re\npattern = r"^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"\nbool(re.match(pattern, "#FF5733", re.IGNORECASE))  # True',
+      php: '$pattern = \'/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/i\';\npreg_match($pattern, "#FF5733"); // 1',
+    },
+    tags: ['validation', 'design'],
+  },
+  {
+    name: 'Credit Card Number',
+    slug: 'credit-card-number',
+    pattern: '^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|6(?:011|5[0-9]{2})[0-9]{12})$',
+    flags: '',
+    description: 'Validates major credit card numbers (Visa, Mastercard, Amex, Discover).',
+    examples: { match: ['4111111111111111', '5500000000000004', '378282246310005'], noMatch: ['1234567890123456', '411111111111', '0000000000000000'] },
+    explanation: ['4[0-9]{12}(?:[0-9]{3})? — Visa (13 or 16 digits)', '5[1-5][0-9]{14} — Mastercard (16 digits)', '3[47][0-9]{13} — Amex (15 digits)', '6(?:011|5[0-9]{2})[0-9]{12} — Discover (16 digits)'],
+    codeSnippets: {
+      javascript: 'const regex = /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|6(?:011|5[0-9]{2})[0-9]{12})$/;\nregex.test("4111111111111111"); // true',
+      python: 'import re\npattern = r"^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|6(?:011|5[0-9]{2})[0-9]{12})$"\nbool(re.match(pattern, "4111111111111111"))  # True',
+      php: '$pattern = \'/^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|6(?:011|5[0-9]{2})[0-9]{12})$/\';\npreg_match($pattern, "4111111111111111"); // 1',
+    },
+    tags: ['validation', 'finance'],
+  },
+  {
+    name: 'US ZIP Code',
+    slug: 'us-zip-code',
+    pattern: '^\\d{5}(-\\d{4})?$',
+    flags: '',
+    description: 'Validates US ZIP codes in 5-digit or ZIP+4 format.',
+    examples: { match: ['10001', '90210', '12345-6789'], noMatch: ['1234', '123456', 'ABCDE'] },
+    explanation: ['^\\d{5} — five digits', '(-\\d{4})?$ — optional dash + four more digits'],
+    codeSnippets: {
+      javascript: 'const regex = /^\\d{5}(-\\d{4})?$/;\nregex.test("90210"); // true',
+      python: 'import re\npattern = r"^\\d{5}(-\\d{4})?$"\nbool(re.match(pattern, "90210"))  # True',
+      php: '$pattern = \'/^\\d{5}(-\\d{4})?$/\';\npreg_match($pattern, "90210"); // 1',
+    },
+    tags: ['validation', 'address'],
+  },
+  {
+    name: 'Username',
+    slug: 'username-validation',
+    pattern: '^[a-zA-Z][a-zA-Z0-9_-]{2,19}$',
+    flags: '',
+    description: 'Validates usernames: starts with a letter, 3-20 characters.',
+    examples: { match: ['john_doe', 'User123', 'my-name'], noMatch: ['1user', 'ab', 'user name'] },
+    explanation: ['^[a-zA-Z] — must start with a letter', '[a-zA-Z0-9_-]{2,19}$ — followed by 2-19 valid characters'],
+    codeSnippets: {
+      javascript: 'const regex = /^[a-zA-Z][a-zA-Z0-9_-]{2,19}$/;\nregex.test("john_doe"); // true',
+      python: 'import re\npattern = r"^[a-zA-Z][a-zA-Z0-9_-]{2,19}$"\nbool(re.match(pattern, "john_doe"))  # True',
+      php: '$pattern = \'/^[a-zA-Z][a-zA-Z0-9_-]{2,19}$/\';\npreg_match($pattern, "john_doe"); // 1',
+    },
+    tags: ['validation', 'web'],
+  },
+  {
+    name: 'Strong Password',
+    slug: 'strong-password',
+    pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$',
+    flags: '',
+    description: 'Validates strong passwords: min 8 chars, uppercase, lowercase, digit, special char.',
+    examples: { match: ['MyP@ss1word', 'Str0ng!Pass', 'Ab1!defgh'], noMatch: ['password', 'PASSWORD1!', 'Short1!'] },
+    explanation: ['(?=.*[a-z]) — at least one lowercase', '(?=.*[A-Z]) — at least one uppercase', '(?=.*\\d) — at least one digit', '(?=.*[@$!%*?&]) — at least one special character', '[A-Za-z\\d@$!%*?&]{8,}$ — minimum 8 characters'],
+    codeSnippets: {
+      javascript: 'const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/;\nregex.test("MyP@ss1word"); // true',
+      python: 'import re\npattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"\nbool(re.match(pattern, "MyP@ss1word"))  # True',
+      php: '$pattern = \'/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$/\';\npreg_match($pattern, "MyP@ss1word"); // 1',
+    },
+    tags: ['validation', 'security'],
+  },
+  {
+    name: 'URL Slug',
+    slug: 'url-slug',
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$',
+    flags: '',
+    description: 'Validates URL-friendly slugs: lowercase, digits, hyphens only.',
+    examples: { match: ['my-blog-post', 'hello-world', 'page1'], noMatch: ['-starts-with', 'ends-with-', 'has--double'] },
+    explanation: ['^[a-z0-9]+ — starts with lowercase alphanumeric', '(-[a-z0-9]+)* — optional hyphen-separated groups', '$ — no trailing hyphen'],
+    codeSnippets: {
+      javascript: 'const regex = /^[a-z0-9]+(-[a-z0-9]+)*$/;\nregex.test("my-blog-post"); // true',
+      python: 'import re\npattern = r"^[a-z0-9]+(-[a-z0-9]+)*$"\nbool(re.match(pattern, "my-blog-post"))  # True',
+      php: '$pattern = \'/^[a-z0-9]+(-[a-z0-9]+)*$/\';\npreg_match($pattern, "my-blog-post"); // 1',
+    },
+    tags: ['validation', 'web'],
+  },
+  {
+    name: 'HTML Tag',
+    slug: 'html-tag',
+    pattern: '<\\/?[a-zA-Z][a-zA-Z0-9]*(?:\\s[^>]*)?\\/?>',
+    flags: 'g',
+    description: 'Matches HTML tags including opening, closing, and self-closing tags.',
+    examples: { match: ['<div>', '</p>', '<img src="test.jpg" />'], noMatch: ['< div>', 'plain text', '<<invalid>>'] },
+    explanation: ['< — opening angle bracket', '\\/? — optional forward slash', '[a-zA-Z][a-zA-Z0-9]* — tag name', '(?:\\s[^>]*)? — optional attributes', '\\/?>  — optional self-closing + closing bracket'],
+    codeSnippets: {
+      javascript: 'const regex = /<\\/?[a-zA-Z][a-zA-Z0-9]*(?:\\s[^>]*)?\\/??>/g;\n"<div>text</div>".match(regex); // ["<div>", "</div>"]',
+      python: 'import re\npattern = r"</?[a-zA-Z][a-zA-Z0-9]*(?:\\s[^>]*)?\\/?>"\nre.findall(pattern, "<div>text</div>")  # [\'<div>\', \'</div>\']',
+      php: '$pattern = \'/<\\/?[a-zA-Z][a-zA-Z0-9]*(?:\\s[^>]*)?\\/??>/\';\npreg_match_all($pattern, "<div>text</div>", $matches);',
+    },
+    tags: ['extraction', 'web'],
+  },
+  {
+    name: 'Whitespace Trim',
+    slug: 'whitespace-trim',
+    pattern: '^\\s+|\\s+$',
+    flags: 'g',
+    description: 'Matches leading and trailing whitespace for trimming.',
+    examples: { match: ['  hello  ', '\thello', 'hello  '], noMatch: ['hello', 'no-whitespace'] },
+    explanation: ['^\\s+ — whitespace at start', '| — or', '\\s+$ — whitespace at end'],
+    codeSnippets: {
+      javascript: '"  hello  ".replace(/^\\s+|\\s+$/g, ""); // "hello"',
+      python: 'import re\nre.sub(r"^\\s+|\\s+$", "", "  hello  ")  # "hello"',
+      php: 'preg_replace(\'/^\\s+|\\s+$/\', "", "  hello  "); // "hello"',
+    },
+    tags: ['formatting', 'text'],
+  },
+  {
+    name: 'Digits Only',
+    slug: 'digits-only',
+    pattern: '^\\d+$',
+    flags: '',
+    description: 'Validates strings containing only numeric digits.',
+    examples: { match: ['12345', '0', '9876543210'], noMatch: ['12.34', '-5', '12 34'] },
+    explanation: ['^\\d+ — one or more digits from start', '$ — to end (nothing else)'],
+    codeSnippets: {
+      javascript: 'const regex = /^\\d+$/;\nregex.test("12345"); // true',
+      python: 'import re\nbool(re.match(r"^\\d+$", "12345"))  # True',
+      php: 'preg_match(\'/^\\d+$/\', "12345"); // 1',
+    },
+    tags: ['validation', 'text'],
+  },
+  {
+    name: 'Alphanumeric Only',
+    slug: 'alphanumeric-only',
+    pattern: '^[a-zA-Z0-9]+$',
+    flags: '',
+    description: 'Validates strings containing only letters and numbers.',
+    examples: { match: ['Hello123', 'abc', '456'], noMatch: ['hello world', 'test!', 'a-b'] },
+    explanation: ['^[a-zA-Z0-9]+ — alphanumeric from start', '$ — to end'],
+    codeSnippets: {
+      javascript: '/^[a-zA-Z0-9]+$/.test("Hello123"); // true',
+      python: 'bool(re.match(r"^[a-zA-Z0-9]+$", "Hello123"))  # True',
+      php: 'preg_match(\'/^[a-zA-Z0-9]+$/\', "Hello123"); // 1',
+    },
+    tags: ['validation', 'text'],
+  },
+  {
+    name: 'File Extension',
+    slug: 'file-extension',
+    pattern: '\\.[a-zA-Z0-9]{1,10}$',
+    flags: 'i',
+    description: 'Extracts or validates file extensions.',
+    examples: { match: ['document.pdf', 'image.png', 'archive.tar.gz'], noMatch: ['noextension', 'file.', '.'] },
+    explanation: ['\\. — literal dot', '[a-zA-Z0-9]{1,10}$ — 1-10 alphanumeric chars at end'],
+    codeSnippets: {
+      javascript: '"document.pdf".match(/\\.[a-zA-Z0-9]{1,10}$/i)?.[0]; // ".pdf"',
+      python: 're.search(r"\\.[a-zA-Z0-9]{1,10}$", "document.pdf").group()  # ".pdf"',
+      php: 'preg_match(\'/\\.[a-zA-Z0-9]{1,10}$/i\', "document.pdf", $m); // $m[0] = ".pdf"',
+    },
+    tags: ['extraction', 'file'],
+  },
+  {
+    name: 'Domain Name',
+    slug: 'domain-name',
+    pattern: '^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$',
+    flags: 'i',
+    description: 'Validates domain names with proper label format and TLD.',
+    examples: { match: ['example.com', 'sub.domain.co.uk', 'my-site.org'], noMatch: ['-example.com', 'example-.com', '.com'] },
+    explanation: ['([a-zA-Z0-9]...) — label starts/ends with alphanumeric', '\\. — dot separator', '+ — one or more labels', '[a-zA-Z]{2,}$ — TLD of 2+ letters'],
+    codeSnippets: {
+      javascript: '/^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$/i.test("example.com"); // true',
+      python: 'bool(re.match(r"^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$", "example.com", re.I))  # True',
+      php: 'preg_match(\'/^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$/i\', "example.com"); // 1',
+    },
+    tags: ['validation', 'web'],
+  },
+  {
+    name: 'MAC Address',
+    slug: 'mac-address',
+    pattern: '^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$',
+    flags: 'i',
+    description: 'Validates MAC addresses in colon or hyphen-separated format.',
+    examples: { match: ['00:1A:2B:3C:4D:5E', 'AA-BB-CC-DD-EE-FF', '01:23:45:67:89:ab'], noMatch: ['00:1A:2B:3C:4D', 'GG:HH:II:JJ:KK:LL', '001A2B3C4D5E'] },
+    explanation: ['([0-9A-Fa-f]{2}[:-]){5} — five hex pairs with separator', '([0-9A-Fa-f]{2})$ — final pair'],
+    codeSnippets: {
+      javascript: '/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/i.test("00:1A:2B:3C:4D:5E"); // true',
+      python: 'bool(re.match(r"^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$", "00:1A:2B:3C:4D:5E", re.I))  # True',
+      php: 'preg_match(\'/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/i\', "00:1A:2B:3C:4D:5E"); // 1',
+    },
+    tags: ['validation', 'network'],
+  },
+  {
+    name: 'UUID',
+    slug: 'uuid',
+    pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
+    flags: 'i',
+    description: 'Validates UUIDs (versions 1-5) in standard format.',
+    examples: { match: ['550e8400-e29b-41d4-a716-446655440000', '6ba7b810-9dad-11d1-80b4-00c04fd430c8'], noMatch: ['550e8400-e29b-61d4-a716-446655440000', 'not-a-uuid'] },
+    explanation: ['[0-9a-f]{8} — 8 hex chars', '[0-9a-f]{4} — 4 hex chars', '[1-5][0-9a-f]{3} — version digit + 3 hex', '[89ab][0-9a-f]{3} — variant digit + 3 hex', '[0-9a-f]{12} — 12 hex chars'],
+    codeSnippets: {
+      javascript: '/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test("550e8400-e29b-41d4-a716-446655440000"); // true',
+      python: 'bool(re.match(r"^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$", "550e8400-e29b-41d4-a716-446655440000", re.I))  # True',
+      php: 'preg_match(\'/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i\', "550e8400-e29b-41d4-a716-446655440000"); // 1',
+    },
+    tags: ['validation', 'developer'],
+  },
+  {
+    name: 'Markdown Link',
+    slug: 'markdown-link',
+    pattern: '\\[([^\\]]+)\\]\\(([^)]+)\\)',
+    flags: 'g',
+    description: 'Matches Markdown links in [text](url) format.',
+    examples: { match: ['[Google](https://google.com)', '[click here](page.html)'], noMatch: ['[incomplete](', '(no brackets)'] },
+    explanation: ['\\[ — opening bracket', '([^\\]]+) — link text', '\\]\\( — bracket + paren', '([^)]+) — URL', '\\) — closing paren'],
+    codeSnippets: {
+      javascript: 'const m = /\\[([^\\]]+)\\]\\(([^)]+)\\)/g.exec("[Google](https://google.com)");\n// m[1] = "Google", m[2] = "https://google.com"',
+      python: 'm = re.search(r"\\[([^\\]]+)\\]\\(([^)]+)\\)", "[Google](https://google.com)")\n# m.group(1) = "Google", m.group(2) = "https://google.com"',
+      php: 'preg_match(\'/\\[([^\\]]+)\\]\\(([^)]+)\\)/\', "[Google](https://google.com)", $m);\n// $m[1] = "Google", $m[2] = "https://google.com"',
+    },
+    tags: ['extraction', 'text'],
+  },
+]
+
+export function getRelatedPatterns(slug: string, tags: string[]): RegexPattern[] {
+  return regexPatterns
+    .filter((p) => p.slug !== slug && p.tags.some((t) => tags.includes(t)))
+    .slice(0, 6)
+}

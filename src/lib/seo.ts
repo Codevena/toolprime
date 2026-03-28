@@ -95,3 +95,14 @@ export function getReversePercentageMeta(x: number, y: number, result: number): 
     ogType: 'website',
   }
 }
+
+export function getRegexMeta(name: string, slug: string, pattern: string): MetaTags {
+  return {
+    title: `Regex for ${name} — Pattern & Examples | ${SITE_NAME}`,
+    description: `Regular expression for ${name}: /${pattern}/. Includes live tester, examples, breakdown, and code snippets for JavaScript, Python, and PHP.`,
+    canonical: `${SITE_URL}/regex/${slug}`,
+    ogTitle: `Regex for ${name}`,
+    ogDescription: `Regex pattern for ${name} with live tester and code snippets.`,
+    ogType: 'website',
+  }
+}
