@@ -41,6 +41,28 @@ export function getConversionMeta(from: string, fromAbbr: string, to: string, to
   }
 }
 
+export function getPercentageMeta(percentage: number, base: number, result: number): MetaTags {
+  return {
+    title: `What is ${percentage}% of ${base}? Answer: ${result} | ${SITE_NAME}`,
+    description: `${percentage}% of ${base} = ${result}. Calculate percentages instantly with our free online percentage calculator. No signup required.`,
+    canonical: `${SITE_URL}/calculators/what-is-${percentage}-percent-of-${base}`,
+    ogTitle: `What is ${percentage}% of ${base}? Answer: ${result}`,
+    ogDescription: `${percentage}% of ${base} = ${result}. Free online percentage calculator.`,
+    ogType: 'website',
+  }
+}
+
+export function getPercentageIndexMeta(): MetaTags {
+  return {
+    title: `Percentage Calculator — What is X% of Y? | ${SITE_NAME}`,
+    description: 'Calculate any percentage instantly. What is X% of Y? Free online percentage calculator with step-by-step explanations. No signup required.',
+    canonical: `${SITE_URL}/calculators`,
+    ogTitle: `Percentage Calculator — What is X% of Y?`,
+    ogDescription: 'Calculate any percentage instantly. Free online calculator.',
+    ogType: 'website',
+  }
+}
+
 export function getHomeMeta(): MetaTags {
   return {
     title: `Free Online Tools — Developer, Text, Image, Math Tools | ${SITE_NAME}`,

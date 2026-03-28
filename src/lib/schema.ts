@@ -33,6 +33,23 @@ export function faqPageSchema(faqs: Faq[]): string {
   })
 }
 
+export function percentageFaqSchema(percentage: number, base: number, result: number): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `What is ${percentage}% of ${base}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${percentage}% of ${base} is ${result}. To calculate, multiply ${base} by ${percentage}/100 = ${base} × ${percentage / 100} = ${result}.`,
+        },
+      },
+    ],
+  })
+}
+
 export function breadcrumbSchema(items: { name: string; url: string }[]): string {
   return JSON.stringify({
     '@context': 'https://schema.org',
