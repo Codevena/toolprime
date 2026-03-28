@@ -2,115 +2,243 @@
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
 import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
-import { percentageEntries, getRelatedByBase, getRelatedByPercentage } from '@/data/percentages'
-import { getPercentageMeta } from '@/lib/seo'
-import { percentageFaqSchema } from '@/lib/schema'
+import {
+  percentageEntries,
+  getRelatedByBase,
+  getRelatedByPercentage,
+  reversePercentageEntries,
+  getReverseRelatedByY,
+  getReverseRelatedByX,
+} from '@/data/percentages'
+import type { PercentageEntry, ReversePercentageEntry } from '@/data/percentages'
+import { getPercentageMeta, getReversePercentageMeta } from '@/lib/seo'
+import { percentageFaqSchema, reversePercentageFaqSchema } from '@/lib/schema'
 
 export function getStaticPaths() {
-  return percentageEntries.map((entry) => ({
+  const forwardPaths = percentageEntries.map((entry) => ({
     params: { slug: entry.slug },
-    props: { entry },
+    props: { type: 'forward' as const, forward: entry, reverse: null as ReversePercentageEntry | null },
   }))
+  const reversePaths = reversePercentageEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'reverse' as const, forward: null as PercentageEntry | null, reverse: entry },
+  }))
+  return [...forwardPaths, ...reversePaths]
 }
 
-const { entry } = Astro.props
-const { percentage, base, result } = entry
-const meta = getPercentageMeta(percentage, base, result)
-const relatedByBase = getRelatedByBase(base, percentage)
-const relatedByPercentage = getRelatedByPercentage(percentage, base)
+const { type, forward, reverse } = Astro.props
+
+const isForward = type === 'forward'
+
+// Forward page data
+const percentage = forward?.percentage ?? 0
+const base = forward?.base ?? 0
+const forwardResult = forward?.result ?? 0
+const forwardMeta = isForward ? getPercentageMeta(percentage, base, forwardResult) : null
+const relatedByBase = isForward ? getRelatedByBase(base, percentage) : []
+const relatedByPercentage = isForward ? getRelatedByPercentage(percentage, base) : []
+
+// Reverse page data
+const x = reverse?.x ?? 0
+const y = reverse?.y ?? 0
+const reverseResult = reverse?.result ?? 0
+const reverseMeta = !isForward ? getReversePercentageMeta(x, y, reverseResult) : null
+const relatedByY = !isForward ? getReverseRelatedByY(y, x) : []
+const relatedByX = !isForward ? getReverseRelatedByX(x, y) : []
+
+const meta = isForward ? forwardMeta! : reverseMeta!
 ---
 
 <BaseLayout {...meta}>
-  <SchemaMarkup json={percentageFaqSchema(percentage, base, result)} />
-  <Breadcrumbs items={[
-    { name: 'Percentage Calculator', url: 'https://toolprime.dev/calculators' },
-    { name: `${percentage}% of ${base}`, url: meta.canonical },
-  ]} />
+  {isForward ? (
+    <>
+      <SchemaMarkup json={percentageFaqSchema(percentage, base, forwardResult)} />
+      <Breadcrumbs items={[
+        { name: 'Percentage Calculator', url: 'https://toolprime.dev/calculators' },
+        { name: `${percentage}% of ${base}`, url: meta.canonical },
+      ]} />
 
-  <h1 class="text-3xl font-bold mb-2">What is {percentage}% of {base}?</h1>
+      <h1 class="text-3xl font-bold mb-2">What is {percentage}% of {base}?</h1>
 
-  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
-    <p class="text-lg text-[var(--color-text-muted)] mb-1">Answer</p>
-    <p class="text-4xl font-bold text-[var(--color-primary-text)]">
-      {percentage}% of {base} = {result}
-    </p>
-  </div>
-
-  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
-    <h2 class="text-lg font-semibold mb-4">Interactive Calculator</h2>
-    <div class="flex flex-col sm:flex-row items-center gap-4">
-      <div class="flex-1 w-full">
-        <label class="block text-sm font-medium mb-1" for="pct-input">Percentage (%)</label>
-        <input type="number" id="pct-input" value={percentage}
-          class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+        <p class="text-lg text-[var(--color-text-muted)] mb-1">Answer</p>
+        <p class="text-4xl font-bold text-[var(--color-primary-text)]">
+          {percentage}% of {base} = {forwardResult}
+        </p>
       </div>
-      <span class="text-xl text-[var(--color-text-muted)]">of</span>
-      <div class="flex-1 w-full">
-        <label class="block text-sm font-medium mb-1" for="base-input">Number</label>
-        <input type="number" id="base-input" value={base}
-          class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
-      </div>
-      <span class="text-xl text-[var(--color-text-muted)]">=</span>
-      <div class="flex-1 w-full">
-        <label class="block text-sm font-medium mb-1">Result</label>
-        <input type="text" id="calc-result" value={result} readonly
-          class="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-lg font-mono" />
-      </div>
-    </div>
-  </div>
 
-  <script>
-    const pctInput = document.getElementById('pct-input') as HTMLInputElement
-    const baseInput = document.getElementById('base-input') as HTMLInputElement
-    const calcResult = document.getElementById('calc-result') as HTMLInputElement
-    function update() {
-      const p = parseFloat(pctInput.value)
-      const b = parseFloat(baseInput.value)
-      if (isNaN(p) || isNaN(b)) { calcResult.value = ''; return }
-      const r = (b * p) / 100
-      calcResult.value = parseFloat(r.toPrecision(10)).toString()
-    }
-    pctInput.addEventListener('input', update)
-    baseInput.addEventListener('input', update)
-  </script>
-
-  <div class="prose prose-slate max-w-none mb-8">
-    <h2>How to Calculate {percentage}% of {base}</h2>
-    <p>
-      To find {percentage}% of {base}, multiply {base} by {percentage / 100}:
-    </p>
-    <p class="font-mono bg-[var(--color-surface-alt)] p-3 rounded-lg">
-      {base} &times; {percentage} / 100 = {base} &times; {percentage / 100} = {result}
-    </p>
-  </div>
-
-  {relatedByBase.length > 0 && (
-    <div class="mb-8">
-      <h2 class="text-xl font-semibold mb-4">Other Percentages of {base}</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {relatedByBase.map((e) => (
-          <a href={`/calculators/${e.slug}`}
-            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
-            <span class="text-sm font-medium">{e.percentage}% of {e.base}</span>
-            <span class="block text-xs text-[var(--color-text-muted)]">= {e.result}</span>
-          </a>
-        ))}
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+        <h2 class="text-lg font-semibold mb-4">Interactive Calculator</h2>
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <div class="flex-1 w-full">
+            <label class="block text-sm font-medium mb-1" for="pct-input">Percentage (%)</label>
+            <input type="number" id="pct-input" value={percentage}
+              class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+          </div>
+          <span class="text-xl text-[var(--color-text-muted)]">of</span>
+          <div class="flex-1 w-full">
+            <label class="block text-sm font-medium mb-1" for="base-input">Number</label>
+            <input type="number" id="base-input" value={base}
+              class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+          </div>
+          <span class="text-xl text-[var(--color-text-muted)]">=</span>
+          <div class="flex-1 w-full">
+            <label class="block text-sm font-medium mb-1">Result</label>
+            <input type="text" id="calc-result" value={forwardResult} readonly
+              class="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-lg font-mono" />
+          </div>
+        </div>
       </div>
-    </div>
-  )}
 
-  {relatedByPercentage.length > 0 && (
-    <div class="mb-8">
-      <h2 class="text-xl font-semibold mb-4">{percentage}% of Other Numbers</h2>
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {relatedByPercentage.map((e) => (
-          <a href={`/calculators/${e.slug}`}
-            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
-            <span class="text-sm font-medium">{e.percentage}% of {e.base}</span>
-            <span class="block text-xs text-[var(--color-text-muted)]">= {e.result}</span>
-          </a>
-        ))}
+      <script>
+        const pctInput = document.getElementById('pct-input') as HTMLInputElement
+        const baseInput = document.getElementById('base-input') as HTMLInputElement
+        const calcResult = document.getElementById('calc-result') as HTMLInputElement
+        function update() {
+          const p = parseFloat(pctInput.value)
+          const b = parseFloat(baseInput.value)
+          if (isNaN(p) || isNaN(b)) { calcResult.value = ''; return }
+          const r = (b * p) / 100
+          calcResult.value = parseFloat(r.toPrecision(10)).toString()
+        }
+        pctInput.addEventListener('input', update)
+        baseInput.addEventListener('input', update)
+      </script>
+
+      <div class="prose prose-slate max-w-none mb-8">
+        <h2>How to Calculate {percentage}% of {base}</h2>
+        <p>
+          To find {percentage}% of {base}, multiply {base} by {percentage / 100}:
+        </p>
+        <p class="font-mono bg-[var(--color-surface-alt)] p-3 rounded-lg">
+          {base} &times; {percentage} / 100 = {base} &times; {percentage / 100} = {forwardResult}
+        </p>
       </div>
-    </div>
+
+      {relatedByBase.length > 0 && (
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold mb-4">Other Percentages of {base}</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {relatedByBase.map((e) => (
+              <a href={`/calculators/${e.slug}`}
+                class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+                <span class="text-sm font-medium">{e.percentage}% of {e.base}</span>
+                <span class="block text-xs text-[var(--color-text-muted)]">= {e.result}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {relatedByPercentage.length > 0 && (
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold mb-4">{percentage}% of Other Numbers</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {relatedByPercentage.map((e) => (
+              <a href={`/calculators/${e.slug}`}
+                class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+                <span class="text-sm font-medium">{e.percentage}% of {e.base}</span>
+                <span class="block text-xs text-[var(--color-text-muted)]">= {e.result}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  ) : (
+    <>
+      <SchemaMarkup json={reversePercentageFaqSchema(x, y, reverseResult)} />
+      <Breadcrumbs items={[
+        { name: 'Percentage Calculator', url: 'https://toolprime.dev/calculators' },
+        { name: `${x} is what % of ${y}`, url: meta.canonical },
+      ]} />
+
+      <h1 class="text-3xl font-bold mb-2">What Percent is {x} of {y}?</h1>
+
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+        <p class="text-lg text-[var(--color-text-muted)] mb-1">Answer</p>
+        <p class="text-4xl font-bold text-[var(--color-primary-text)]">
+          {x} is {reverseResult}% of {y}
+        </p>
+      </div>
+
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+        <h2 class="text-lg font-semibold mb-4">Interactive Calculator</h2>
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <div class="flex-1 w-full">
+            <label class="block text-sm font-medium mb-1" for="x-input">Part</label>
+            <input type="number" id="x-input" value={x}
+              class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+          </div>
+          <span class="text-xl text-[var(--color-text-muted)]">of</span>
+          <div class="flex-1 w-full">
+            <label class="block text-sm font-medium mb-1" for="y-input">Whole</label>
+            <input type="number" id="y-input" value={y}
+              class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+          </div>
+          <span class="text-xl text-[var(--color-text-muted)]">=</span>
+          <div class="flex-1 w-full">
+            <label class="block text-sm font-medium mb-1">Result</label>
+            <input type="text" id="rev-result" value={`${reverseResult}%`} readonly
+              class="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-lg font-mono" />
+          </div>
+        </div>
+      </div>
+
+      <script>
+        const xInput = document.getElementById('x-input') as HTMLInputElement
+        const yInput = document.getElementById('y-input') as HTMLInputElement
+        const revResult = document.getElementById('rev-result') as HTMLInputElement
+        function updateReverse() {
+          const xVal = parseFloat(xInput.value)
+          const yVal = parseFloat(yInput.value)
+          if (isNaN(xVal) || isNaN(yVal) || yVal === 0) { revResult.value = ''; return }
+          const r = (xVal / yVal) * 100
+          revResult.value = parseFloat(r.toPrecision(10)).toString() + '%'
+        }
+        xInput.addEventListener('input', updateReverse)
+        yInput.addEventListener('input', updateReverse)
+      </script>
+
+      <div class="prose prose-slate max-w-none mb-8">
+        <h2>How to Calculate What Percent {x} is of {y}</h2>
+        <p>
+          To find what percent {x} is of {y}, divide {x} by {y} and multiply by 100:
+        </p>
+        <p class="font-mono bg-[var(--color-surface-alt)] p-3 rounded-lg">
+          ({x} &divide; {y}) &times; 100 = {reverseResult}%
+        </p>
+      </div>
+
+      {relatedByY.length > 0 && (
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold mb-4">Other Percentages of {y}</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {relatedByY.map((e) => (
+              <a href={`/calculators/${e.slug}`}
+                class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+                <span class="text-sm font-medium">{e.x} of {e.y}</span>
+                <span class="block text-xs text-[var(--color-text-muted)]">= {e.result}%</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {relatedByX.length > 0 && (
+        <div class="mb-8">
+          <h2 class="text-xl font-semibold mb-4">{x} as a Percentage of Other Numbers</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {relatedByX.map((e) => (
+              <a href={`/calculators/${e.slug}`}
+                class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+                <span class="text-sm font-medium">{e.x} of {e.y}</span>
+                <span class="block text-xs text-[var(--color-text-muted)]">= {e.result}%</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   )}
 </BaseLayout>

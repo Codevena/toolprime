@@ -79,3 +79,20 @@ export function hashFaqSchema(algorithmLabel: string, word: string, hash: string
     ],
   })
 }
+
+export function reversePercentageFaqSchema(x: number, y: number, result: number): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `What percent is ${x} of ${y}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${x} is ${result}% of ${y}. To calculate, divide ${x} by ${y} and multiply by 100: (${x} ÷ ${y}) × 100 = ${result}%.`,
+        },
+      },
+    ],
+  })
+}

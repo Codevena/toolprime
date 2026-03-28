@@ -40,3 +40,33 @@ export function getRelatedByPercentage(percentage: number, excludeBase: number):
     .filter((e) => e.percentage === percentage && e.base !== excludeBase)
     .slice(0, 8)
 }
+
+export interface ReversePercentageEntry {
+  x: number
+  y: number
+  result: number
+  slug: string
+}
+
+export const reversePercentageEntries: ReversePercentageEntry[] = bases.flatMap((y) =>
+  bases
+    .filter((x) => x <= y && x !== y)
+    .map((x) => ({
+      x,
+      y,
+      result: formatResult((x / y) * 100),
+      slug: `what-percent-is-${x}-of-${y}`,
+    }))
+)
+
+export function getReverseRelatedByY(y: number, excludeX: number): ReversePercentageEntry[] {
+  return reversePercentageEntries
+    .filter((e) => e.y === y && e.x !== excludeX)
+    .slice(0, 8)
+}
+
+export function getReverseRelatedByX(x: number, excludeY: number): ReversePercentageEntry[] {
+  return reversePercentageEntries
+    .filter((e) => e.x === x && e.y !== excludeY)
+    .slice(0, 8)
+}

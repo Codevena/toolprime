@@ -84,3 +84,14 @@ export function getHashMeta(algorithm: string, algorithmLabel: string, word: str
     ogType: 'website',
   }
 }
+
+export function getReversePercentageMeta(x: number, y: number, result: number): MetaTags {
+  return {
+    title: `What Percent is ${x} of ${y}? Answer: ${result}% | ${SITE_NAME}`,
+    description: `${x} is ${result}% of ${y}. Calculate what percent one number is of another with our free online percentage calculator.`,
+    canonical: `${SITE_URL}/calculators/what-percent-is-${x}-of-${y}`,
+    ogTitle: `What Percent is ${x} of ${y}? Answer: ${result}%`,
+    ogDescription: `${x} is ${result}% of ${y}. Free online percentage calculator.`,
+    ogType: 'website',
+  }
+}
