@@ -9,7 +9,7 @@ export interface Conversion {
   category: ConversionCategory
 }
 
-export type ConversionCategory = 'length' | 'weight' | 'temperature' | 'volume' | 'area' | 'speed' | 'time' | 'digital' | 'energy' | 'pressure' | 'fuel'
+export type ConversionCategory = 'length' | 'weight' | 'temperature' | 'volume' | 'area' | 'speed' | 'time' | 'digital' | 'energy' | 'pressure' | 'fuel' | 'cooking'
 
 export const conversionCategoryLabels: Record<ConversionCategory, string> = {
   length: 'Length',
@@ -23,6 +23,7 @@ export const conversionCategoryLabels: Record<ConversionCategory, string> = {
   energy: 'Energy',
   pressure: 'Pressure',
   fuel: 'Fuel Economy',
+  cooking: 'Cooking & Kitchen',
 }
 
 export const conversions: Conversion[] = [
@@ -130,6 +131,7 @@ export const conversions: Conversion[] = [
   { from: 'fathom', fromAbbr: 'ftm', to: 'meter', toAbbr: 'm', factor: 1.8288, category: 'length' },
   { from: 'fathom', fromAbbr: 'ftm', to: 'foot', toAbbr: 'ft', factor: 6, category: 'length' },
   { from: 'league', fromAbbr: 'lea', to: 'kilometer', toAbbr: 'km', factor: 4.828, category: 'length' },
+  { from: 'light-year', fromAbbr: 'ly', to: 'kilometer', toAbbr: 'km', factor: 9461000000000, category: 'length' },
   { from: 'league', fromAbbr: 'lea', to: 'mile', toAbbr: 'mi', factor: 3, category: 'length' },
 
   // Additional Weight
@@ -202,6 +204,31 @@ export const conversions: Conversion[] = [
   { from: 'century', fromAbbr: 'c', to: 'year', toAbbr: 'yr', factor: 100, category: 'time' },
   { from: 'microsecond', fromAbbr: 'us', to: 'millisecond', toAbbr: 'ms', factor: 0.001, category: 'time' },
   { from: 'nanosecond', fromAbbr: 'ns', to: 'microsecond', toAbbr: 'us', factor: 0.001, category: 'time' },
+  { from: 'fortnight', fromAbbr: 'fn', to: 'day', toAbbr: 'd', factor: 14, category: 'time' },
+
+  // Cooking & Kitchen (entries that duplicate volume/weight slugs are omitted)
+  { from: 'cup', fromAbbr: 'cup', to: 'liter', toAbbr: 'L', factor: 0.236588, category: 'cooking' },
+  { from: 'fluid ounce', fromAbbr: 'fl oz', to: 'milliliter', toAbbr: 'mL', factor: 29.5735, category: 'cooking' },
+  { from: 'pint', fromAbbr: 'pt', to: 'cup', toAbbr: 'cup', factor: 2, category: 'cooking' },
+  { from: 'pound', fromAbbr: 'lb', to: 'gram', toAbbr: 'g', factor: 453.592, category: 'cooking' },
+  { from: 'stick of butter', fromAbbr: 'stick', to: 'gram', toAbbr: 'g', factor: 113.4, category: 'cooking' },
+  { from: 'stick of butter', fromAbbr: 'stick', to: 'tablespoon', toAbbr: 'tbsp', factor: 8, category: 'cooking' },
+  { from: 'cup', fromAbbr: 'cup', to: 'tablespoon', toAbbr: 'tbsp', factor: 16, category: 'cooking' },
+
+  // Additional Length (new pairs)
+  { from: 'nautical mile', fromAbbr: 'nmi', to: 'mile', toAbbr: 'mi', factor: 1.15078, category: 'length' },
+  { from: 'furlong', fromAbbr: 'fur', to: 'meter', toAbbr: 'm', factor: 201.168, category: 'length' },
+
+  // Additional Weight (new pairs)
+  { from: 'stone', fromAbbr: 'st', to: 'kilogram', toAbbr: 'kg', factor: 6.35029, category: 'weight' },
+  { from: 'troy ounce', fromAbbr: 'oz t', to: 'gram', toAbbr: 'g', factor: 31.1035, category: 'weight' },
+
+  // Additional Volume (new pairs)
+  { from: 'quart', fromAbbr: 'qt', to: 'gallon', toAbbr: 'gal', factor: 0.25, category: 'volume' },
+
+  // Additional Digital Storage (new pairs)
+  { from: 'petabyte', fromAbbr: 'PB', to: 'gigabyte', toAbbr: 'GB', factor: 1000000, category: 'digital' },
+  { from: 'kilobit', fromAbbr: 'kbit', to: 'kilobyte', toAbbr: 'KB', factor: 0.125, category: 'digital' },
 ]
 
 export function getSlug(conversion: Conversion): string {

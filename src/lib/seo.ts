@@ -110,6 +110,28 @@ export function getRegexMeta(name: string, slug: string, _pattern: string): Meta
   }
 }
 
+export function getFormatConversionMeta(conv: { slug: string; title: string; description: string }): MetaTags {
+  return {
+    title: `${conv.title} — Free Online Tool | ${SITE_NAME}`,
+    description: conv.description,
+    canonical: `${SITE_URL}/convert/${conv.slug}`,
+    ogTitle: conv.title,
+    ogDescription: conv.description,
+    ogType: 'website',
+  }
+}
+
+export function getConvertIndexMeta(): MetaTags {
+  return {
+    title: `Free Online Converters & Format Tools | ${SITE_NAME}`,
+    description: 'Convert between formats, encode, decode, and transform data with free online tools. JSON, Base64, URL encoding, hashes, and more.',
+    canonical: `${SITE_URL}/convert`,
+    ogTitle: 'Free Online Converters & Format Tools',
+    ogDescription: 'Convert between formats with free online tools. No signup required.',
+    ogType: 'website',
+  }
+}
+
 export function getGradientMeta(name: string, slug: string, colors: string[]): MetaTags {
   return {
     title: `${name} Gradient — CSS Code & Preview | ${SITE_NAME}`,

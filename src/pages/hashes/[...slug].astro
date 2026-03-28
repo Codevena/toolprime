@@ -74,7 +74,7 @@ const relatedByAlgorithm = getRelatedByAlgorithm(algorithm, word)
         const { md5 } = await import('https://esm.sh/js-md5@0.8.3')
         return md5(text)
       }
-      const algoMap = { sha1: 'SHA-1', sha256: 'SHA-256' }
+      const algoMap = { sha1: 'SHA-1', sha256: 'SHA-256', sha512: 'SHA-512' }
       const encoder = new TextEncoder()
       const data = encoder.encode(text)
       const hashBuffer = await crypto.subtle.digest(algoMap[algo], data)

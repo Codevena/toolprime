@@ -127,6 +127,19 @@ export function regexHowToSchema(name: string, _pattern: string, explanation: st
   })
 }
 
+export function formatConversionHowToSchema(title: string, steps: string[]): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: `How to ${title}`,
+    step: steps.map((step, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      text: step,
+    })),
+  })
+}
+
 export function gradientFaqSchema(name: string, cssCode: string): string {
   return JSON.stringify({
     '@context': 'https://schema.org',

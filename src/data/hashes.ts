@@ -2,7 +2,7 @@ import { md5 } from 'js-md5'
 import { createHash } from 'node:crypto'
 
 export interface HashEntry {
-  algorithm: 'md5' | 'sha1' | 'sha256'
+  algorithm: 'md5' | 'sha1' | 'sha256' | 'sha512'
   algorithmLabel: string
   word: string
   hash: string
@@ -13,6 +13,7 @@ export const algorithms = [
   { id: 'md5' as const, label: 'MD5' },
   { id: 'sha1' as const, label: 'SHA-1' },
   { id: 'sha256' as const, label: 'SHA-256' },
+  { id: 'sha512' as const, label: 'SHA-512' },
 ]
 
 export const words = [
@@ -24,9 +25,16 @@ export const words = [
   'server', 'database', 'bitcoin', 'crypto', 'blockchain', 'openai',
   'google', 'apple', 'amazon', 'github', 'linux', 'ubuntu', 'docker',
   'python', 'javascript', 'react', 'nodejs',
+  'email', 'domain', 'api', 'token', 'session', 'cookie', 'nginx', 'apache',
+  'mysql', 'postgres', 'redis', 'mongodb', 'aws', 'azure', 'firebase',
+  'angular', 'vue', 'svelte', 'tailwind', 'bootstrap', 'webpack', 'vite',
+  'npm', 'yarn', 'pnpm', 'typescript', 'golang', 'rust', 'swift', 'kotlin',
+  'flutter', 'django', 'flask', 'express', 'fastapi', 'graphql', 'rest',
+  'oauth', 'jwt', 'ssl', 'https', 'http', 'tcp', 'dns', 'ssh', 'git',
+  'json', 'xml', 'yaml', 'csv',
 ]
 
-function computeHash(algorithm: 'md5' | 'sha1' | 'sha256', word: string): string {
+function computeHash(algorithm: 'md5' | 'sha1' | 'sha256' | 'sha512', word: string): string {
   if (algorithm === 'md5') return md5(word)
   return createHash(algorithm).update(word).digest('hex')
 }

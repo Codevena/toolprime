@@ -1,0 +1,56 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import { GradientIcon } from '@/components/ui/GradientIcon'
+import { formatConversions } from '@/data/formatConversions'
+import { getToolById } from '@/data/tools'
+import { getConvertIndexMeta } from '@/lib/seo'
+
+const meta = getConvertIndexMeta()
+
+// Group conversions by tool
+const grouped = new Map<string, { toolName: string; toolIcon: string; toolCategory: string; toolPath: string; conversions: typeof formatConversions }>()
+
+for (const conv of formatConversions) {
+  const tool = getToolById(conv.toolId)
+  if (!grouped.has(conv.toolId)) {
+    grouped.set(conv.toolId, {
+      toolName: tool?.name ?? conv.toolId,
+      toolIcon: tool?.icon ?? 'FileText',
+      toolCategory: tool?.category ?? 'developer',
+      toolPath: tool?.path ?? '#',
+      conversions: [],
+    })
+  }
+  grouped.get(conv.toolId)!.conversions.push(conv)
+}
+---
+
+<BaseLayout {...meta}>
+  <Breadcrumbs items={[
+    { name: 'Convert', url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">Free Online Converters & Tools</h1>
+  <p class="text-[var(--color-text-muted)] mb-8">
+    Convert between formats, encode, decode, and transform data — all in your browser. Choose a conversion below.
+  </p>
+
+  {[...grouped.entries()].map(([_toolId, group]) => (
+    <section class="mb-8">
+      <a href={group.toolPath} class="inline-flex items-center gap-2 mb-3 group">
+        <GradientIcon icon={group.toolIcon} category={group.toolCategory as any} size={20} />
+        <h2 class="text-lg font-semibold group-hover:text-[var(--color-primary)] transition-colors">{group.toolName}</h2>
+      </a>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+        {group.conversions.map((conv) => (
+          <a href={`/convert/${conv.slug}`}
+            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
+            <span class="text-sm font-medium">{conv.title}</span>
+            <span class="block text-xs text-[var(--color-text-muted)] mt-1 line-clamp-1">{conv.description}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+</BaseLayout>
