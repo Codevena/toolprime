@@ -10,18 +10,13 @@ if (!tool) throw new Error('Tool not found: diff-checker')
 <ToolLayout tool={tool}>
   <DiffChecker client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
     <h2>How to Use the Diff Checker</h2>
     <p>
-      Paste the original text in the left panel and the modified text in the right panel. The tool instantly computes the differences between them. Added text is highlighted in <span style="color: green;">green</span> and removed text in <span style="color: red;">red</span>.
+      Paste the original text in the left panel and the modified text in the right panel. The tool instantly computes the differences between them. Added text is highlighted in <span class="text-green-600 dark:text-green-400">green</span> and removed text in <span class="text-red-600 dark:text-red-400">red</span>.
     </p>
     <p>
       Switch between <strong>Line Diff</strong> (compares line by line, best for code) and <strong>Word Diff</strong> (compares word by word, best for prose). The stats counter shows total additions and deletions.
-    </p>
-
-    <h2>What Is a Diff?</h2>
-    <p>
-      A diff (short for difference) compares two pieces of text and identifies what was added, removed, or changed between them. Diff tools are essential in software development for code reviews, debugging, and version control. They are also useful for comparing documents, configuration files, and any two text blocks.
     </p>
 
     <h2>Privacy</h2>

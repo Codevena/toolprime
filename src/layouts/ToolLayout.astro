@@ -42,6 +42,56 @@ const categoryLabel = categoryLabels[tool.category]
 
   <slot name="content" />
 
+  {tool.content && (
+    <section aria-label="About this tool" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
+      {/* What Is Section */}
+      <h2>{tool.content.whatIs.heading}</h2>
+      {tool.content.whatIs.body.split('\n\n').map((p: string) => <p>{p}</p>)}
+
+      {/* Use Cases Section */}
+      <h2>{tool.content.useCases.heading}</h2>
+      <ul>
+        {tool.content.useCases.items.map((item: { title: string; description: string }) => (
+          <li><strong>{item.title}:</strong> {item.description}</li>
+        ))}
+      </ul>
+
+      {/* Tips Section */}
+      <h2>{tool.content.tips.heading}</h2>
+      <ul>
+        {tool.content.tips.items.map((item: { title: string; description: string }) => (
+          <li><strong>{item.title}:</strong> {item.description}</li>
+        ))}
+      </ul>
+
+      {/* Comparison Table (optional) */}
+      {tool.content.comparison && (
+        <>
+          <h2>{tool.content.comparison.heading}</h2>
+          <div class="overflow-x-auto">
+            <table>
+              <caption class="sr-only">{tool.content.comparison.heading}</caption>
+              <thead>
+                <tr>
+                  {tool.content.comparison.headers.map((h: string) => <th scope="col">{h}</th>)}
+                </tr>
+              </thead>
+              <tbody>
+                {tool.content.comparison.rows.map((row: string[]) => (
+                  <tr>
+                    {row.map((cell: string, i: number) =>
+                      i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+    </section>
+  )}
+
   <FaqSection faqs={toolFaqs} />
   <RelatedTools toolId={tool.id} />
 </BaseLayout>

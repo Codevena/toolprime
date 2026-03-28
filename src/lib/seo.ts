@@ -9,6 +9,7 @@ export interface MetaTags {
   ogTitle: string
   ogDescription: string
   ogType: string
+  ogImage?: string
 }
 
 const SITE_NAME = 'ToolPrime'
@@ -22,6 +23,7 @@ export function getToolMeta(tool: Tool): MetaTags {
     ogTitle: `${tool.name} — Free Online Tool`,
     ogDescription: tool.description,
     ogType: 'website',
+    ogImage: `${SITE_URL}/og/${tool.id}.png`,
   }
 }
 
@@ -65,12 +67,13 @@ export function getPercentageIndexMeta(): MetaTags {
 
 export function getHomeMeta(): MetaTags {
   return {
-    title: `Free Online Tools — Developer, Text, Image, Math Tools | ${SITE_NAME}`,
-    description: 'Collection of free online tools: JSON formatter, word counter, image compressor, unit converter, password generator, and more. No signup required. All processing in your browser.',
+    title: `Free Online Tools for Developers & Creators | ${SITE_NAME}`,
+    description: 'Free online tools: JSON formatter, word counter, image compressor, unit converter, password generator, and more. No signup required.',
     canonical: SITE_URL,
     ogTitle: 'ToolPrime — Free Online Tools',
     ogDescription: 'Free online tools for developers, writers, designers, and everyone. No signup, no server uploads, just instant results.',
     ogType: 'website',
+    ogImage: `${SITE_URL}/og/json-formatter.png`,
   }
 }
 

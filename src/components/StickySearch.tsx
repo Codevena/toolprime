@@ -50,7 +50,7 @@ export function StickySearch() {
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-subtle)]" />
           <input
             ref={inputRef}
-            type="text"
+            type="search"
             onChange={handleInput}
             placeholder="Search tools..."
             aria-label="Search tools"

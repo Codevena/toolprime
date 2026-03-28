@@ -10,7 +10,7 @@ if (!tool) throw new Error('Tool not found: percentage-calculator')
 <ToolLayout tool={tool}>
   <PercentageCalculator client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
     <h2>How to Use the Percentage Calculator</h2>
     <p>
       Choose a calculation mode using the three buttons at the top, then enter your numbers in the input fields. The result appears instantly along with a formula explanation showing the exact calculation performed.
@@ -23,26 +23,6 @@ if (!tool) throw new Error('Tool not found: percentage-calculator')
     </p>
     <p>
       <strong>"% change from X to Y"</strong> — Enter the starting value in X and the ending value in Y. The calculator shows the percentage increase or decrease. For example, a price changing from 80 to 100 is a 25% increase. A change from 100 to 75 is a 25% decrease.
-    </p>
-
-    <h2>Percentage Formulas Explained</h2>
-    <p>
-      Understanding the math behind percentages helps you verify results and use the formulas in spreadsheets or code.
-    </p>
-    <p>
-      <strong>X% of Y:</strong> Multiply Y by X divided by 100. <code>result = (X / 100) × Y</code>. This is the most fundamental percentage operation. "Percent" literally means "per hundred" — so 20% means 20 per 100, or 0.20 as a decimal.
-    </p>
-    <p>
-      <strong>X is what percent of Y:</strong> Divide X by Y and multiply by 100. <code>result = (X / Y) × 100</code>. This converts a ratio into a percentage. If you scored 42 out of 60 on a test, that is (42 / 60) × 100 = 70%.
-    </p>
-    <p>
-      <strong>Percentage change:</strong> Subtract the old value from the new value, divide by the absolute value of the old value, and multiply by 100. <code>result = ((new − old) / |old|) × 100</code>. A positive result indicates an increase; a negative result indicates a decrease. Using the absolute value of the old number in the denominator correctly handles cases where the starting value is negative.
-    </p>
-    <p>
-      Common mistakes to avoid: when calculating percentage change, always divide by the original (old) value, not the new one. And when someone says a price "dropped by 50% then went up by 50%," those do not cancel out — a 50% drop followed by a 50% increase results in only 75% of the original value. The percentage calculator correctly handles all of these scenarios.
-    </p>
-    <p>
-      Percentages are used everywhere in daily life: sales tax (typically 5–12%), restaurant tips (15–20%), discounts (10–70%), interest rates (annual percentages on loans and savings accounts), grade calculations, voter turnout, and statistical data in news articles. Having a reliable percentage calculator at hand saves time and prevents errors in financial decisions.
     </p>
 
     <h2>Pre-Calculated Percentages</h2>

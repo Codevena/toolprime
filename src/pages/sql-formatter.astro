@@ -10,21 +10,13 @@ if (!tool) throw new Error('Tool not found: sql-formatter')
 <ToolLayout tool={tool}>
   <SqlFormatter client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
     <h2>How to Use the SQL Formatter</h2>
     <p>
       Paste your SQL query into the input field. The formatter instantly beautifies it with proper indentation and line breaks. Choose your SQL dialect (Standard SQL, MySQL, PostgreSQL, T-SQL, or PL/SQL) for dialect-specific formatting.
     </p>
     <p>
       Adjust the indentation size (2 or 4 spaces) and toggle uppercase keywords to match your style preferences. Click <strong>Copy</strong> to copy the formatted SQL to your clipboard.
-    </p>
-
-    <h2>What Is SQL Formatting?</h2>
-    <p>
-      SQL formatting transforms raw, unindented SQL queries into a structured, readable format. Properly formatted SQL is easier to debug, review, and maintain. It breaks long queries into logical sections with consistent indentation for SELECT, FROM, WHERE, JOIN, and other clauses.
-    </p>
-    <p>
-      Different SQL databases have slightly different syntax. This formatter supports Standard SQL, MySQL, PostgreSQL, Microsoft T-SQL, and Oracle PL/SQL, ensuring correct formatting regardless of your database.
     </p>
 
     <h2>Privacy</h2>

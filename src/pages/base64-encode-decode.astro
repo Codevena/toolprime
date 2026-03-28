@@ -10,7 +10,7 @@ if (!tool) throw new Error('Tool not found: base64-encode-decode')
 <ToolLayout tool={tool}>
   <Base64EncodeDecode client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
     <h2>How to Use the Base64 Encoder & Decoder</h2>
     <p>
       Select <strong>Encode → Base64</strong> to convert plain text into Base64, or <strong>Decode ← Base64</strong> to convert a Base64 string back to readable text. Type or paste your input into the left panel, and the result appears instantly in the right panel.
@@ -20,27 +20,6 @@ if (!tool) throw new Error('Tool not found: base64-encode-decode')
     </p>
     <p>
       Click the <strong>Copy</strong> button in the output panel to copy the result to your clipboard. Switching between Encode and Decode modes clears the input so you start fresh.
-    </p>
-
-    <h2>What Is Base64?</h2>
-    <p>
-      Base64 is an encoding scheme that represents binary data using only 64 printable ASCII characters: A–Z, a–z, 0–9, +, and /. A padding character (<code>=</code>) is used to ensure the output length is a multiple of 4.
-    </p>
-    <p>
-      Base64 was designed to safely transmit binary data over systems that were originally built to handle text. Because raw binary bytes can include control characters and null bytes that may be misinterpreted by text-based protocols, encoding them as printable ASCII characters sidesteps the problem entirely.
-    </p>
-    <p>
-      Common use cases for Base64 include:
-    </p>
-    <ul>
-      <li><strong>Email attachments:</strong> The MIME standard uses Base64 to encode binary attachments so they can travel through email systems.</li>
-      <li><strong>Data URIs:</strong> Inline images in HTML/CSS use Base64 to embed binary image data directly in the document.</li>
-      <li><strong>JWT tokens:</strong> JSON Web Tokens use URL-safe Base64 to encode their header and payload sections.</li>
-      <li><strong>API credentials:</strong> HTTP Basic Authentication encodes username:password as Base64 in the Authorization header.</li>
-      <li><strong>Cryptographic keys:</strong> Public and private keys are commonly stored and transmitted in Base64-encoded PEM format.</li>
-    </ul>
-    <p>
-      Important: Base64 is an <em>encoding</em>, not encryption. It provides no security by itself — encoded data can be decoded by anyone who sees it. Do not use Base64 to protect sensitive information.
     </p>
 
     <h2>Privacy</h2>

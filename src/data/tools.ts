@@ -1,3 +1,5 @@
+import { allToolContent, type ToolContent } from './tool-content'
+
 export type ToolCategory = 'text' | 'developer' | 'image' | 'math' | 'design' | 'business'
 
 export interface Tool {
@@ -10,6 +12,7 @@ export interface Tool {
   icon: string
   keywords: string[]
   relatedTools: string[]
+  content?: ToolContent
 }
 
 export const categoryLabels: Record<ToolCategory, string> = {
@@ -261,6 +264,14 @@ export const tools: Tool[] = [
     relatedTools: ['qr-code-generator', 'percentage-calculator', 'word-counter'],
   },
 ]
+
+// Attach content data to tools
+for (const tool of tools) {
+  const content = allToolContent[tool.id]
+  if (content) {
+    tool.content = content
+  }
+}
 
 export function getToolById(id: string): Tool | undefined {
   return tools.find(t => t.id === id)

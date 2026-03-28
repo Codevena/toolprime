@@ -10,9 +10,10 @@ interface Props {
   ogTitle?: string
   ogDescription?: string
   ogType?: string
+  ogImage?: string
 }
 
-const { title, description, canonical, ogTitle, ogDescription, ogType = 'website' } = Astro.props
+const { title, description, canonical, ogTitle, ogDescription, ogType = 'website', ogImage } = Astro.props
 ---
 
 <!doctype html>
@@ -24,12 +25,20 @@ const { title, description, canonical, ogTitle, ogDescription, ogType = 'website
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <meta property="og:site_name" content="ToolPrime" />
     <meta property="og:title" content={ogTitle ?? title} />
     <meta property="og:description" content={ogDescription ?? description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical} />
-    {/* TODO: add og:image once a real og-image asset is created */}
-    <meta name="twitter:card" content="summary" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="630" />}
+    {ogImage && <meta property="og:image:alt" content={ogTitle ?? title} />}
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={ogTitle ?? title} />
+    <meta name="twitter:description" content={ogDescription ?? description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    {ogImage && <meta name="twitter:image:alt" content={ogTitle ?? title} />}
     <slot name="head" />
     <script defer src="https://analytics.codevena.dev/script.js" data-website-id="4406b0f7-1365-4155-b69c-e783a4a3021b"></script>
   </head>
