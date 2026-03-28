@@ -31,6 +31,7 @@ const categories = Object.entries(categoryLabels) as [ToolCategory, string][]
           type="text"
           id="tool-search"
           placeholder="Search tools..."
+          aria-label="Search tools"
           class="w-full pl-10 pr-4 py-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-colors"
         />
       </div>
@@ -54,10 +55,10 @@ const categories = Object.entries(categoryLabels) as [ToolCategory, string][]
           {categoryTools.map((tool) => (
             <a
               href={tool.path}
-              class="group flex items-start gap-3 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-all"
+              class="group flex items-start gap-3 p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] hover:shadow-lg hover:-translate-y-px transition-all"
               data-tool-name={tool.name.toLowerCase()}
               data-tool-desc={tool.description.toLowerCase()}
-              style="transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;"
+              data-tool-category={category}
             >
               <GradientIcon icon={tool.icon} category={tool.category} size={36} client:load />
               <div class="min-w-0">
@@ -86,13 +87,14 @@ const categories = Object.entries(categoryLabels) as [ToolCategory, string][]
           cards.forEach(card => {
             const name = card.dataset.toolName ?? ''
             const desc = card.dataset.toolDesc ?? ''
-            const match = !query || name.includes(query) || desc.includes(query)
-            card.style.display = match ? '' : 'none'
+            const cat = card.dataset.toolCategory ?? ''
+            const match = !query || name.includes(query) || desc.includes(query) || cat.includes(query)
+            card.classList.toggle('hidden', !match)
           })
 
           sections.forEach(section => {
-            const visibleCards = section.querySelectorAll<HTMLAnchorElement>('[data-tool-name]:not([style*="display: none"])')
-            section.style.display = visibleCards.length > 0 ? '' : 'none'
+            const visibleCards = section.querySelectorAll<HTMLAnchorElement>('[data-tool-name]:not(.hidden)')
+            section.classList.toggle('hidden', visibleCards.length === 0)
           })
         }, 150)
       })

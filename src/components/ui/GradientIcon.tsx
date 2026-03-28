@@ -1,5 +1,16 @@
-import * as LucideIcons from 'lucide-react'
+import {
+  Braces, KeyRound, Palette, Image, Type, Lock, QrCode, FileText,
+  Link, ArrowLeftRight, Clock, Regex, Database, GitCompare, ImageDown,
+  Binary, Percent, CaseSensitive, Fingerprint, Blend, Receipt,
+} from 'lucide-react'
 import { categoryGradients, type ToolCategory } from '@/data/tools'
+import type { LucideIcon } from 'lucide-react'
+
+const iconMap: Record<string, LucideIcon> = {
+  Braces, KeyRound, Palette, Image, Type, Lock, QrCode, FileText,
+  Link, ArrowLeftRight, Clock, Regex, Database, GitCompare, ImageDown,
+  Binary, Percent, CaseSensitive, Fingerprint, Blend, Receipt,
+}
 
 interface GradientIconProps {
   icon: string
@@ -8,7 +19,7 @@ interface GradientIconProps {
 }
 
 export function GradientIcon({ icon, category, size = 32 }: GradientIconProps) {
-  const IconComponent = (LucideIcons as Record<string, React.ComponentType<{ size: number; color: string }>>)[icon]
+  const IconComponent = iconMap[icon]
   const iconSize = Math.round(size * 0.5)
 
   return (

@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
-import { Menu, X } from 'lucide-react'
+import { useState, useEffect, useCallback } from 'react'
+import { Menu, X, Search } from 'lucide-react'
 import { categoryLabels, categoryColors, tools, type ToolCategory } from '@/data/tools'
 
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false)
+
+  const close = useCallback(() => setIsOpen(false), [])
 
   useEffect(() => {
     if (isOpen) {
@@ -13,6 +15,23 @@ export function MobileNav() {
     }
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
+
+  useEffect(() => {
+    if (!isOpen) return
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close()
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [isOpen, close])
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchInput = document.getElementById('tool-search') as HTMLInputElement
+    if (searchInput) {
+      searchInput.value = e.target.value
+      searchInput.dispatchEvent(new Event('input', { bubbles: true }))
+    }
+  }
 
   const categories = Object.entries(categoryLabels) as [ToolCategory, string][]
 
@@ -30,19 +49,35 @@ export function MobileNav() {
         <>
           <div
             className="fixed inset-0 bg-black/60 z-40"
-            onClick={() => setIsOpen(false)}
+            onClick={close}
           />
-          <div className="fixed top-0 right-0 h-full w-[280px] bg-[var(--color-surface-alt)] border-l border-[var(--color-border)] z-50 overflow-y-auto"
-               style={{ animation: 'slideIn 200ms ease-out' }}>
+          <div
+            className="fixed top-0 right-0 h-full w-[280px] bg-[var(--color-surface-alt)] border-l border-[var(--color-border)] z-50 overflow-y-auto animate-[slideIn_200ms_ease-out]"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+          >
             <div className="p-4">
               <div className="flex justify-end mb-4">
                 <button
-                  onClick={() => setIsOpen(false)}
+                  onClick={close}
                   className="p-1 text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
                   aria-label="Close menu"
                 >
                   <X size={20} />
                 </button>
+              </div>
+              <div className="mb-4">
+                <div className="relative">
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-subtle)]" />
+                  <input
+                    type="text"
+                    onChange={handleSearch}
+                    placeholder="Search tools..."
+                    aria-label="Search tools"
+                    className="w-full pl-8 pr-3 py-2 rounded-md border border-[var(--color-border)] bg-[var(--color-surface)] text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-subtle)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-colors"
+                  />
+                </div>
               </div>
               <div className="mb-4">
                 <div className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-3">Categories</div>
@@ -53,7 +88,7 @@ export function MobileNav() {
                       <li key={category}>
                         <a
                           href={`/#${category}`}
-                          onClick={() => setIsOpen(false)}
+                          onClick={close}
                           className="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface)] transition-colors"
                         >
                           <span
@@ -70,18 +105,12 @@ export function MobileNav() {
               </div>
               <div className="border-t border-[var(--color-border-subtle)] pt-4">
                 <ul className="space-y-1">
-                  <li><a href="/impressum" onClick={() => setIsOpen(false)} className="block px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">Impressum</a></li>
-                  <li><a href="/datenschutz" onClick={() => setIsOpen(false)} className="block px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">Privacy</a></li>
+                  <li><a href="/impressum" onClick={close} className="block px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">Impressum</a></li>
+                  <li><a href="/datenschutz" onClick={close} className="block px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">Privacy</a></li>
                 </ul>
               </div>
             </div>
           </div>
-          <style>{`
-            @keyframes slideIn {
-              from { transform: translateX(100%); }
-              to { transform: translateX(0); }
-            }
-          `}</style>
         </>
       )}
     </>
