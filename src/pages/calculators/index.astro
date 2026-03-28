@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
-import { percentages, bases, percentageEntries } from '@/data/percentages'
+import { percentages, bases, percentageEntries, reversePercentageEntries } from '@/data/percentages'
 import { getPercentageIndexMeta } from '@/lib/seo'
 
 const meta = getPercentageIndexMeta()
@@ -70,5 +70,28 @@ const meta = getPercentageIndexMeta()
         </div>
       </section>
     )
+  })}
+
+  <h2 class="text-2xl font-bold mt-12 mb-2">What Percent is X of Y?</h2>
+  <p class="text-[var(--color-text-muted)] mb-6">
+    Find what percentage one number is of another. Choose a calculation below.
+  </p>
+
+  {[100, 200, 500, 1000].map((y) => {
+    const entries = reversePercentageEntries.filter((e) => e.y === y).slice(0, 12)
+    return entries.length > 0 ? (
+      <section class="mb-8">
+        <h3 class="text-lg font-semibold mb-3">Percentages of {y}</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
+          {entries.map((e) => (
+            <a href={`/calculators/${e.slug}`}
+              class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+              <span class="text-sm font-medium">{e.x} of {e.y}</span>
+              <span class="block text-xs text-[var(--color-text-muted)]">= {e.result}%</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    ) : null
   })}
 </BaseLayout>

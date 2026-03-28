@@ -31,4 +31,16 @@ if (!tool) throw new Error('Tool not found: hash-generator')
       SHA hashes are computed using the Web Crypto API (<code>crypto.subtle.digest</code>). MD5 is computed using a local JavaScript library. All processing happens in your browser — no data is ever sent to a server.
     </p>
   </section>
+
+  <section slot="content" class="mt-8">
+    <h2 class="text-xl font-semibold mb-4">Popular Hash Lookups</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+      {['hello', 'password', 'admin', 'test', '123456', 'world', 'example', 'user'].map((word) => (
+        <a href={`/hashes/md5-${word}`}
+          class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+          <span class="text-sm font-medium">MD5 of "{word}"</span>
+        </a>
+      ))}
+    </div>
+  </section>
 </ToolLayout>

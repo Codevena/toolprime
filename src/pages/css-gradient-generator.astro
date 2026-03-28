@@ -32,4 +32,26 @@ if (!tool) throw new Error('Tool not found: css-gradient-generator')
       The gradient generator runs entirely in your browser. No data is sent to any server.
     </p>
   </section>
+
+  <section slot="content" class="mt-8">
+    <h2 class="text-xl font-semibold mb-4">Popular Gradient Presets</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      {[
+        { slug: 'sunset-orange', name: 'Sunset Orange', colors: ['#FF512F', '#F09819'] },
+        { slug: 'ocean-blue', name: 'Ocean Blue', colors: ['#2E3192', '#1BFFFF'] },
+        { slug: 'midnight-purple', name: 'Midnight Purple', colors: ['#0F0C29', '#302B63', '#24243E'] },
+        { slug: 'cotton-candy', name: 'Cotton Candy', colors: ['#fbc2eb', '#a6c1ee'] },
+        { slug: 'neon-glow', name: 'Neon Glow', colors: ['#00F260', '#0575E6'] },
+        { slug: 'electric-purple', name: 'Electric Purple', colors: ['#8E2DE2', '#4A00E0'] },
+      ].map((g) => (
+        <a href={`/gradients/${g.slug}`}
+          class="rounded-lg border border-[var(--color-border)] overflow-hidden hover:border-[var(--color-primary)] transition-colors">
+          <div class="h-16" style={`background: linear-gradient(135deg, ${g.colors.join(', ')})`}></div>
+          <div class="p-2 text-center">
+            <span class="text-sm font-medium">{g.name}</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
 </ToolLayout>
