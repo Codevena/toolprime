@@ -108,7 +108,7 @@ export function DiffChecker() {
             <label className="text-sm font-medium">Diff Result</label>
             <CopyButton text={diffText} />
           </div>
-          <div className="w-full min-h-[12rem] max-h-96 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm overflow-auto whitespace-pre-wrap">
+          <div className="w-full min-h-[12rem] max-h-96 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-output-bg)] font-mono text-sm overflow-auto whitespace-pre-wrap">
             {renderUnifiedDiff(changes)}
           </div>
         </div>

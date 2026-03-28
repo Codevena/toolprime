@@ -132,7 +132,7 @@ export function RegexTester() {
             </label>
           </div>
           {/* Highlighted preview */}
-          <div className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm overflow-auto whitespace-pre-wrap">
+          <div className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-output-bg)] font-mono text-sm overflow-auto whitespace-pre-wrap">
             {testString ? highlighted : <span className="text-[var(--color-text-muted)]">Highlighted matches will appear here...</span>}
           </div>
         </div>
