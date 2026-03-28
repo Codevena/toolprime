@@ -50,7 +50,7 @@ export interface ReversePercentageEntry {
 
 export const reversePercentageEntries: ReversePercentageEntry[] = bases.flatMap((y) =>
   bases
-    .filter((x) => x < y)
+    .filter((x) => x <= y)
     .map((x) => ({
       x,
       y,

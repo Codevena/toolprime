@@ -48,7 +48,7 @@ const categoryLabel = gradientCategoryLabels[preset.category]
   <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
     <h2 class="text-lg font-semibold mb-4">Tailwind CSS</h2>
     <div class="flex items-start gap-3">
-      <pre class="flex-1 bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{tailwindCode}</code></pre>
+      <pre id="tw-code" class="flex-1 bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{tailwindCode}</code></pre>
       <button type="button" id="copy-tw" class="shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors">
         Copy
       </button>
@@ -81,14 +81,13 @@ const categoryLabel = gradientCategoryLabels[preset.category]
     })
 
     copyBtn.addEventListener('click', function() {
-      const code = cssCodeEl.querySelector('code').textContent
-      navigator.clipboard.writeText(code)
+      navigator.clipboard.writeText(cssCodeEl.querySelector('code').textContent)
       this.textContent = 'Copied!'
       setTimeout(() => { this.textContent = 'Copy' }, 2000)
     })
 
     document.getElementById('copy-tw').addEventListener('click', function() {
-      navigator.clipboard.writeText(document.querySelector('#copy-tw').previousElementSibling.textContent)
+      navigator.clipboard.writeText(document.getElementById('tw-code').textContent)
       this.textContent = 'Copied!'
       setTimeout(() => { this.textContent = 'Copy' }, 2000)
     })

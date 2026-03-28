@@ -113,7 +113,7 @@ export const regexPatterns: RegexPattern[] = [
   {
     name: 'Phone Number (EU)',
     slug: 'phone-number-eu',
-    pattern: '^\\+?[0-9]{1,4}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$',
+    pattern: '^\\+?[1-9][0-9]{0,3}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$',
     flags: '',
     description: 'Validates common European phone number formats with optional country code, area code, and various separators.',
     examples: {
@@ -121,15 +121,15 @@ export const regexPatterns: RegexPattern[] = [
       noMatch: ['+0 123 456', 'abc', '++49 170'],
     },
     explanation: [
-      '^\\+?[0-9]{1,4} — optional + and 1-4 digit country code',
+      '^\\+?[1-9][0-9]{0,3} — optional + and 1-4 digit country code (no leading zero)',
       '[\\s.-]? — optional separator (space, dot, or hyphen)',
       '\\(?[0-9]{1,5}\\)? — optional area code with optional parentheses',
       '[\\s.-]?[0-9]{1,5} — separator + subscriber digits (repeated)',
     ],
     codeSnippets: {
-      javascript: 'const regex = /^\\+?[0-9]{1,4}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$/;\nregex.test("+49 170 1234567"); // true',
-      python: 'import re\npattern = r"^\\+?[0-9]{1,4}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$"\nbool(re.match(pattern, "+49 170 1234567"))  # True',
-      php: '$pattern = \'/^\\+?[0-9]{1,4}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$/\';\npreg_match($pattern, "+49 170 1234567"); // 1',
+      javascript: 'const regex = /^\\+?[1-9][0-9]{0,3}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$/;\nregex.test("+49 170 1234567"); // true',
+      python: 'import re\npattern = r"^\\+?[1-9][0-9]{0,3}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$"\nbool(re.match(pattern, "+49 170 1234567"))  # True',
+      php: '$pattern = \'/^\\+?[1-9][0-9]{0,3}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$/\';\npreg_match($pattern, "+49 170 1234567"); // 1',
     },
     tags: ['validation', 'phone'],
   },

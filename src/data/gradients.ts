@@ -27,7 +27,7 @@ export const gradientPresets: GradientPreset[] = [
   { name: 'Dark Knight', slug: 'dark-knight', colors: ['#BA8B02', '#181818'], direction: 135, category: 'dark' },
   { name: 'Obsidian', slug: 'obsidian', colors: ['#44A08D', '#093637'], direction: 135, category: 'dark' },
   { name: 'Charcoal Mist', slug: 'charcoal-mist', colors: ['#3E5151', '#DECBA4'], direction: 135, category: 'dark' },
-  { name: 'Eclipse', slug: 'eclipse', colors: ['#FC5C7D', '#6A82FB'], direction: 135, category: 'vibrant' },
+  { name: 'Eclipse', slug: 'eclipse', colors: ['#FC5C7D', '#6A82FB'], direction: 135, category: 'dark' },
   // Pastel
   { name: 'Cotton Candy', slug: 'cotton-candy', colors: ['#fbc2eb', '#a6c1ee'], direction: 135, category: 'pastel' },
   { name: 'Lavender Dream', slug: 'lavender-dream', colors: ['#C9D6FF', '#E2E2E2'], direction: 135, category: 'pastel' },
