@@ -90,7 +90,7 @@ export const conversions: Conversion[] = [
   { from: 'kilowatt-hour', fromAbbr: 'kWh', to: 'joule', toAbbr: 'J', factor: 3600000, category: 'energy' },
   { from: 'kilowatt-hour', fromAbbr: 'kWh', to: 'kilocalorie', toAbbr: 'kcal', factor: 860.421, category: 'energy' },
   { from: 'BTU', fromAbbr: 'BTU', to: 'joule', toAbbr: 'J', factor: 1055.06, category: 'energy' },
-  { from: 'BTU', fromAbbr: 'BTU', to: 'kilocalorie', toAbbr: 'kcal', factor: 0.251996, category: 'energy' },
+  { from: 'BTU', fromAbbr: 'BTU', to: 'kilocalorie', toAbbr: 'kcal', factor: 0.25216, category: 'energy' },
   { from: 'watt-hour', fromAbbr: 'Wh', to: 'joule', toAbbr: 'J', factor: 3600, category: 'energy' },
   { from: 'watt-hour', fromAbbr: 'Wh', to: 'kilowatt-hour', toAbbr: 'kWh', factor: 0.001, category: 'energy' },
   { from: 'electronvolt', fromAbbr: 'eV', to: 'joule', toAbbr: 'J', factor: 1.602176634e-19, category: 'energy' },
@@ -119,6 +119,7 @@ export const conversions: Conversion[] = [
   { from: 'L/100km', fromAbbr: 'L/100km', to: 'mpg (US)', toAbbr: 'mpg', formula: '235.215 / x', reverseFormula: '235.215 / x', category: 'fuel' },
   { from: 'mpg (US)', fromAbbr: 'mpg', to: 'mpg (UK)', toAbbr: 'mpg UK', factor: 1.20095, category: 'fuel' },
   { from: 'mpg (UK)', fromAbbr: 'mpg UK', to: 'mpg (US)', toAbbr: 'mpg', factor: 0.832674, category: 'fuel' },
+  { from: 'mpg (UK)', fromAbbr: 'mpg UK', to: 'L/100km', toAbbr: 'L/100km', formula: '282.481 / x', reverseFormula: '282.481 / x', category: 'fuel' },
 
   // Additional Length
   { from: 'nautical mile', fromAbbr: 'nmi', to: 'kilometer', toAbbr: 'km', factor: 1.852, category: 'length' },
@@ -129,6 +130,7 @@ export const conversions: Conversion[] = [
   { from: 'fathom', fromAbbr: 'ftm', to: 'meter', toAbbr: 'm', factor: 1.8288, category: 'length' },
   { from: 'fathom', fromAbbr: 'ftm', to: 'foot', toAbbr: 'ft', factor: 6, category: 'length' },
   { from: 'league', fromAbbr: 'lea', to: 'kilometer', toAbbr: 'km', factor: 4.828, category: 'length' },
+  { from: 'league', fromAbbr: 'lea', to: 'mile', toAbbr: 'mi', factor: 3, category: 'length' },
 
   // Additional Weight
   { from: 'milligram', fromAbbr: 'mg', to: 'gram', toAbbr: 'g', factor: 0.001, category: 'weight' },
@@ -141,6 +143,7 @@ export const conversions: Conversion[] = [
   { from: 'long ton', fromAbbr: 'UK t', to: 'kilogram', toAbbr: 'kg', factor: 1016.05, category: 'weight' },
   { from: 'long ton', fromAbbr: 'UK t', to: 'metric ton', toAbbr: 't', factor: 1.01605, category: 'weight' },
   { from: 'stone', fromAbbr: 'st', to: 'pound', toAbbr: 'lbs', factor: 14, category: 'weight' },
+  { from: 'grain', fromAbbr: 'gr', to: 'gram', toAbbr: 'g', factor: 0.0647989, category: 'weight' },
 
   // Additional Volume
   { from: 'pint (US)', fromAbbr: 'pt', to: 'liter', toAbbr: 'L', factor: 0.473176, category: 'volume' },
@@ -152,6 +155,11 @@ export const conversions: Conversion[] = [
   { from: 'imperial gallon', fromAbbr: 'imp gal', to: 'liter', toAbbr: 'L', factor: 4.54609, category: 'volume' },
   { from: 'imperial pint', fromAbbr: 'imp pt', to: 'milliliter', toAbbr: 'mL', factor: 568.261, category: 'volume' },
   { from: 'barrel (oil)', fromAbbr: 'bbl', to: 'liter', toAbbr: 'L', factor: 158.987, category: 'volume' },
+  { from: 'cubic centimeter', fromAbbr: 'cc', to: 'milliliter', toAbbr: 'mL', factor: 1, category: 'volume' },
+  { from: 'imperial fluid ounce', fromAbbr: 'imp fl oz', to: 'milliliter', toAbbr: 'mL', factor: 28.4131, category: 'volume' },
+  { from: 'cup (US)', fromAbbr: 'cup', to: 'fluid ounce', toAbbr: 'fl oz', factor: 8, category: 'volume' },
+  { from: 'tablespoon', fromAbbr: 'tbsp', to: 'teaspoon', toAbbr: 'tsp', factor: 3, category: 'volume' },
+  { from: 'bushel', fromAbbr: 'bu', to: 'liter', toAbbr: 'L', factor: 35.2391, category: 'volume' },
 
   // Additional Area
   { from: 'square inch', fromAbbr: 'sq in', to: 'square centimeter', toAbbr: 'sq cm', factor: 6.4516, category: 'area' },
@@ -160,6 +168,8 @@ export const conversions: Conversion[] = [
   { from: 'acre', fromAbbr: 'ac', to: 'square meter', toAbbr: 'sq m', factor: 4046.86, category: 'area' },
   { from: 'square foot', fromAbbr: 'sq ft', to: 'square meter', toAbbr: 'sq m', factor: 0.092903, category: 'area' },
   { from: 'square mile', fromAbbr: 'sq mi', to: 'acre', toAbbr: 'ac', factor: 640, category: 'area' },
+  { from: 'square mile', fromAbbr: 'sq mi', to: 'square kilometer', toAbbr: 'sq km', factor: 2.58999, category: 'area' },
+  { from: 'are', fromAbbr: 'a', to: 'square meter', toAbbr: 'sq m', factor: 100, category: 'area' },
 
   // Additional Speed
   { from: 'ft/s', fromAbbr: 'ft/s', to: 'm/s', toAbbr: 'm/s', factor: 0.3048, category: 'speed' },
@@ -167,6 +177,7 @@ export const conversions: Conversion[] = [
   { from: 'mach', fromAbbr: 'Ma', to: 'km/h', toAbbr: 'km/h', factor: 1234.8, category: 'speed' },
   { from: 'mach', fromAbbr: 'Ma', to: 'mph', toAbbr: 'mph', factor: 767.269, category: 'speed' },
   { from: 'knot', fromAbbr: 'kn', to: 'mph', toAbbr: 'mph', factor: 1.15078, category: 'speed' },
+  { from: 'cm/s', fromAbbr: 'cm/s', to: 'm/s', toAbbr: 'm/s', factor: 0.01, category: 'speed' },
 
   // Additional Temperature
   { from: 'fahrenheit', fromAbbr: '°F', to: 'kelvin', toAbbr: 'K', formula: '(x - 32) * 5/9 + 273.15', reverseFormula: '(x - 273.15) * 9/5 + 32', category: 'temperature' },
@@ -178,7 +189,9 @@ export const conversions: Conversion[] = [
   { from: 'petabyte (decimal)', fromAbbr: 'PB', to: 'terabyte (decimal)', toAbbr: 'TB', factor: 1000, category: 'digital' },
   { from: 'exabyte (decimal)', fromAbbr: 'EB', to: 'petabyte (decimal)', toAbbr: 'PB', factor: 1000, category: 'digital' },
   { from: 'mebibyte', fromAbbr: 'MiB', to: 'megabyte (decimal)', toAbbr: 'MB', factor: 1.048576, category: 'digital' },
-  { from: 'gibibyte', fromAbbr: 'GiB', to: 'gigabyte (decimal)', toAbbr: 'GB', factor: 1.073742, category: 'digital' },
+  { from: 'gibibyte', fromAbbr: 'GiB', to: 'gigabyte (decimal)', toAbbr: 'GB', factor: 1.073741824, category: 'digital' },
+  { from: 'tebibyte', fromAbbr: 'TiB', to: 'terabyte (decimal)', toAbbr: 'TB', factor: 1.099511628, category: 'digital' },
+  { from: 'kibibyte', fromAbbr: 'KiB', to: 'kilobyte (decimal)', toAbbr: 'KB', factor: 1.024, category: 'digital' },
 
   // Additional Time
   { from: 'second', fromAbbr: 's', to: 'millisecond', toAbbr: 'ms', factor: 1000, category: 'time' },
@@ -203,8 +216,9 @@ export const formulaFunctions: Record<string, (x: number) => number> = {
   'x - 273.15': (x) => x - 273.15,
   '(x - 32) * 5/9 + 273.15': (x) => (x - 32) * 5 / 9 + 273.15,
   '(x - 273.15) * 9/5 + 32': (x) => (x - 273.15) * 9 / 5 + 32,
-  '100 / x': (x) => 100 / x,
-  '235.215 / x': (x) => 235.215 / x,
+  '100 / x': (x) => x === 0 ? 0 : 100 / x,
+  '235.215 / x': (x) => x === 0 ? 0 : 235.215 / x,
+  '282.481 / x': (x) => x === 0 ? 0 : 282.481 / x,
 }
 
 export function convert(conversion: Conversion, value: number): number {
