@@ -138,3 +138,29 @@ pnpm dev      # Dev server at localhost:4321
 pnpm build    # Build all 62 pages
 pnpm preview  # Preview production build
 ```
+
+---
+
+## Session 4 Prompt (copy-paste this to start the next session)
+
+```
+Ich arbeite an ToolPrime (~/Developer/toolprime). Das ist eine Free Online Tool Website
+die mit SEO + Ads Geld verdienen soll. Lies bitte NEXT_SESSION.md für den vollen Kontext.
+
+Phase 1 (10 Tools), Phase 2 (10 Tools) und UI/UX Redesign (Modern & Bold) sind fertig —
+20 Tools, 62 Seiten, neues Design, alles code-reviewed (5 Runden, 20 Reviews) und auf GitHub.
+
+Nächste Session hat zwei Prioritäten:
+
+1. **Deploy**: Die Seite live bringen. Domain toolprime.dev ist [gekauft/noch zu kaufen].
+   Cloudflare Pages einrichten, Impressum ausfüllen, Google Search Console, Analytics.
+   Sag mir was ich manuell machen muss (Domain kaufen, Cloudflare Dashboard) und
+   was du im Code machen kannst (Impressum, Analytics Script, etc.).
+
+2. **Phase 3 — Programmatic SEO**: Von 62 auf 700+ Seiten expandieren.
+   Percentage Calculator pages (/calculators/what-is-X-percent-of-Y, 500+ Seiten),
+   mehr Unit Conversions (von 40 auf 200+), Hash Lookup pages, Gradient Presets,
+   Regex Cheat Sheets. Alles programmatisch generiert wie die bestehenden /converters/ Seiten.
+
+Lass uns mit dem Deploy anfangen, dann Phase 3 bauen.
+```
