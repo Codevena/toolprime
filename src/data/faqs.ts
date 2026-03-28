@@ -54,4 +54,54 @@ export const faqs: Record<string, Faq[]> = {
     { question: 'Does it show the calculation steps?', answer: 'Yes. Each result includes a step-by-step explanation of the formula used and the arithmetic.' },
     { question: 'Can I use decimals?', answer: 'Yes. The calculator supports decimal numbers for both the percentage and the values.' },
   ],
+  'url-encode-decode': [
+    { question: 'What is the difference between encodeURI and encodeURIComponent?', answer: 'encodeURIComponent encodes all special characters including /, :, and ?. encodeURI preserves URL structure characters and only encodes characters that are not valid in any part of a URL. Use encodeURIComponent for query parameter values and encodeURI for full URLs.' },
+    { question: 'Can it handle Unicode and emoji?', answer: 'Yes. The tool fully supports UTF-8 encoding, so characters like accented letters, Chinese characters, and emoji are correctly encoded and decoded.' },
+    { question: 'Is my data safe?', answer: 'Yes. All encoding and decoding happens locally in your browser using built-in JavaScript functions. No data is ever sent to a server.' },
+  ],
+  'case-converter': [
+    { question: 'What case formats are supported?', answer: 'The tool supports 8 formats: UPPER CASE, lower case, Title Case, Sentence case, camelCase, PascalCase, snake_case, and kebab-case.' },
+    { question: 'Does it work with variable names?', answer: 'Yes. The converter intelligently detects word boundaries in camelCase, snake_case, kebab-case, and regular text, so you can convert between any programming naming convention.' },
+    { question: 'Is my text stored anywhere?', answer: 'No. All conversion happens locally in your browser using standard JavaScript string methods. Your text never leaves your device.' },
+  ],
+  'timestamp-converter': [
+    { question: 'What is a Unix timestamp?', answer: 'A Unix timestamp is the number of seconds that have elapsed since January 1, 1970 at 00:00:00 UTC. It is the standard way computers and servers track time.' },
+    { question: 'Should I use seconds or milliseconds?', answer: 'Most Unix/Linux systems, Python, and PHP use seconds. JavaScript, Java, and some APIs use milliseconds (1000x larger). The tool supports both formats.' },
+    { question: 'Does it account for time zones?', answer: 'Yes. The converter shows both your local time and UTC. The live timestamp always shows UTC-based Unix time.' },
+  ],
+  'hash-generator': [
+    { question: 'Which hash algorithm should I use?', answer: 'For security purposes, use SHA-256 or SHA-512. MD5 and SHA-1 are considered cryptographically broken and should only be used for checksums or non-security purposes like file verification.' },
+    { question: 'Can I reverse a hash to get the original text?', answer: 'No. Cryptographic hash functions are one-way. You cannot recover the original input from a hash. This is by design and is what makes hashes useful for password storage and data integrity verification.' },
+    { question: 'Is my text sent to a server?', answer: 'No. SHA hashes are computed using the browser Web Crypto API and MD5 is computed using a local JavaScript library. No data ever leaves your device.' },
+  ],
+  'regex-tester': [
+    { question: 'What regex flags are supported?', answer: 'The tool supports g (global — find all matches), i (case-insensitive), m (multiline — ^ and $ match line boundaries), and s (dotall — . matches newlines).' },
+    { question: 'Does it show capture groups?', answer: 'Yes. When your pattern contains parenthesized groups, each match displays its captured groups alongside the full match text and index position.' },
+    { question: 'Is my test data safe?', answer: 'Yes. All regex matching runs in your browser using the built-in RegExp engine. No data is sent to any server.' },
+  ],
+  'sql-formatter': [
+    { question: 'Which SQL dialects are supported?', answer: 'The tool supports Standard SQL, MySQL, PostgreSQL, Microsoft T-SQL, and Oracle PL/SQL. Select your dialect from the dropdown for accurate formatting.' },
+    { question: 'Can I customize the formatting?', answer: 'Yes. You can choose between 2-space and 4-space indentation and toggle whether SQL keywords are converted to uppercase.' },
+    { question: 'Is my SQL query stored?', answer: 'No. All formatting happens locally in your browser. Your queries never leave your device.' },
+  ],
+  'diff-checker': [
+    { question: 'What diff modes are available?', answer: 'The tool supports line-level diff (compares entire lines, ideal for code) and word-level diff (compares individual words, ideal for prose and documents).' },
+    { question: 'Can I copy the diff output?', answer: 'Yes. Click the Copy button to copy the diff result in a standard unified diff format with + and - prefixes for added and removed content.' },
+    { question: 'Is my data safe?', answer: 'Yes. All text comparison is performed locally in your browser using a JavaScript diff library. No data is sent to any server.' },
+  ],
+  'css-gradient-generator': [
+    { question: 'What gradient types are supported?', answer: 'The tool supports linear gradients (straight-line transitions), radial gradients (circular from center outward), and conic gradients (angular sweep around a center point).' },
+    { question: 'Can I add more than two colors?', answer: 'Yes. Click "Add Color Stop" to add as many colors as you want. Each stop has a color picker and a position slider. You need at least two color stops.' },
+    { question: 'Does it generate standard CSS?', answer: 'Yes. The output is standard CSS that works in all modern browsers. Just copy and paste the background property into your stylesheet.' },
+  ],
+  'favicon-generator': [
+    { question: 'What sizes are generated?', answer: 'The tool generates 8 sizes: 16x16, 32x32, 48x48, and 64x64 for browsers, 180x180 for Apple Touch Icon, and 192x192 and 512x512 for Android Chrome. These cover all modern browsers and devices.' },
+    { question: 'What image format should I upload?', answer: 'Square PNG or SVG images work best, at least 512x512 pixels. JPEG also works. The tool will resize your image to all required dimensions with high-quality smoothing.' },
+    { question: 'Are my images uploaded to a server?', answer: 'No. All image processing happens locally in your browser using the Canvas API. Your images never leave your device. The ZIP file is also generated client-side.' },
+  ],
+  'invoice-generator': [
+    { question: 'What currencies are supported?', answer: 'The tool supports USD, EUR, GBP, CHF, and JPY with proper currency formatting. Select your currency from the dropdown before generating the invoice.' },
+    { question: 'Can I add multiple line items?', answer: 'Yes. Click "Add Item" to add as many line items as you need. Each item has a description, quantity, and unit price. Totals are calculated automatically.' },
+    { question: 'Is my invoice data stored anywhere?', answer: 'No. The PDF is generated entirely in your browser using a local JavaScript library. Your company details, client information, and invoice data are never sent to any server.' },
+  ],
 }

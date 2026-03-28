@@ -1,0 +1,35 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { CaseConverter } from '@/components/tools/CaseConverter'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('case-converter')
+if (!tool) throw new Error('Tool not found: case-converter')
+---
+
+<ToolLayout tool={tool}>
+  <CaseConverter client:load />
+
+  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+    <h2>How to Use the Case Converter</h2>
+    <p>
+      Type or paste your text into the input field, then click any of the 8 case mode buttons to convert it. The result appears instantly in the output panel. Click <strong>Copy</strong> to copy the converted text to your clipboard.
+    </p>
+    <p>
+      The converter intelligently splits input text by spaces, hyphens, underscores, and camelCase boundaries, so it works whether your input is a sentence, a variable name, or mixed text.
+    </p>
+
+    <h2>What Are the Available Case Modes?</h2>
+    <p>
+      <strong>UPPER CASE</strong> converts all letters to uppercase. <strong>lower case</strong> converts all letters to lowercase. <strong>Title Case</strong> capitalizes the first letter of every word. <strong>Sentence case</strong> capitalizes the first letter of each sentence.
+    </p>
+    <p>
+      For programming, <strong>camelCase</strong> joins words with the first word lowercase and subsequent words capitalized. <strong>PascalCase</strong> is similar but capitalizes all words. <strong>snake_case</strong> joins words with underscores, and <strong>kebab-case</strong> joins them with hyphens — both in lowercase.
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      All text conversion is performed locally in your browser using standard JavaScript string methods. Your text is never sent to any server or stored anywhere.
+    </p>
+  </section>
+</ToolLayout>

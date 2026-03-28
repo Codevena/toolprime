@@ -3,65 +3,51 @@
 ## What happened
 
 **Session 1 (2026-03-27):**
-- Brainstormed product ideas extensively — researched 30+ concepts across SaaS, AI tools, consumer apps, marketplaces, gamification
-- Decided on **Free Tool Portfolio + SEO** model — proven by Calculator.net ($5-15M/yr), iLovePDF ($20-50M/yr), Photopea ($1M+/yr solo dev)
-- Built the entire Phase 1 in one session:
-  - Astro 6 + React 19 + Tailwind CSS 4 project scaffolding
-  - 10 interactive tools: Word Counter, JSON Formatter, Password Generator, QR Code Generator, Color Picker, Base64 Encode/Decode, Image Compressor, Lorem Ipsum Generator, Unit Converter, Percentage Calculator
-  - 40 programmatic SEO converter pages (/converters/kg-to-lbs, etc.)
-  - Homepage with categorized tool directory
-  - Full SEO: WebApplication + FAQPage + BreadcrumbList schema, meta tags, sitemap
-  - Legal pages: Impressum (placeholder), Datenschutz, 404
-  - **52 static pages total, zero build errors**
-- Passed full 4-agent review process (Codex x2 + Claude x2) with zero findings
-- 20 clean commits, pushed to github.com/Codevena/toolprime (private)
+- Brainstormed product ideas extensively — researched 30+ concepts
+- Decided on **Free Tool Portfolio + SEO** model
+- Built Phase 1: 10 tools, 40 converter pages, legal pages, 52 static pages total
+- Passed full 4-agent review process with zero findings
+
+**Session 2 (2026-03-28):**
+- Built Phase 2: 10 more tools, all following the exact Phase 1 patterns
+- New tools: URL Encode/Decode, Case Converter, Timestamp Converter, Hash Generator, Regex Tester, SQL Formatter, Diff Checker, CSS Gradient Generator, Favicon Generator, Invoice Generator
+- Added 5 new dependencies: js-md5, sql-formatter, diff, jspdf, jszip
+- Updated Phase 1 cross-links to connect to Phase 2 tools
+- **62 pages total, 0 errors, 4.84s build time**
+- NOT yet code-reviewed (Step 6 pending)
+- NOT yet committed
 
 ## Current state
 
-- **52 pages** building in ~3 seconds
+- **62 pages** building in ~5 seconds
+- **20 tools** (10 Phase 1 + 10 Phase 2)
 - **0 errors, 0 warnings**
 - **NOT deployed yet** — needs Cloudflare Pages setup + domain
-- Domain `toolprime.dev` is available (user checked, not yet purchased)
+- **NOT code-reviewed yet** — need to run 4-agent review per CLAUDE.md
 
 ## What to do next
 
-### Immediate (Deploy — get live ASAP)
-1. **Buy domain** `toolprime.dev` (Cloudflare Registrar or Namecheap, ~$12/yr)
-2. **Connect Cloudflare Pages** — go to dash.cloudflare.com, create project, connect GitHub repo, deploy
-3. **Fill in Impressum** — replace placeholder [Name], [Adresse], [Email] with real data (legally required in DE)
-4. **Google Search Console** — verify domain, submit sitemap
-5. **Apply for AdSense** — submit site for approval (takes 1-2 weeks)
-6. **Setup Plausible Analytics** — $9/mo cloud plan, or self-host
+### Immediate
+1. **Run 4-agent code review** (Codex x2 + Claude x2) per CLAUDE.md requirements
+2. **Fix any findings**, re-run reviews until all 4 pass
+3. **Commit** all Phase 2 changes
+4. **Buy domain** `toolprime.dev` and deploy to Cloudflare Pages
+5. **Google Search Console** — verify domain, submit sitemap
+6. **Fill in Impressum** — replace placeholder data
 
-### Phase 2: More Tools (Week 2-4)
-Build the Priority 2 tool set (10 more tools):
-- Regex Tester
-- URL Encode/Decode
-- Case Converter (UPPER, lower, Title, camelCase)
-- Diff Checker (text comparison)
-- Timestamp Converter (Unix ↔ human-readable)
-- CSS Gradient Generator
-- Invoice Generator (PDF)
-- Favicon Generator
-- SQL Formatter
-- Hash Generator (MD5, SHA-256)
-
-Each follows the exact same pattern: `src/components/tools/[Name].tsx` + `src/pages/[slug].astro`
-
-### Phase 3: Programmatic SEO Expansion (Week 3-5)
+### Phase 3: Programmatic SEO Expansion
 - **Percentage Calculator pages** — `/calculators/what-is-X-percent-of-Y` (500+ pages)
 - **More unit conversions** — expand from 40 to 200+ entries
+- **Timestamp reference pages** — `/timestamps/[year]`
+- **Hash lookup pages** — `/hashes/sha256-[word]`
+- **CSS gradient presets** — `/gradients/[name]`
+- **Regex cheat sheets** — `/regex/[pattern-name]`
 - **Expand content** — bring each tool page to 500+ words
 
-### Phase 4: Monetization Optimization (Month 2-3)
-- Hit **50K monthly sessions** → apply for **Mediavine** (3-5x RPM increase)
-- Add **freemium tier** on high-traffic tools (QR Pro, Image Compressor Pro, Invoice Generator Pro)
-- Add **email capture** ("Get results by email" on tool output)
-
-### Phase 5: Content Marketing (Ongoing)
-- Blog posts targeting "how to" keywords that link to tools
-- Submit to tool directories (Product Hunt, AlternativeTo)
-- Hacker News "Show HN" post
+### Phase 4: Monetization
+- Hit **50K monthly sessions** → apply for **Mediavine**
+- Add **freemium tier** on high-traffic tools
+- Add **email capture** on tool output
 
 ## Revenue Milestones
 
@@ -76,17 +62,16 @@ Each follows the exact same pattern: `src/components/tools/[Name].tsx` + `src/pa
 Astro 6, React 19, TypeScript, Tailwind CSS 4, Lucide React, Cloudflare Pages
 
 ## Key files
-- **Spec:** `docs/superpowers/specs/2026-03-27-free-tool-portfolio-design.md` (in gamebrainstorming repo)
+- **Spec:** `docs/superpowers/specs/2026-03-28-phase2-tools-design.md`
 - **Plan:** `plan.md`
-- **Tools:** `src/components/tools/*.tsx`
-- **Pages:** `src/pages/*.astro`
+- **Tools:** `src/components/tools/*.tsx` (20 tools)
+- **Pages:** `src/pages/*.astro` (20 tool pages + converters + legal + home)
 - **Data:** `src/data/tools.ts`, `src/data/faqs.ts`, `src/data/conversions.ts`
 - **SEO:** `src/lib/seo.ts`, `src/lib/schema.ts`
-- **Reviews:** `docs/reviews/` (5 review reports, all passed)
 
 ## Quick commands
 ```bash
 pnpm dev      # Dev server at localhost:4321
-pnpm build    # Build all 52 pages
+pnpm build    # Build all 62 pages
 pnpm preview  # Preview production build
 ```

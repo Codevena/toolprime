@@ -1,0 +1,35 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { TimestampConverter } from '@/components/tools/TimestampConverter'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('timestamp-converter')
+if (!tool) throw new Error('Tool not found: timestamp-converter')
+---
+
+<ToolLayout tool={tool}>
+  <TimestampConverter client:load />
+
+  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+    <h2>How to Use the Timestamp Converter</h2>
+    <p>
+      The live clock at the top shows the current Unix timestamp, updating every second. Use <strong>Unix Timestamp → Date</strong> to convert a numeric timestamp into a human-readable date. Use <strong>Date → Unix Timestamp</strong> to convert a date and time back to a Unix timestamp.
+    </p>
+    <p>
+      Toggle between <strong>Seconds</strong> and <strong>Milliseconds</strong> depending on your timestamp format. JavaScript and Java typically use milliseconds, while Unix/Linux, Python, and PHP use seconds.
+    </p>
+
+    <h2>What Is a Unix Timestamp?</h2>
+    <p>
+      A Unix timestamp (also called Epoch time or POSIX time) is the number of seconds that have elapsed since January 1, 1970 at 00:00:00 UTC. It is the standard way computers track time because it is timezone-independent and easy to compare.
+    </p>
+    <p>
+      Unix timestamps are used in databases, APIs, log files, JWT tokens, and almost every backend system. Converting between timestamps and human-readable dates is a common task in software development, data analysis, and system administration.
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      All conversions happen locally in your browser using the built-in <code>Date</code> object and <code>Intl.DateTimeFormat</code> API. No data is sent to any server.
+    </p>
+  </section>
+</ToolLayout>

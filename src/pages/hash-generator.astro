@@ -1,0 +1,34 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { HashGenerator } from '@/components/tools/HashGenerator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('hash-generator')
+if (!tool) throw new Error('Tool not found: hash-generator')
+---
+
+<ToolLayout tool={tool}>
+  <HashGenerator client:load />
+
+  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+    <h2>How to Use the Hash Generator</h2>
+    <p>
+      Type or paste text into the input field. All four hash algorithms (MD5, SHA-1, SHA-256, SHA-512) compute simultaneously and display their results below. Click the <strong>Copy</strong> button next to any hash to copy it to your clipboard.
+    </p>
+
+    <h2>What Are Hash Functions?</h2>
+    <p>
+      A cryptographic hash function takes any input and produces a fixed-length string of hexadecimal characters. The same input always produces the same hash, but even a tiny change in the input produces a completely different hash. Hash functions are one-way — you cannot reverse a hash to get the original input.
+    </p>
+    <p>
+      <strong>MD5</strong> produces a 128-bit (32 character) hash. It is fast but considered cryptographically broken — use it only for checksums and non-security purposes.
+      <strong>SHA-1</strong> produces a 160-bit (40 character) hash. Also deprecated for security use but still common in legacy systems.
+      <strong>SHA-256</strong> and <strong>SHA-512</strong> are part of the SHA-2 family and are widely used for security, digital signatures, and blockchain applications.
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      SHA hashes are computed using the Web Crypto API (<code>crypto.subtle.digest</code>). MD5 is computed using a local JavaScript library. All processing happens in your browser — no data is ever sent to a server.
+    </p>
+  </section>
+</ToolLayout>

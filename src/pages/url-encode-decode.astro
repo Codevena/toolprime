@@ -1,0 +1,35 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { UrlEncodeDecode } from '@/components/tools/UrlEncodeDecode'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('url-encode-decode')
+if (!tool) throw new Error('Tool not found: url-encode-decode')
+---
+
+<ToolLayout tool={tool}>
+  <UrlEncodeDecode client:load />
+
+  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+    <h2>How to Use the URL Encoder & Decoder</h2>
+    <p>
+      Select <strong>Encode → URL</strong> to convert plain text into a URL-safe format, or <strong>Decode ← URL</strong> to convert URL-encoded text back to readable form. Type or paste your input and the result appears instantly.
+    </p>
+    <p>
+      When encoding, choose between <code>encodeURIComponent</code> (encodes all special characters, best for query parameters) and <code>encodeURI</code> (preserves URL structure characters like <code>/</code>, <code>:</code>, <code>?</code>). If you are unsure, <code>encodeURIComponent</code> is the safer default.
+    </p>
+
+    <h2>What Is URL Encoding?</h2>
+    <p>
+      URL encoding (also called percent-encoding) replaces unsafe characters in a URL with a <code>%</code> followed by two hexadecimal digits. For example, a space becomes <code>%20</code> and an ampersand becomes <code>%26</code>.
+    </p>
+    <p>
+      URLs can only contain a limited set of ASCII characters. When you need to include characters outside that set — spaces, Unicode text, or reserved characters like <code>&amp;</code> and <code>=</code> — they must be percent-encoded. This is essential for building query strings, form submissions, and API requests.
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      All encoding and decoding is performed locally in your browser using the built-in <code>encodeURIComponent()</code> and <code>decodeURIComponent()</code> APIs. Your data never leaves your device.
+    </p>
+  </section>
+</ToolLayout>

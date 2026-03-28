@@ -1,0 +1,35 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { RegexTester } from '@/components/tools/RegexTester'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('regex-tester')
+if (!tool) throw new Error('Tool not found: regex-tester')
+---
+
+<ToolLayout tool={tool}>
+  <RegexTester client:load />
+
+  <section slot="content" class="mt-8 prose prose-slate max-w-none">
+    <h2>How to Use the Regex Tester</h2>
+    <p>
+      Enter a regular expression pattern in the input field. Type or paste your test string below. Matches are highlighted in real-time as you type. Toggle flags like <code>g</code> (global), <code>i</code> (case-insensitive), <code>m</code> (multiline), and <code>s</code> (dotall) to change matching behavior.
+    </p>
+    <p>
+      The match details panel shows each match with its index position and any captured groups. If your pattern is invalid, a clear error message is displayed instead.
+    </p>
+
+    <h2>What Are Regular Expressions?</h2>
+    <p>
+      Regular expressions (regex) are patterns used to match character combinations in strings. They are a powerful tool for searching, replacing, and validating text. Nearly every programming language supports regular expressions.
+    </p>
+    <p>
+      Common regex elements include: <code>.</code> (any character), <code>*</code> (zero or more), <code>+</code> (one or more), <code>\d</code> (digit), <code>\w</code> (word character), <code>[abc]</code> (character class), and <code>(group)</code> (capture group).
+    </p>
+
+    <h2>Privacy</h2>
+    <p>
+      All regex matching is performed locally in your browser using the built-in <code>RegExp</code> object. Your test strings are never sent to any server.
+    </p>
+  </section>
+</ToolLayout>
