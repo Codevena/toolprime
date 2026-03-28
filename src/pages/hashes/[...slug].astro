@@ -1,0 +1,99 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { hashEntries, getRelatedByWord, getRelatedByAlgorithm } from '@/data/hashes'
+import { getHashMeta } from '@/lib/seo'
+import { hashFaqSchema } from '@/lib/schema'
+
+export function getStaticPaths() {
+  return hashEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { algorithm, algorithmLabel, word, hash } = entry
+const meta = getHashMeta(algorithm, algorithmLabel, word, hash)
+const relatedByWord = getRelatedByWord(word, algorithm)
+const relatedByAlgorithm = getRelatedByAlgorithm(algorithm, word)
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={hashFaqSchema(algorithmLabel, word, hash)} />
+  <Breadcrumbs items={[
+    { name: 'Hash Generator', url: 'https://toolprime.dev/hash-generator' },
+    { name: `${algorithmLabel} of "${word}"`, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">{algorithmLabel} Hash of "{word}"</h1>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <p class="text-sm text-[var(--color-text-muted)] mb-1">{algorithmLabel} Hash</p>
+    <div class="flex items-center gap-3">
+      <code id="hash-value" class="flex-1 text-lg sm:text-xl font-mono break-all text-[var(--color-primary-text)]">{hash}</code>
+      <button id="copy-btn" class="shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors">
+        Copy
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const copyBtn = document.getElementById('copy-btn')!
+    const hashValue = document.getElementById('hash-value')!
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(hashValue.textContent ?? '')
+      copyBtn.textContent = 'Copied!'
+      setTimeout(() => { copyBtn.textContent = 'Copy' }, 2000)
+    })
+  </script>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">All Hashes of "{word}"</h2>
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="bg-[var(--color-surface-alt)]">
+          <th class="border border-[var(--color-border)] px-4 py-2 text-left">Algorithm</th>
+          <th class="border border-[var(--color-border)] px-4 py-2 text-left">Hash</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border border-[var(--color-border)] px-4 py-2 font-medium">{algorithmLabel}</td>
+          <td class="border border-[var(--color-border)] px-4 py-2 font-mono text-sm break-all">{hash}</td>
+        </tr>
+        {relatedByWord.map((e) => (
+          <tr>
+            <td class="border border-[var(--color-border)] px-4 py-2">
+              <a href={`/hashes/${e.slug}`} class="text-[var(--color-primary-text)] hover:underline font-medium">{e.algorithmLabel}</a>
+            </td>
+            <td class="border border-[var(--color-border)] px-4 py-2 font-mono text-sm break-all">{e.hash}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose prose-slate max-w-none mb-8">
+    <h2>What is {algorithmLabel}?</h2>
+    <p>
+      {algorithmLabel} is a cryptographic hash function that produces a fixed-length hexadecimal string from any input. The same input always produces the same hash, but even a small change in the input produces a completely different output. Hash functions are one-way — you cannot reverse a hash to recover the original input.
+    </p>
+  </div>
+
+  {relatedByAlgorithm.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">More {algorithmLabel} Hashes</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+        {relatedByAlgorithm.map((e) => (
+          <a href={`/hashes/${e.slug}`}
+            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
+            <span class="text-sm font-medium">"{e.word}"</span>
+            <span class="block text-xs text-[var(--color-text-muted)] font-mono truncate">{e.hash.slice(0, 16)}...</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+</BaseLayout>

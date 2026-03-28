@@ -62,3 +62,20 @@ export function breadcrumbSchema(items: { name: string; url: string }[]): string
     })),
   })
 }
+
+export function hashFaqSchema(algorithmLabel: string, word: string, hash: string): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `What is the ${algorithmLabel} hash of "${word}"?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `The ${algorithmLabel} hash of "${word}" is ${hash}.`,
+        },
+      },
+    ],
+  })
+}

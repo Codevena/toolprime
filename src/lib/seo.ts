@@ -73,3 +73,14 @@ export function getHomeMeta(): MetaTags {
     ogType: 'website',
   }
 }
+
+export function getHashMeta(algorithm: string, algorithmLabel: string, word: string, hash: string): MetaTags {
+  return {
+    title: `${algorithmLabel} Hash of "${word}" — ${hash.slice(0, 8)}... | ${SITE_NAME}`,
+    description: `The ${algorithmLabel} hash of "${word}" is ${hash}. Generate ${algorithmLabel} hashes instantly with our free online hash generator.`,
+    canonical: `${SITE_URL}/hashes/${algorithm}-${word}`,
+    ogTitle: `${algorithmLabel} Hash of "${word}"`,
+    ogDescription: `${algorithmLabel} hash: ${hash}`,
+    ogType: 'website',
+  }
+}
