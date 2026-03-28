@@ -117,7 +117,7 @@ export const regexPatterns: RegexPattern[] = [
     flags: '',
     description: 'Validates common European phone number formats with optional country code, area code, and various separators.',
     examples: {
-      match: ['+49 170 1234567', '+44 20 7946 0958', '030-12345678'],
+      match: ['+49 170 1234567', '+44 20 7946 0958', '49 30 12345678'],
       noMatch: ['+0 123 456', 'abc', '++49 170'],
     },
     explanation: [
