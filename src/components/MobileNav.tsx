@@ -46,6 +46,8 @@ export function MobileNav() {
       const first = focusableElements[0]
       const last = focusableElements[focusableElements.length - 1]
 
+      if (!first || !last) return
+
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault()
         last.focus()
