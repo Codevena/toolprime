@@ -55,15 +55,44 @@
   - 5 rounds of 4-agent code review (20 reviews), all findings fixed
 - **1395 pages total, 0 errors, 0 TypeScript errors, ~3.4s build**
 
+**Session 6 (2026-03-28):**
+- **Content & SEO Enhancement (Priority 2)**:
+  - Extended all 20 tool pages with 500+ word SEO content (What Is, Use Cases, Tips, Comparison Tables)
+  - ~6000 words of new content across all tools, data-driven from `src/data/tool-content.ts`
+  - 5 tools with comparison tables (Hash Generator, Base64, Case Converter, CSS Gradient, Image Compressor)
+  - Generated 20 dynamic OG images (1200×630px, "Branded Card" design) using Satori + Sharp
+  - Complete meta tag overhaul: og:image, og:image:width/height/alt, og:site_name, twitter:card/title/desc/image/alt
+  - Accessibility improvements: section aria-label, th scope, table caption, type=search, aria-hidden
+  - Dark mode fix (dark:prose-invert) on all pages including legal pages
+  - Fixed datenschutz analytics reference (Plausible → Umami) + placeholder email
+  - Optimized home page title (55 chars) and description (132 chars) for SERP display
+  - 5 rounds of 4-agent code review (20 reviews), all findings fixed
+
+- **Phase 3c — Programmatic Page Expansion (Priority 3)**:
+  - Expanded from ~1395 to **3076 pages**
+  - Percentages: 38 values × 40 bases (was 24×27), +~880 pages
+  - Hashes: SHA-512 + 50 new words (4 algos × 100 words = 400 total), +254 pages
+  - Conversions: new "Cooking & Kitchen" category + 15 new pairs across categories
+  - 15 new regex patterns (IBAN, Semver, JWT, Cron, Docker, AWS ARN, S3, etc.)
+  - 20 new gradient presets (neon + earth categories)
+  - NEW page type: 65 "Convert X to Y" landing pages with HowTo schema + index page
+  - 3 rounds of 4-agent code review (12 reviews), all findings fixed
+
+- **3076 pages total, 0 errors, 0 TypeScript errors, ~4.4s build**
+- **Deployed to production** (pending push)
+
 ## Current state
 
-- **1395 pages** building in ~3.4 seconds
+- **3076 pages** building in ~4.4 seconds
 - **20 tools** across 6 categories (text, developer, image, math, design, business)
-- **139 unit conversions** across 11 categories
-- **648 percentage calculator pages** + 378 reverse percentage pages + index
-- **150 hash lookup pages** (3 algorithms × 50 words)
-- **25 regex pattern pages** with live tester
-- **30 gradient preset pages** with interactive editor
+- **155 unit conversions** across 12 categories (incl. Cooking & Kitchen)
+- **~2340 percentage pages** (forward + reverse + index)
+- **400 hash lookup pages** (4 algorithms × 100 words)
+- **40 regex pattern pages** with live tester
+- **50 gradient preset pages** with interactive editor
+- **65 "Convert X to Y" landing pages** with HowTo schema
+- **20 dynamic OG images** (Branded Card design, Satori + Sharp)
+- **500+ word SEO content** on all 20 tool pages
 - **0 errors, 0 TypeScript errors**
 - **LIVE** at https://toolprime.dev (Cloudflare Pages)
 - **Google Search Console**: Verified, sitemap submitted
@@ -71,25 +100,17 @@
 - Analytics: Umami at analytics.codevena.dev
 - Branch: `main`
 
-## What to do next (Session 6)
+## What to do next (Session 7)
 
-### Priority 1: Deploy Phase 3b + Resubmit Sitemap
-1. **Push to origin** — deploy Phase 3b to production
-2. **Resubmit sitemap** in Google Search Console (1395 pages now)
-3. **Request indexing** for key new pages (hashes, regex, gradients)
+### Priority 1: Post-Deploy SEO
+1. **Resubmit sitemap** in Google Search Console (3076 pages now)
+2. **Request indexing** for key new pages (convert pages, new regex patterns, new gradients)
+3. **Monitor** coverage report in GSC for crawl errors
 
-### Priority 2: Content & SEO Optimization
-- Expand each tool page content to 500+ words
-- Add blog section for "how to" articles linking to tools
-- Open Graph images for social sharing
+### Priority 2: Impressum Address
+- Add full postal address (TMG §5 requirement) — needs real address or Impressumsservice
 
-### Priority 3: Phase 3c — Even More Pages (target: 2000+ pages)
-- Expand hash lookup: more words, SHA-512
-- More percentage combinations (additional bases)
-- More unit conversions (currency, cooking, etc.)
-- "X is what percent of Y" with additional number ranges
-
-### Priority 4: Phase 4 Tools (future session)
+### Priority 3: Phase 4 Tools
 Potential tools for Phase 4 (after traffic validates model):
 - Markdown Editor/Preview
 - JSON to CSV Converter
@@ -101,6 +122,12 @@ Potential tools for Phase 4 (after traffic validates model):
 - Mortgage Calculator
 - BMI Calculator
 - Tip Calculator
+
+### Priority 4: Content Expansion
+- Blog section for "how to" articles
+- Expand cooking conversions (currently 7, could be 30+)
+- More hash words (tech terms, common names)
+- i18n (German version for DACH market)
 
 ### Priority 5: Monetization
 - **AdSense** — apply once site has some traffic (1-2 weeks live)
@@ -117,13 +144,14 @@ Potential tools for Phase 4 (after traffic validates model):
 | Raptive tier | 500K+ sessions/mo | €15-30K/mo | Month 12-18 |
 
 ## Tech stack
-Astro 6, React 19, TypeScript 5.9, Tailwind CSS 4, Geist + Geist Mono, Lucide React, Cloudflare Pages
+Astro 6, React 19, TypeScript 5.9, Tailwind CSS 4, Geist + Geist Mono, Lucide React, Satori + Sharp (OG images), Cloudflare Pages
 
 ## Key files
 - **Tools:** `src/components/tools/*.tsx` (20 tools)
 - **Pages:** `src/pages/*.astro`
-- **Data:** `src/data/tools.ts`, `src/data/faqs.ts`, `src/data/conversions.ts`, `src/data/percentages.ts`, `src/data/hashes.ts`, `src/data/regexPatterns.ts`, `src/data/gradients.ts`
+- **Data:** `src/data/tools.ts`, `src/data/tool-content.ts`, `src/data/faqs.ts`, `src/data/conversions.ts`, `src/data/percentages.ts`, `src/data/hashes.ts`, `src/data/regexPatterns.ts`, `src/data/gradients.ts`, `src/data/formatConversions.ts`
 - **SEO:** `src/lib/seo.ts`, `src/lib/schema.ts`
+- **OG Images:** `src/lib/og-image.ts`, `src/pages/og/[id].png.ts`
 - **Layouts:** `src/layouts/BaseLayout.astro`, `src/layouts/ToolLayout.astro`
 - **UI Components:** `src/components/MobileNav.tsx`, `src/components/StickySearch.tsx`, `src/components/ui/GradientIcon.tsx`
 - **Styles:** `src/styles/global.css`
@@ -135,30 +163,6 @@ Astro 6, React 19, TypeScript 5.9, Tailwind CSS 4, Geist + Geist Mono, Lucide Re
 ## Quick commands
 ```bash
 pnpm dev      # Dev server at localhost:4321
-pnpm build    # Build all 1395 pages
+pnpm build    # Build all 3076 pages
 pnpm preview  # Preview production build
-```
-
----
-
-## Session 6 Prompt (copy-paste this to start the next session)
-
-```
-Ich arbeite an ToolPrime (~/Developer/toolprime). Das ist eine Free Online Tool Website
-die mit SEO + Ads Geld verdienen soll. Lies bitte NEXT_SESSION.md für den vollen Kontext.
-
-Die Seite ist LIVE auf toolprime.dev — 20 Tools, 1395 Seiten, Cloudflare Pages.
-Phase 1-3 + UI Redesign + Phase 3b (Programmatic SEO) sind fertig.
-Google Search Console + Bing verifiziert.
-
-Nächste Session hat folgende Prioritäten:
-
-1. **Deploy**: Phase 3b pushen, Sitemap resubmitten, Key-Pages zur Indexierung einreichen.
-
-2. **Content & SEO**: Tool-Seiten mit mehr Text füllen, Blog-Sektion,
-   OG Images für Social Sharing.
-
-3. **Phase 3c**: Noch mehr programmatische Seiten (2000+ Ziel).
-
-Lass uns anfangen.
 ```
