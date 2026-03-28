@@ -39,11 +39,11 @@ export function StickySearch() {
     }
   }
 
-  if (!visible) return null
-
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-30 border-b border-[var(--color-border-subtle)] bg-[var(--color-surface)] backdrop-blur-sm animate-[fadeIn_150ms_ease-out]"
+      className={`fixed top-0 left-0 right-0 z-30 border-b border-[var(--color-border-subtle)] bg-[var(--color-surface)] backdrop-blur-sm transition-all duration-150 ${
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'
+      }`}
     >
       <div className="max-w-6xl mx-auto px-4 py-2">
         <div className="relative max-w-sm">

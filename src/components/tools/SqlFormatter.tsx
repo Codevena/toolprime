@@ -89,7 +89,7 @@ export function SqlFormatter() {
               readOnly
               value={output.text}
               placeholder="Formatted SQL will appear here..."
-              className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm resize-y"
+              className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-output-bg)] text-[var(--color-text)] font-mono text-sm resize-y"
             />
           )}
         </div>

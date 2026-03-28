@@ -38,6 +38,9 @@
   /* Card hover */
   --card-shadow-hover: 0 4px 12px rgba(99, 102, 241, 0.08);
 
+  /* Primary as text (AA-compliant) */
+  --color-primary-text: #4f46e5;
+
   /* Output panel tint */
   --color-output-bg: #f5f3ff;
 }
@@ -50,7 +53,7 @@
     --color-primary-hover: #6366f1;
     --color-accent: #c084fc;
     --color-text: #f1f5f9;
-    --color-text-muted: #64748b;
+    --color-text-muted: #94a3b8;
     --color-text-subtle: #6b7280;
     --color-border: rgba(255, 255, 255, 0.07);
     --color-border-subtle: rgba(255, 255, 255, 0.04);
@@ -71,6 +74,8 @@
     --hero-badge-border: rgba(129, 140, 248, 0.2);
 
     --card-shadow-hover: 0 4px 12px rgba(129, 140, 248, 0.1);
+
+    --color-primary-text: #818cf8;
 
     --color-output-bg: rgba(129, 140, 248, 0.03);
   }

@@ -61,7 +61,7 @@ export function HashGenerator() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {algorithms.map(({ label, value }) => (
-          <div key={label} className="p-3 rounded-lg bg-[var(--color-surface-alt)] border border-[var(--color-border)]">
+          <div key={label} className="p-3 rounded-lg bg-[var(--color-output-bg)] border border-[var(--color-border)]">
             <div className="flex justify-between items-center mb-1">
               <span className="text-sm font-medium">{label}</span>
               {value && <CopyButton text={value} />}

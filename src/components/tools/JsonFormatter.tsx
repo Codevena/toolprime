@@ -84,7 +84,7 @@ export function JsonFormatter() {
             <textarea
               readOnly
               value={output}
-              className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y"
+              className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-output-bg)] font-mono text-sm resize-y"
             />
           )}
         </div>
