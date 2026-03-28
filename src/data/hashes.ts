@@ -1,4 +1,4 @@
-import md5 from 'js-md5'
+import { md5 } from 'js-md5'
 import { createHash } from 'node:crypto'
 
 export interface HashEntry {
