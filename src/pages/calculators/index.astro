@@ -1,0 +1,74 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import { percentages, bases, percentageEntries } from '@/data/percentages'
+import { getPercentageIndexMeta } from '@/lib/seo'
+
+const meta = getPercentageIndexMeta()
+---
+
+<BaseLayout {...meta}>
+  <Breadcrumbs items={[
+    { name: 'Percentage Calculator', url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">Percentage Calculator</h1>
+  <p class="text-[var(--color-text-muted)] mb-6">
+    What is X% of Y? Find any percentage instantly. Choose a calculation below or use the calculator.
+  </p>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Quick Calculator</h2>
+    <div class="flex flex-col sm:flex-row items-center gap-4">
+      <div class="flex-1 w-full">
+        <label class="block text-sm font-medium mb-1" for="idx-pct">Percentage (%)</label>
+        <input type="number" id="idx-pct" value="10"
+          class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+      </div>
+      <span class="text-xl text-[var(--color-text-muted)]">of</span>
+      <div class="flex-1 w-full">
+        <label class="block text-sm font-medium mb-1" for="idx-base">Number</label>
+        <input type="number" id="idx-base" value="100"
+          class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" />
+      </div>
+      <span class="text-xl text-[var(--color-text-muted)]">=</span>
+      <div class="flex-1 w-full">
+        <label class="block text-sm font-medium mb-1">Result</label>
+        <input type="text" id="idx-result" value="10" readonly
+          class="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-lg font-mono" />
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const pctInput = document.getElementById('idx-pct') as HTMLInputElement
+    const baseInput = document.getElementById('idx-base') as HTMLInputElement
+    const resultInput = document.getElementById('idx-result') as HTMLInputElement
+    function update() {
+      const p = parseFloat(pctInput.value)
+      const b = parseFloat(baseInput.value)
+      if (isNaN(p) || isNaN(b)) { resultInput.value = ''; return }
+      resultInput.value = parseFloat(((b * p) / 100).toPrecision(10)).toString()
+    }
+    pctInput.addEventListener('input', update)
+    baseInput.addEventListener('input', update)
+  </script>
+
+  {bases.map((base) => {
+    const entries = percentageEntries.filter((e) => e.base === base)
+    return (
+      <section class="mb-8">
+        <h2 class="text-lg font-semibold mb-3">Percentages of {base}</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
+          {entries.map((e) => (
+            <a href={`/calculators/${e.slug}`}
+              class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+              <span class="text-sm font-medium">{e.percentage}%</span>
+              <span class="block text-xs text-[var(--color-text-muted)]">= {e.result}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  })}
+</BaseLayout>
