@@ -16,7 +16,7 @@ const allItems = [{ name: 'Home', url: 'https://toolprime.dev/' }, ...items]
 ---
 
 <SchemaMarkup json={breadcrumbSchema(allItems)} />
-<nav aria-label="Breadcrumb" class="text-sm text-[var(--color-text-subtle)] mb-4">
+<nav aria-label="Breadcrumb" class="text-sm text-[var(--color-text-muted)] mb-4">
   <ol class="flex flex-wrap gap-1">
     {allItems.map((item, i) => (
       <li class="flex items-center gap-1">

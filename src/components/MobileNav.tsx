@@ -132,7 +132,7 @@ export function MobileNav() {
                             style={{ backgroundColor: categoryColors[category] }}
                           />
                           <span className="flex-1 font-medium">{label}</span>
-                          <span className="text-xs text-[var(--color-text-subtle)]">{count}</span>
+                          <span className="text-xs text-[var(--color-text-muted)]">{count}</span>
                         </a>
                       </li>
                     )
