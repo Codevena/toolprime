@@ -77,7 +77,7 @@ export function getHomeMeta(): MetaTags {
 export function getHashMeta(algorithm: string, algorithmLabel: string, word: string, hash: string): MetaTags {
   return {
     title: `${algorithmLabel} Hash of "${word}" — ${hash.slice(0, 8)}... | ${SITE_NAME}`,
-    description: `The ${algorithmLabel} hash of "${word}" is ${hash}. Generate ${algorithmLabel} hashes instantly with our free online hash generator.`,
+    description: `${algorithmLabel} hash of "${word}": ${hash.slice(0, 20)}... Free online hash generator.`,
     canonical: `${SITE_URL}/hashes/${algorithm}-${word}`,
     ogTitle: `${algorithmLabel} Hash of "${word}"`,
     ogDescription: `${algorithmLabel} hash: ${hash}`,
@@ -96,10 +96,10 @@ export function getReversePercentageMeta(x: number, y: number, result: number): 
   }
 }
 
-export function getRegexMeta(name: string, slug: string, pattern: string): MetaTags {
+export function getRegexMeta(name: string, slug: string, _pattern: string): MetaTags {
   return {
     title: `Regex for ${name} — Pattern & Examples | ${SITE_NAME}`,
-    description: `Regular expression for ${name}: /${pattern}/. Includes live tester, examples, breakdown, and code snippets for JavaScript, Python, and PHP.`,
+    description: `Regex for ${name} with live tester, examples, and code snippets for JS, Python, PHP. Free online tool.`,
     canonical: `${SITE_URL}/regex/${slug}`,
     ogTitle: `Regex for ${name}`,
     ogDescription: `Regex pattern for ${name} with live tester and code snippets.`,

@@ -114,6 +114,19 @@ export function regexFaqSchema(name: string, pattern: string, description: strin
   })
 }
 
+export function regexHowToSchema(name: string, _pattern: string, explanation: string[]): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: `How to use regex for ${name}`,
+    step: explanation.map((step, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      text: step,
+    })),
+  })
+}
+
 export function gradientFaqSchema(name: string, cssCode: string): string {
   return JSON.stringify({
     '@context': 'https://schema.org',

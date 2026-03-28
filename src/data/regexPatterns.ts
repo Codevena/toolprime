@@ -73,7 +73,7 @@ export const regexPatterns: RegexPattern[] = [
     description: 'Validates international phone numbers in E.164 format (up to 15 digits with optional + prefix).',
     examples: {
       match: ['+14155552671', '+442071838750', '491711234567'],
-      noMatch: ['+0123456789', '123', '+1234567890123456'],
+      noMatch: ['+0123456789', '1', '+1234567890123456'],
     },
     explanation: [
       '^\\+? — optional leading plus sign',
@@ -107,6 +107,29 @@ export const regexPatterns: RegexPattern[] = [
       javascript: 'const regex = /^\\(?[2-9]\\d{2}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$/;\nregex.test("(555) 123-4567"); // true',
       python: 'import re\npattern = r"^\\(?[2-9]\\d{2}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$"\nbool(re.match(pattern, "(555) 123-4567"))  # True',
       php: '$pattern = \'/^\\(?[2-9]\\d{2}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$/\';\npreg_match($pattern, "(555) 123-4567"); // 1',
+    },
+    tags: ['validation', 'phone'],
+  },
+  {
+    name: 'Phone Number (EU)',
+    slug: 'phone-number-eu',
+    pattern: '^\\+?[0-9]{1,4}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$',
+    flags: '',
+    description: 'Validates common European phone number formats with optional country code, area code, and various separators.',
+    examples: {
+      match: ['+49 170 1234567', '+44 20 7946 0958', '030-12345678'],
+      noMatch: ['+0 123 456', 'abc', '++49 170'],
+    },
+    explanation: [
+      '^\\+?[0-9]{1,4} — optional + and 1-4 digit country code',
+      '[\\s.-]? — optional separator (space, dot, or hyphen)',
+      '\\(?[0-9]{1,5}\\)? — optional area code with optional parentheses',
+      '[\\s.-]?[0-9]{1,5} — separator + subscriber digits (repeated)',
+    ],
+    codeSnippets: {
+      javascript: 'const regex = /^\\+?[0-9]{1,4}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$/;\nregex.test("+49 170 1234567"); // true',
+      python: 'import re\npattern = r"^\\+?[0-9]{1,4}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$"\nbool(re.match(pattern, "+49 170 1234567"))  # True',
+      php: '$pattern = \'/^\\+?[0-9]{1,4}[\\s.-]?\\(?[0-9]{1,5}\\)?[\\s.-]?[0-9]{1,5}[\\s.-]?[0-9]{1,5}$/\';\npreg_match($pattern, "+49 170 1234567"); // 1',
     },
     tags: ['validation', 'phone'],
   },
@@ -295,7 +318,7 @@ export const regexPatterns: RegexPattern[] = [
     pattern: '<\\/?[a-zA-Z][a-zA-Z0-9]*(?:\\s[^>]*)?\\/?>',
     flags: 'g',
     description: 'Matches HTML tags including opening, closing, and self-closing tags.',
-    examples: { match: ['<div>', '</p>', '<img src="test.jpg" />'], noMatch: ['< div>', 'plain text', '<<invalid>>'] },
+    examples: { match: ['<div>', '</p>', '<img src="test.jpg" />'], noMatch: ['< div>', 'plain text', '&lt;not a tag'] },
     explanation: ['< — opening angle bracket', '\\/? — optional forward slash', '[a-zA-Z][a-zA-Z0-9]* — tag name', '(?:\\s[^>]*)? — optional attributes', '\\/?>  — optional self-closing + closing bracket'],
     codeSnippets: {
       javascript: 'const regex = /<\\/?[a-zA-Z][a-zA-Z0-9]*(?:\\s[^>]*)?\\/??>/g;\n"<div>text</div>".match(regex); // ["<div>", "</div>"]',

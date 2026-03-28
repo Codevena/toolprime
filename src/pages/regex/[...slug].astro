@@ -4,7 +4,7 @@ import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
 import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
 import { regexPatterns, getRelatedPatterns } from '@/data/regexPatterns'
 import { getRegexMeta } from '@/lib/seo'
-import { regexFaqSchema } from '@/lib/schema'
+import { regexFaqSchema, regexHowToSchema } from '@/lib/schema'
 
 export function getStaticPaths() {
   return regexPatterns.map((pattern) => ({
@@ -20,6 +20,7 @@ const related = getRelatedPatterns(pattern.slug, pattern.tags)
 
 <BaseLayout {...meta}>
   <SchemaMarkup json={regexFaqSchema(pattern.name, pattern.pattern, pattern.description)} />
+  <SchemaMarkup json={regexHowToSchema(pattern.name, pattern.pattern, pattern.explanation)} />
   <Breadcrumbs items={[
     { name: 'Regex Tester', url: 'https://toolprime.dev/regex-tester' },
     { name: pattern.name, url: meta.canonical },
@@ -32,7 +33,7 @@ const related = getRelatedPatterns(pattern.slug, pattern.tags)
     <p class="text-sm text-[var(--color-text-muted)] mb-1">Pattern</p>
     <div class="flex items-center gap-3">
       <code id="pattern-value" class="flex-1 text-lg font-mono break-all text-[var(--color-primary-text)]">/{pattern.pattern}/{pattern.flags}</code>
-      <button id="copy-pattern" class="shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors">
+      <button type="button" id="copy-pattern" class="shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors">
         Copy
       </button>
     </div>
@@ -104,20 +105,29 @@ const related = getRelatedPatterns(pattern.slug, pattern.tags)
   <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
     <h2 class="text-lg font-semibold mb-4">Code Snippets</h2>
     <div class="space-y-4">
-      <div>
-        <h3 class="text-sm font-semibold mb-2">JavaScript</h3>
-        <pre class="bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{pattern.codeSnippets.javascript}</code></pre>
-      </div>
-      <div>
-        <h3 class="text-sm font-semibold mb-2">Python</h3>
-        <pre class="bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{pattern.codeSnippets.python}</code></pre>
-      </div>
-      <div>
-        <h3 class="text-sm font-semibold mb-2">PHP</h3>
-        <pre class="bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{pattern.codeSnippets.php}</code></pre>
-      </div>
+      {(['javascript', 'python', 'php'] as const).map((lang) => (
+        <div>
+          <h3 class="text-sm font-semibold mb-2">{lang.charAt(0).toUpperCase() + lang.slice(1)}</h3>
+          <div class="flex items-start gap-2">
+            <pre class="flex-1 bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{pattern.codeSnippets[lang]}</code></pre>
+            <button type="button" class="snippet-copy shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors" data-code={pattern.codeSnippets[lang]}>
+              Copy
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   </div>
+
+  <script>
+    document.querySelectorAll('.snippet-copy').forEach((btn) => {
+      btn.addEventListener('click', function() {
+        navigator.clipboard.writeText(this.dataset.code ?? '')
+        this.textContent = 'Copied!'
+        setTimeout(() => { this.textContent = 'Copy' }, 2000)
+      })
+    })
+  </script>
 
   {related.length > 0 && (
     <div class="mb-8">
