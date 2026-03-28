@@ -1,9 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Menu, X, Search } from 'lucide-react'
 import { categoryLabels, categoryColors, tools, type ToolCategory } from '@/data/tools'
 
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false)
+  const drawerRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
 
   const close = useCallback(() => setIsOpen(false), [])
 
@@ -16,11 +18,43 @@ export function MobileNav() {
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
+  // Focus trap and Escape key handling
   useEffect(() => {
     if (!isOpen) return
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close()
+
+    // Focus the close button when drawer opens
+    const drawer = drawerRef.current
+    if (drawer) {
+      const closeBtn = drawer.querySelector<HTMLElement>('[aria-label="Close menu"]')
+      closeBtn?.focus()
     }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        close()
+        triggerRef.current?.focus()
+        return
+      }
+
+      if (e.key !== 'Tab' || !drawer) return
+
+      const focusableElements = drawer.querySelectorAll<HTMLElement>(
+        'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+      )
+      if (focusableElements.length === 0) return
+
+      const first = focusableElements[0]
+      const last = focusableElements[focusableElements.length - 1]
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, close])
@@ -38,6 +72,7 @@ export function MobileNav() {
   return (
     <>
       <button
+        ref={triggerRef}
         onClick={() => setIsOpen(true)}
         className="p-1 text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
         aria-label="Open menu"
@@ -49,9 +84,10 @@ export function MobileNav() {
         <>
           <div
             className="fixed inset-0 bg-black/60 z-40"
-            onClick={close}
+            onClick={() => { close(); triggerRef.current?.focus() }}
           />
           <div
+            ref={drawerRef}
             className="fixed top-0 right-0 h-full w-[280px] bg-[var(--color-surface-alt)] border-l border-[var(--color-border)] z-50 overflow-y-auto animate-[slideIn_200ms_ease-out]"
             role="dialog"
             aria-modal="true"
@@ -60,7 +96,7 @@ export function MobileNav() {
             <div className="p-4">
               <div className="flex justify-end mb-4">
                 <button
-                  onClick={close}
+                  onClick={() => { close(); triggerRef.current?.focus() }}
                   className="p-1 text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors"
                   aria-label="Close menu"
                 >

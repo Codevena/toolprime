@@ -11,7 +11,7 @@ function getStrength(password: string, charsetSize: number): { label: string; bg
   if (len === 0) return { label: '', bgColor: '', width: '0%' }
   const score = (len >= 16 ? 2 : len >= 12 ? 1 : 0) + (charsetSize >= 80 ? 2 : charsetSize >= 60 ? 1 : 0)
   if (score <= 1) return { label: 'Weak', bgColor: 'var(--color-error)', width: '25%' }
-  if (score === 2) return { label: 'Fair', bgColor: 'var(--color-warning-text)', width: '50%' }
+  if (score === 2) return { label: 'Fair', bgColor: 'var(--color-warning)', width: '50%' }
   if (score === 3) return { label: 'Good', bgColor: 'var(--color-primary)', width: '75%' }
   return { label: 'Strong', bgColor: 'var(--color-success)', width: '100%' }
 }
