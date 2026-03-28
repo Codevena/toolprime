@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css'
 import { MobileNav } from '@/components/MobileNav'
+import { StickySearch } from '@/components/StickySearch'
 
 interface Props {
   title: string
@@ -32,6 +33,7 @@ const { title, description, canonical, ogTitle, ogDescription, ogType = 'website
     <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">
+    <StickySearch client:load />
     <header class="border-b border-[var(--color-border-subtle)] bg-[var(--color-surface)]">
       <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
         <a href="/" class="flex items-center gap-2">
