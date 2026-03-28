@@ -113,3 +113,20 @@ export function regexFaqSchema(name: string, pattern: string, description: strin
     ],
   })
 }
+
+export function gradientFaqSchema(name: string, cssCode: string): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `What is the CSS code for the ${name} gradient?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `The CSS code for the ${name} gradient is: background: ${cssCode};`,
+        },
+      },
+    ],
+  })
+}

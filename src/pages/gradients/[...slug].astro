@@ -1,0 +1,115 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { gradientPresets, getRelatedGradients, getCssGradient, getTailwindGradient, gradientCategoryLabels } from '@/data/gradients'
+import { getGradientMeta } from '@/lib/seo'
+import { gradientFaqSchema } from '@/lib/schema'
+
+export function getStaticPaths() {
+  return gradientPresets.map((preset) => ({
+    params: { slug: preset.slug },
+    props: { preset },
+  }))
+}
+
+const { preset } = Astro.props
+const meta = getGradientMeta(preset.name, preset.slug, preset.colors)
+const cssCode = getCssGradient(preset.colors, preset.direction)
+const tailwindCode = getTailwindGradient(preset.colors)
+const related = getRelatedGradients(preset.slug, preset.category)
+const categoryLabel = gradientCategoryLabels[preset.category]
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={gradientFaqSchema(preset.name, cssCode)} />
+  <Breadcrumbs items={[
+    { name: 'CSS Gradient Generator', url: 'https://toolprime.dev/css-gradient-generator' },
+    { name: preset.name, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">{preset.name} Gradient</h1>
+  <p class="text-[var(--color-text-muted)] mb-6">A {categoryLabel.toLowerCase()} gradient from {preset.colors[0]} to {preset.colors[preset.colors.length - 1]}.</p>
+
+  <div id="gradient-preview" class="w-full h-48 rounded-xl mb-8 border border-[var(--color-border)]"
+    style={`background: ${cssCode}`}>
+  </div>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">CSS Code</h2>
+    <div class="flex items-start gap-3">
+      <pre id="css-code" class="flex-1 bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>background: {cssCode};</code></pre>
+      <button id="copy-css" class="shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors">
+        Copy
+      </button>
+    </div>
+  </div>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Tailwind CSS</h2>
+    <pre class="bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{tailwindCode}</code></pre>
+  </div>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Adjust Direction</h2>
+    <div class="flex items-center gap-4">
+      <input type="range" id="direction-slider" min="0" max="360" value={preset.direction}
+        class="flex-1" />
+      <span id="direction-label" class="text-sm font-mono w-12 text-right">{preset.direction}°</span>
+    </div>
+  </div>
+
+  <script define:vars={{ colors: preset.colors }}>
+    const preview = document.getElementById('gradient-preview')
+    const slider = document.getElementById('direction-slider')
+    const label = document.getElementById('direction-label')
+    const cssCodeEl = document.getElementById('css-code')
+    const copyBtn = document.getElementById('copy-css')
+    const colorStr = colors.join(', ')
+
+    slider.addEventListener('input', function() {
+      const deg = this.value
+      const gradient = `linear-gradient(${deg}deg, ${colorStr})`
+      preview.style.background = gradient
+      label.textContent = deg + '°'
+      cssCodeEl.querySelector('code').textContent = `background: ${gradient};`
+    })
+
+    copyBtn.addEventListener('click', function() {
+      const code = cssCodeEl.querySelector('code').textContent
+      navigator.clipboard.writeText(code)
+      this.textContent = 'Copied!'
+      setTimeout(() => { this.textContent = 'Copy' }, 2000)
+    })
+  </script>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Color Stops</h2>
+    <div class="flex flex-wrap gap-4">
+      {preset.colors.map((color) => (
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 rounded-lg border border-[var(--color-border)]" style={`background: ${color}`}></div>
+          <code class="text-sm font-mono">{color}</code>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {related.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">More {categoryLabel} Gradients</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {related.map((g) => (
+          <a href={`/gradients/${g.slug}`}
+            class="rounded-lg border border-[var(--color-border)] overflow-hidden hover:border-[var(--color-primary)] transition-colors">
+            <div class="h-20" style={`background: ${getCssGradient(g.colors, g.direction)}`}></div>
+            <div class="p-3">
+              <span class="text-sm font-medium">{g.name}</span>
+              <span class="block text-xs text-[var(--color-text-muted)]">{g.colors.join(' → ')}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+</BaseLayout>

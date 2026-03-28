@@ -106,3 +106,14 @@ export function getRegexMeta(name: string, slug: string, pattern: string): MetaT
     ogType: 'website',
   }
 }
+
+export function getGradientMeta(name: string, slug: string, colors: string[]): MetaTags {
+  return {
+    title: `${name} Gradient — CSS Code & Preview | ${SITE_NAME}`,
+    description: `${name} gradient: ${colors.join(' → ')}. Copy the CSS code, preview with adjustable direction, and get Tailwind classes. Free gradient preset.`,
+    canonical: `${SITE_URL}/gradients/${slug}`,
+    ogTitle: `${name} Gradient`,
+    ogDescription: `CSS gradient: ${colors.join(' → ')}. Copy code instantly.`,
+    ogType: 'website',
+  }
+}
