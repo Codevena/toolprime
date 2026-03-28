@@ -21,79 +21,56 @@
 - UI/UX Redesign: "Modern & Bold" design system
 - Visual brainstorming via browser-based companion (4 design directions, mockups, font comparison)
 - Chose: Design B (Modern & Bold), System preference dark/light, Geist fonts, prominent search, hamburger+sticky search mobile nav, 6xl max-width, multi-column footer
-- Wrote design spec: `docs/superpowers/specs/2026-03-28-ui-ux-redesign-design.md`
-- Wrote implementation plan: `docs/superpowers/plans/2026-03-28-ui-ux-redesign.md`
-- Executed 15-task plan via subagent-driven development:
-  - Installed Geist + Geist Mono fonts (self-hosted via @fontsource)
-  - New color system: indigo/violet primary, deep slate dark mode, both modes fully designed
-  - Category gradient system: 6 categories with unique gradient colors
-  - GradientIcon component: Lucide icon on gradient background
-  - Header: Logo mark (gradient "T") + "ToolPrime" wordmark
-  - Footer: 4-column (Popular Tools, Categories, Resources, Legal)
-  - Homepage: Hero with gradient text + search bar + category labels with colored lines
-  - MobileNav: Hamburger drawer with categories, colored dots, tool counts
-  - StickySearch: Appears on scroll, syncs with hero search
-  - All 20 tool components migrated to new CSS variables
-  - PasswordGenerator strength meter fixed (was using hardcoded Tailwind colors)
-- **9 commits on feat/ui-ux-redesign, 62 pages, 0 errors**
-- 4-agent code review running
+- Wrote design spec + implementation plan
+- Executed 15-task plan via subagent-driven development
+- 5 rounds of 4-agent code review (20 reviews), all findings fixed
+- **62 pages, 0 errors** — merged to main, pushed to GitHub
+
+**Session 4 (2026-03-28):**
+- **Deployed to production**: toolprime.dev live via Cloudflare Pages
+  - Bought domain toolprime.dev ($12/yr Cloudflare Registrar)
+  - Set up Cloudflare Pages (required Pages not Workers for Node 22 support)
+  - Custom domain + SSL active
+- **Impressum**: Filled in with Codevena / Markus Wiesecke / info@codevena.dev
+- **Analytics**: Added Umami tracking (analytics.codevena.dev, website ID 4406b0f7-...)
+- **Phase 3 — Programmatic SEO**: Expanded from 62 to 812 pages
+  - 648 percentage calculator pages (/calculators/what-is-X-percent-of-Y)
+  - 1 percentage calculator index page (/calculators)
+  - 101 new conversion entries (3 new categories: Energy, Pressure, Fuel Economy + expanded existing)
+  - SEO: meta tags, FAQPage schema, breadcrumbs, internal linking
+  - 2 rounds of code review (4 reviews), all findings fixed
+- **812 pages total, 0 errors, 0 TypeScript errors, ~9s build**
 
 ## Current state
 
-- **62 pages** building in ~3.4 seconds
+- **812 pages** building in ~9 seconds
 - **20 tools** across 6 categories (text, developer, image, math, design, business)
+- **139 unit conversions** across 11 categories
+- **648 percentage calculator pages** + index
 - **0 errors, 0 TypeScript errors**
-- **Branch:** `feat/ui-ux-redesign` — needs review results + merge to main
-- **NOT deployed yet** — needs Cloudflare Pages + domain
-- Design spec: `docs/superpowers/specs/2026-03-28-ui-ux-redesign-design.md`
-- Implementation plan: `docs/superpowers/plans/2026-03-28-ui-ux-redesign.md`
-- Review reports: `docs/reviews/ui-redesign-*.md`
+- **LIVE** at https://toolprime.dev (Cloudflare Pages)
+- Analytics: Umami at analytics.codevena.dev
+- Branch: `main`
 
-## What to do next (Session 4)
+## What to do next (Session 5)
 
-### Priority 1: Merge + Deploy (get live ASAP)
-1. **Check review results** — if any findings, fix them first
-2. **Merge** `feat/ui-ux-redesign` to `main`
-3. **Buy domain** `toolprime.dev` (Cloudflare Registrar, ~$12/yr)
-4. **Connect Cloudflare Pages** — dash.cloudflare.com → create project → connect GitHub repo
-5. **Fill in Impressum** — replace placeholder [Name], [Adresse], [Email] with real data
-6. **Google Search Console** — verify domain, submit sitemap
-7. **Plausible Analytics** — $9/mo cloud or self-host, add script tag to BaseLayout
-8. **Apply for AdSense** — submit site (takes 1-2 weeks approval)
+### Priority 1: Google Search Console + SEO Submission
+1. **Google Search Console** — verify toolprime.dev (DNS TXT record), submit sitemap
+2. **Bing Webmaster Tools** — submit sitemap there too
+3. **Submit to directories** — Product Hunt, AlternativeTo, etc.
 
-### Priority 2: Phase 3 — Programmatic SEO Expansion (target: 700+ pages)
-This is the big growth lever. Each programmatic page targets a long-tail keyword.
-
-**New page generators to build:**
-- `/calculators/what-is-X-percent-of-Y` — percentage calculator pages (500+ pages)
-  - Data file: `src/data/percentages.ts` with common percentage queries
-  - Page: `src/pages/calculators/[...slug].astro`
-  - Examples: "what is 15 percent of 200", "what is 20 percent of 50"
-
-- `/timestamps/[year]` — Unix timestamp reference pages (10+ pages)
-  - Data: `src/data/timestamps.ts` with years 2020-2030
-  - Shows Unix timestamps for each month/day of that year
-
+### Priority 2: Phase 3b — More Programmatic Pages (target: 1500+ pages)
+Deferred from Phase 3:
 - `/hashes/[algorithm]-[word]` — precomputed hash pages (50-100 pages)
-  - Data: `src/data/hash-words.ts` with common strings
-  - Shows MD5/SHA-256 hashes for "hello", "password", "test", etc.
-
 - `/gradients/[name]` — curated gradient preset pages (30-50 pages)
-  - Data: `src/data/gradient-presets.ts`
-  - Each page shows gradient, CSS code, variations
-
 - `/regex/[pattern-name]` — common regex pattern pages (20-30 pages)
-  - Data: `src/data/regex-patterns.ts`
-  - Examples: email validation, URL matching, phone numbers
-
-- **Expand unit conversions** from 40 to 200+ entries in `src/data/conversions.ts`
-
-**Target: 700+ total pages from ~62 current**
+- "X is what percent of Y" variant (648 more pages)
+- Expand percentage calculator with more number combinations
 
 ### Priority 3: Content & SEO Optimization
 - Expand each tool page content to 500+ words
 - Add blog section for "how to" articles linking to tools
-- Submit to tool directories (Product Hunt, AlternativeTo)
+- Open Graph images for social sharing
 
 ### Priority 4: Phase 4 Tools (future session)
 Potential tools for Phase 4 (after traffic validates model):
@@ -107,6 +84,10 @@ Potential tools for Phase 4 (after traffic validates model):
 - Mortgage Calculator
 - BMI Calculator
 - Tip Calculator
+
+### Priority 5: Monetization
+- **AdSense** — apply once site has some traffic (1-2 weeks live)
+- **Impressumsservice** — get proper business address (~10/mo)
 
 ## Revenue Milestones
 
@@ -123,10 +104,10 @@ Astro 6, React 19, TypeScript 5.9, Tailwind CSS 4, Geist + Geist Mono, Lucide Re
 ## Key files
 - **Tools:** `src/components/tools/*.tsx` (20 tools)
 - **Pages:** `src/pages/*.astro`
-- **Data:** `src/data/tools.ts`, `src/data/faqs.ts`, `src/data/conversions.ts`
+- **Data:** `src/data/tools.ts`, `src/data/faqs.ts`, `src/data/conversions.ts`, `src/data/percentages.ts`
 - **SEO:** `src/lib/seo.ts`, `src/lib/schema.ts`
 - **Layouts:** `src/layouts/BaseLayout.astro`, `src/layouts/ToolLayout.astro`
-- **New UI Components:** `src/components/MobileNav.tsx`, `src/components/StickySearch.tsx`, `src/components/ui/GradientIcon.tsx`
+- **UI Components:** `src/components/MobileNav.tsx`, `src/components/StickySearch.tsx`, `src/components/ui/GradientIcon.tsx`
 - **Styles:** `src/styles/global.css`
 - **Specs:** `docs/superpowers/specs/`
 - **Plans:** `docs/superpowers/plans/`
@@ -135,32 +116,31 @@ Astro 6, React 19, TypeScript 5.9, Tailwind CSS 4, Geist + Geist Mono, Lucide Re
 ## Quick commands
 ```bash
 pnpm dev      # Dev server at localhost:4321
-pnpm build    # Build all 62 pages
+pnpm build    # Build all 812 pages
 pnpm preview  # Preview production build
 ```
 
 ---
 
-## Session 4 Prompt (copy-paste this to start the next session)
+## Session 5 Prompt (copy-paste this to start the next session)
 
 ```
 Ich arbeite an ToolPrime (~/Developer/toolprime). Das ist eine Free Online Tool Website
 die mit SEO + Ads Geld verdienen soll. Lies bitte NEXT_SESSION.md für den vollen Kontext.
 
-Phase 1 (10 Tools), Phase 2 (10 Tools) und UI/UX Redesign (Modern & Bold) sind fertig —
-20 Tools, 62 Seiten, neues Design, alles code-reviewed (5 Runden, 20 Reviews) und auf GitHub.
+Die Seite ist LIVE auf toolprime.dev — 20 Tools, 812 Seiten, Cloudflare Pages.
+Phase 1 (10 Tools), Phase 2 (10 Tools), UI/UX Redesign und Phase 3 (Programmatic SEO) sind fertig.
 
-Nächste Session hat zwei Prioritäten:
+Nächste Session hat folgende Prioritäten:
 
-1. **Deploy**: Die Seite live bringen. Domain toolprime.dev ist [gekauft/noch zu kaufen].
-   Cloudflare Pages einrichten, Impressum ausfüllen, Google Search Console, Analytics.
-   Sag mir was ich manuell machen muss (Domain kaufen, Cloudflare Dashboard) und
-   was du im Code machen kannst (Impressum, Analytics Script, etc.).
+1. **Google Search Console**: Domain verifizieren, Sitemap submitten.
+   Dann Bing Webmaster Tools + Tool-Directories.
 
-2. **Phase 3 — Programmatic SEO**: Von 62 auf 700+ Seiten expandieren.
-   Percentage Calculator pages (/calculators/what-is-X-percent-of-Y, 500+ Seiten),
-   mehr Unit Conversions (von 40 auf 200+), Hash Lookup pages, Gradient Presets,
-   Regex Cheat Sheets. Alles programmatisch generiert wie die bestehenden /converters/ Seiten.
+2. **Phase 3b — Mehr programmatische Seiten**: Hash Lookup, Gradient Presets,
+   Regex Pattern Pages. Von 812 auf 1000+ Seiten.
 
-Lass uns mit dem Deploy anfangen, dann Phase 3 bauen.
+3. **Content**: Tool-Seiten mit mehr Text füllen, Blog-Sektion,
+   OG Images für Social Sharing.
+
+Lass uns mit der Search Console anfangen.
 ```
