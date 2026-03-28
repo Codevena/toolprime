@@ -4,6 +4,7 @@ import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
 import RelatedTools from '@/components/seo/RelatedTools.astro'
 import FaqSection from '@/components/seo/FaqSection.astro'
 import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { GradientIcon } from '@/components/ui/GradientIcon'
 import { webApplicationSchema } from '@/lib/schema'
 import { getToolMeta } from '@/lib/seo'
 import { categoryLabels, type Tool } from '@/data/tools'
@@ -27,10 +28,15 @@ const categoryLabel = categoryLabels[tool.category]
     { name: tool.name, url: meta.canonical },
   ]} />
 
-  <h1 class="text-3xl font-bold mb-2">{tool.name}</h1>
-  <p class="text-[var(--color-text-muted)] mb-6">{tool.longDescription}</p>
+  <div class="flex items-center gap-3 mb-6">
+    <GradientIcon icon={tool.icon} category={tool.category} size={40} client:load />
+    <div>
+      <h1 class="text-2xl font-extrabold tracking-tight" style="letter-spacing: -0.02em;">{tool.name}</h1>
+      <p class="text-sm text-[var(--color-text-muted)]">{tool.longDescription}</p>
+    </div>
+  </div>
 
-  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4 sm:p-6">
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6">
     <slot />
   </div>
 
