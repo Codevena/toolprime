@@ -39,7 +39,7 @@ export function SqlFormatter() {
           aria-label="SQL dialect"
           value={dialect}
           onChange={(e) => setDialect(e.target.value as Dialect)}
-          className="px-3 py-2 rounded-md text-sm border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="px-3 py-2 rounded-md text-sm border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
         >
           {dialects.map((d) => (
             <option key={d.value} value={d.value}>{d.label}</option>
@@ -49,7 +49,7 @@ export function SqlFormatter() {
           aria-label="Indentation size"
           value={indent}
           onChange={(e) => setIndent(Number(e.target.value))}
-          className="px-3 py-2 rounded-md text-sm border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="px-3 py-2 rounded-md text-sm border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
         >
           <option value={2}>2 spaces</option>
           <option value={4}>4 spaces</option>
@@ -72,7 +72,7 @@ export function SqlFormatter() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Paste your SQL query here..."
-            className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+            className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           />
         </div>
         <div>
@@ -89,7 +89,7 @@ export function SqlFormatter() {
               readOnly
               value={output.text}
               placeholder="Formatted SQL will appear here..."
-              className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y"
+              className="w-full h-64 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm resize-y"
             />
           )}
         </div>

@@ -67,7 +67,7 @@ export function QrCodeGenerator() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Enter text or URL..."
-          className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
         />
       </div>
 

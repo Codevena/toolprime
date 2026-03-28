@@ -55,7 +55,7 @@ export function HashGenerator() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Enter text to hash..."
-          className="w-full h-36 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+          className="w-full h-36 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
         />
       </div>
 

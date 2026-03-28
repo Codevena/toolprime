@@ -35,7 +35,7 @@ export function WordCounter() {
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Paste or type your text here..."
-        className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] font-sans text-base"
+        className="w-full h-48 p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] resize-y focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] font-sans text-base"
       />
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         {([

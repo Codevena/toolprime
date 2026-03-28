@@ -112,7 +112,7 @@ export function CssGradientGenerator() {
               type="text"
               value={stop.color}
               onChange={(e) => updateStop(i, 'color', e.target.value)}
-              className="w-24 p-2 rounded border border-[var(--color-border)] bg-[var(--color-surface-alt)] font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="w-24 p-2 rounded border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             />
             <input
               type="range"

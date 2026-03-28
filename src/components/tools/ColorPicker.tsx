@@ -147,7 +147,7 @@ export function ColorPicker() {
                 max={255}
                 value={rgb[ch]}
                 onChange={(e) => updateFromRgb(ch, Number(e.target.value))}
-                className="w-full p-2 rounded border border-[var(--color-border)] bg-[var(--color-surface)] font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full p-2 rounded border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
               />
             </div>
           ))}
@@ -174,7 +174,7 @@ export function ColorPicker() {
                 max={max}
                 value={hsl[field]}
                 onChange={(e) => updateFromHsl(field, Number(e.target.value))}
-                className="w-full p-2 rounded border border-[var(--color-border)] bg-[var(--color-surface)] font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                className="w-full p-2 rounded border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text)] font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
               />
             </div>
           ))}

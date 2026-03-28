@@ -98,7 +98,7 @@ export function UnitConverter() {
           <select
             value={fromUnit}
             onChange={(e) => setFrom(e.target.value)}
-            className="w-full p-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm mb-2"
+            className="w-full p-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm mb-2"
           >
             {units.map((u) => <option key={u} value={u}>{u}</option>)}
           </select>
@@ -107,7 +107,7 @@ export function UnitConverter() {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="Enter value..."
-            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-lg font-mono"
+            className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-lg font-mono"
           />
         </div>
 
@@ -125,7 +125,7 @@ export function UnitConverter() {
           <select
             value={toUnit}
             onChange={(e) => setTo(e.target.value)}
-            className="w-full p-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm mb-2"
+            className="w-full p-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] text-sm mb-2"
           >
             {units.map((u) => <option key={u} value={u}>{u}</option>)}
           </select>
