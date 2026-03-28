@@ -58,6 +58,7 @@ const categoryLabel = gradientCategoryLabels[preset.category]
   <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
     <h2 class="text-lg font-semibold mb-4">Adjust Direction</h2>
     <div class="flex items-center gap-4">
+      <label for="direction-slider" class="sr-only">Gradient direction</label>
       <input type="range" id="direction-slider" min="0" max="360" value={preset.direction}
         class="flex-1" />
       <span id="direction-label" class="text-sm font-mono w-12 text-right">{preset.direction}°</span>

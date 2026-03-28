@@ -70,6 +70,7 @@ const related = getRelatedPatterns(pattern.slug, pattern.tags)
 
   <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
     <h2 class="text-lg font-semibold mb-4">Live Tester</h2>
+    <label for="test-input" class="sr-only">Test string</label>
     <input type="text" id="test-input" placeholder="Enter a string to test..."
       class="w-full p-3 rounded-lg border border-[var(--color-border)] text-lg font-mono focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] mb-2" />
     <p id="test-result" class="text-sm text-[var(--color-text-muted)]">Enter a string to test</p>
