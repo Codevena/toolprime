@@ -10,18 +10,14 @@ if (!tool) throw new Error('Tool not found: timestamp-converter')
 <ToolLayout tool={tool}>
   <TimestampConverter client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Timestamp Converter</h2>
-    <p>
-      The live clock at the top shows the current Unix timestamp, updating every second. Use <strong>Unix Timestamp → Date</strong> to convert a numeric timestamp into a human-readable date. Use <strong>Date → Unix Timestamp</strong> to convert a date and time back to a Unix timestamp.
-    </p>
-    <p>
-      Toggle between <strong>Seconds</strong> and <strong>Milliseconds</strong> depending on your timestamp format. JavaScript and Java typically use milliseconds, while Unix/Linux, Python, and PHP use seconds.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      All conversions happen locally in your browser using the built-in <code>Date</code> object and <code>Intl.DateTimeFormat</code> API. No data is sent to any server.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Timestamp Converter</h2>
+    <ol class="step-list" role="list">
+      <li>View the current Unix timestamp updating in real time</li>
+      <li>Enter a Unix timestamp to convert to a human-readable date</li>
+      <li>Or enter a date to convert to a Unix timestamp</li>
+      <li>Toggle between seconds and milliseconds</li>
+      <li>Copy any value with one click</li>
+    </ol>
   </section>
 </ToolLayout>

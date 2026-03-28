@@ -10,18 +10,14 @@ if (!tool) throw new Error('Tool not found: sql-formatter')
 <ToolLayout tool={tool}>
   <SqlFormatter client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the SQL Formatter</h2>
-    <p>
-      Paste your SQL query into the input field. The formatter instantly beautifies it with proper indentation and line breaks. Choose your SQL dialect (Standard SQL, MySQL, PostgreSQL, T-SQL, or PL/SQL) for dialect-specific formatting.
-    </p>
-    <p>
-      Adjust the indentation size (2 or 4 spaces) and toggle uppercase keywords to match your style preferences. Click <strong>Copy</strong> to copy the formatted SQL to your clipboard.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      All SQL formatting is performed locally in your browser. Your queries are never sent to any server or stored anywhere.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the SQL Formatter</h2>
+    <ol class="step-list" role="list">
+      <li>Paste your SQL query into the input area</li>
+      <li>Select your SQL dialect (Standard, MySQL, PostgreSQL, T-SQL, PL/SQL)</li>
+      <li>Click <strong>Format</strong> to beautify with proper indentation</li>
+      <li>Toggle uppercase keywords on or off</li>
+      <li>Copy the formatted output</li>
+    </ol>
   </section>
 </ToolLayout>

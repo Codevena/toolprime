@@ -10,29 +10,21 @@ if (!tool) throw new Error('Tool not found: percentage-calculator')
 <ToolLayout tool={tool}>
   <PercentageCalculator client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Percentage Calculator</h2>
-    <p>
-      Choose a calculation mode using the three buttons at the top, then enter your numbers in the input fields. The result appears instantly along with a formula explanation showing the exact calculation performed.
-    </p>
-    <p>
-      <strong>"What is X% of Y?"</strong> — Enter the percentage in the X field and the total value in the Y field. For example, entering 15 and 200 calculates 15% of 200, which is 30. This is useful for calculating tips, discounts, tax amounts, or commission values.
-    </p>
-    <p>
-      <strong>"X is what % of Y?"</strong> — Enter the partial value in X and the total in Y. For example, 45 is what percent of 180? The answer is 25%. Use this to find test scores, completion percentages, or market share.
-    </p>
-    <p>
-      <strong>"% change from X to Y"</strong> — Enter the starting value in X and the ending value in Y. The calculator shows the percentage increase or decrease. For example, a price changing from 80 to 100 is a 25% increase. A change from 100 to 75 is a 25% decrease.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Percentage Calculator</h2>
+    <ol class="step-list" role="list">
+      <li>Choose your calculation type (X% of Y, or X is what % of Y)</li>
+      <li>Enter the percentage and base values</li>
+      <li>View the result with step-by-step explanation</li>
+      <li>Browse pre-calculated percentages below for quick reference</li>
+    </ol>
 
-    <h2>Pre-Calculated Percentages</h2>
-    <p>
-      Looking for a specific percentage? Browse our <a href="/calculators">pre-calculated percentage pages</a> for instant answers to common queries like "what is 15% of 200" or "what is 20% of 500". Over 600 combinations are available with step-by-step explanations.
-    </p>
+  </section>
 
-    <h2>Privacy</h2>
-    <p>
-      All calculations are performed locally in your browser using JavaScript arithmetic. No data is sent to any server.
+  <section slot="content" class="mt-8" aria-labelledby="related-content">
+    <h2 id="related-content" class="text-xl font-bold text-[var(--color-text)] mb-3">Pre-Calculated Percentages</h2>
+    <p class="text-[var(--color-text-muted)]">
+      Looking for a specific percentage? Browse our <a href="/calculators" class="text-[var(--color-primary)] underline hover:no-underline">pre-calculated percentage pages</a> for instant answers to common queries like "what is 15% of 200" or "what is 20% of 500". Over 600 combinations are available with step-by-step explanations.
     </p>
   </section>
 </ToolLayout>

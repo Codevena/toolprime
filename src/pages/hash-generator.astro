@@ -10,20 +10,18 @@ if (!tool) throw new Error('Tool not found: hash-generator')
 <ToolLayout tool={tool}>
   <HashGenerator client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Hash Generator</h2>
-    <p>
-      Type or paste text into the input field. All four hash algorithms (MD5, SHA-1, SHA-256, SHA-512) compute simultaneously and display their results below. Click the <strong>Copy</strong> button next to any hash to copy it to your clipboard.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      SHA hashes are computed using the Web Crypto API (<code>crypto.subtle.digest</code>). MD5 is computed using a local JavaScript library. All processing happens in your browser — no data is ever sent to a server.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Hash Generator</h2>
+    <ol class="step-list" role="list">
+      <li>Enter or paste your text into the input field</li>
+      <li>View MD5, SHA-1, SHA-256, and SHA-512 hashes generated instantly</li>
+      <li>Click any hash value to copy it to your clipboard</li>
+      <li>Compare hashes to verify data integrity</li>
+    </ol>
   </section>
 
-  <section slot="content" class="mt-8">
-    <h2 class="text-xl font-semibold mb-4">Popular Hash Lookups</h2>
+  <section slot="content" class="mt-8" aria-labelledby="related-content">
+    <h2 id="related-content" class="text-xl font-bold text-[var(--color-text)] mb-3">Popular Hash Lookups</h2>
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
       {['hello', 'password', 'admin', 'test', '123456', 'world', 'example', 'user'].map((word) => (
         <a href={`/hashes/md5-${word}`}

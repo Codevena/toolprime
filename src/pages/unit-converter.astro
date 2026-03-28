@@ -10,21 +10,14 @@ if (!tool) throw new Error('Tool not found: unit-converter')
 <ToolLayout tool={tool}>
   <UnitConverter client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Unit Converter</h2>
-    <p>
-      Select a category from the buttons at the top — Length, Weight, Temperature, Volume, Area, Speed, Time, Digital Storage, Energy, Pressure, or Fuel Economy. The unit dropdowns will automatically populate with the available units in that category. Choose your source unit in the <strong>From</strong> dropdown, enter the value you want to convert, and select the destination unit in the <strong>To</strong> dropdown. The result appears immediately.
-    </p>
-    <p>
-      Click the swap button (⇄) between the two panels to reverse the conversion — swapping the From and To units so you can quickly convert back. This is especially useful when you know the result but need to find the original value, such as converting kilometers back to miles after already converting miles to kilometers.
-    </p>
-    <p>
-      The result is displayed with up to 7 significant figures, giving you a precise answer without unnecessary decimal noise. A summary line below the converter confirms the full conversion formula so you can double-check the result.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      All conversions are performed locally in your browser using JavaScript math. No data is sent to any server.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Unit Converter</h2>
+    <ol class="step-list" role="list">
+      <li>Select a conversion category (Length, Weight, Temperature, etc.)</li>
+      <li>Choose the source and target units from the dropdowns</li>
+      <li>Enter a value in the input field</li>
+      <li>See the converted result instantly</li>
+      <li>View the conversion table for common values</li>
+    </ol>
   </section>
 </ToolLayout>

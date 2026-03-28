@@ -24,7 +24,7 @@ const allItems = [{ name: 'Home', url: 'https://toolprime.dev/' }, ...items]
         {i < allItems.length - 1 ? (
           <a href={item.url} class="hover:text-[var(--color-text)] transition-colors">{item.name}</a>
         ) : (
-          <span class="text-[var(--color-primary-text)] font-medium">{item.name}</span>
+          <span aria-current="page" class="text-[var(--color-primary-text)] font-medium">{item.name}</span>
         )}
       </li>
     ))}

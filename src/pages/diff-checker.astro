@@ -10,18 +10,14 @@ if (!tool) throw new Error('Tool not found: diff-checker')
 <ToolLayout tool={tool}>
   <DiffChecker client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Diff Checker</h2>
-    <p>
-      Paste the original text in the left panel and the modified text in the right panel. The tool instantly computes the differences between them. Added text is highlighted in <span class="text-green-600 dark:text-green-400">green</span> and removed text in <span class="text-red-600 dark:text-red-400">red</span>.
-    </p>
-    <p>
-      Switch between <strong>Line Diff</strong> (compares line by line, best for code) and <strong>Word Diff</strong> (compares word by word, best for prose). The stats counter shows total additions and deletions.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      All text comparison is performed locally in your browser. Your data is never sent to any server or stored anywhere.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Diff Checker</h2>
+    <ol class="step-list" role="list">
+      <li>Paste the original text in the left panel</li>
+      <li>Paste the modified text in the right panel</li>
+      <li>View additions highlighted in green and deletions in red</li>
+      <li>Toggle between line-level and word-level diff modes</li>
+      <li>Copy the diff output with one click</li>
+    </ol>
   </section>
 </ToolLayout>

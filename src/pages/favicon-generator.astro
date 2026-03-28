@@ -10,18 +10,13 @@ if (!tool) throw new Error('Tool not found: favicon-generator')
 <ToolLayout tool={tool}>
   <FaviconGenerator client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Favicon Generator</h2>
-    <p>
-      Upload a square image (PNG, SVG, or JPEG) by dragging it into the upload area or clicking to browse. The tool generates favicons in all standard sizes: 16x16, 32x32, 48x48, 64x64, 128x128, 180x180 (Apple Touch Icon), 192x192 and 512x512 (Android Chrome).
-    </p>
-    <p>
-      Download individual sizes or click <strong>Download All as ZIP</strong> to get the complete favicon package. Copy the HTML <code>&lt;link&gt;</code> tags and paste them into your page's <code>&lt;head&gt;</code> section.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      All image processing happens locally in your browser using the Canvas API. Your images are never uploaded to any server. The ZIP file is generated entirely client-side.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Favicon Generator</h2>
+    <ol class="step-list" role="list">
+      <li>Click the upload area or drag and drop your image</li>
+      <li>Preview favicons in all standard sizes (16x16 to 512x512)</li>
+      <li>Review the generated HTML link tags</li>
+      <li>Click <strong>Download ZIP</strong> to get all sizes plus the HTML code</li>
+    </ol>
   </section>
 </ToolLayout>

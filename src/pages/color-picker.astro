@@ -10,21 +10,13 @@ if (!tool) throw new Error('Tool not found: color-picker')
 <ToolLayout tool={tool}>
   <ColorPicker client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Color Picker</h2>
-    <p>
-      Click the color picker control to open your browser's native color chooser and select any color visually. The large color swatch on the left updates instantly to show your chosen color. The HEX, RGB, and HSL values all update automatically when you pick a color.
-    </p>
-    <p>
-      You can also type values directly into any of the format fields. Enter a HEX code (like <code>#ff5733</code>) into the HEX field, or type R, G, and B values (0–255 each) into the RGB fields. The HSL fields accept hue (0–360 degrees), saturation (0–100%), and lightness (0–100%). All three panels stay in sync — change one and the others update immediately.
-    </p>
-    <p>
-      Use the <strong>Copy</strong> button next to each format to copy the value to your clipboard. Copy the HEX value for CSS, the RGB value for use in design tools, or the HSL value for more intuitive color adjustments in stylesheets.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      All color conversions are performed locally in your browser using JavaScript math. No color values or any other data are ever sent to a server.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Color Picker</h2>
+    <ol class="step-list" role="list">
+      <li>Click the color preview area or use the picker to select a color</li>
+      <li>View instant conversions in HEX, RGB, and HSL formats</li>
+      <li>Click any value to copy it to your clipboard</li>
+      <li>Adjust individual R, G, B or H, S, L sliders for fine control</li>
+    </ol>
   </section>
 </ToolLayout>

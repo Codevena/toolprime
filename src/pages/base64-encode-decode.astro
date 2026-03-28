@@ -10,21 +10,13 @@ if (!tool) throw new Error('Tool not found: base64-encode-decode')
 <ToolLayout tool={tool}>
   <Base64EncodeDecode client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Base64 Encoder & Decoder</h2>
-    <p>
-      Select <strong>Encode → Base64</strong> to convert plain text into Base64, or <strong>Decode ← Base64</strong> to convert a Base64 string back to readable text. Type or paste your input into the left panel, and the result appears instantly in the right panel.
-    </p>
-    <p>
-      The encoder fully supports UTF-8, meaning you can encode text containing accented characters, emoji, Chinese, Arabic, or any other Unicode content. The decoder handles both standard Base64 and URL-safe variants. If you provide invalid Base64, the tool shows a clear error message instead of silent garbage output.
-    </p>
-    <p>
-      Click the <strong>Copy</strong> button in the output panel to copy the result to your clipboard. Switching between Encode and Decode modes clears the input so you start fresh.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      All encoding and decoding is performed locally in your browser using the built-in <code>TextEncoder</code>, <code>TextDecoder</code>, <code>btoa()</code>, and <code>atob()</code> APIs. Your data never leaves your device.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Base64 Encoder & Decoder</h2>
+    <ol class="step-list" role="list">
+      <li>Paste your text or Base64 string into the input field</li>
+      <li>Click <strong>Encode</strong> to convert text to Base64</li>
+      <li>Click <strong>Decode</strong> to convert Base64 back to readable text</li>
+      <li>Copy the result with the copy button</li>
+    </ol>
   </section>
 </ToolLayout>

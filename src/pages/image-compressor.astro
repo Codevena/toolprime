@@ -10,21 +10,13 @@ if (!tool) throw new Error('Tool not found: image-compressor')
 <ToolLayout tool={tool}>
   <ImageCompressor client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Image Compressor</h2>
-    <p>
-      Drag and drop an image onto the upload area, or click it to open a file browser and select a JPEG, PNG, or WebP image. The tool immediately compresses the image using the quality setting you choose. You can see the original file size and compressed file size side by side, along with the percentage reduction achieved.
-    </p>
-    <p>
-      Use the <strong>Quality</strong> slider to control the trade-off between file size and visual quality. Lower values produce smaller files but more visible compression artifacts. Higher values preserve more detail but produce larger files. A quality of 70–85% is usually the sweet spot for web images — significantly smaller than the original with no perceptible quality loss in most cases.
-    </p>
-    <p>
-      Once you are satisfied with the result, click <strong>Download Compressed Image</strong> to save the file. The downloaded filename is prefixed with "compressed-" to distinguish it from the original. You can adjust the quality slider after uploading to re-compress with different settings without re-uploading the file.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      Your images are compressed entirely within your browser using the <code>browser-image-compression</code> library. Images are never uploaded to a server. They never leave your device. This makes the tool safe to use with sensitive or confidential images.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Image Compressor</h2>
+    <ol class="step-list" role="list">
+      <li>Click the upload area or drag and drop your image</li>
+      <li>Adjust the quality slider to set compression level</li>
+      <li>Preview the compressed result and compare file sizes</li>
+      <li>Click <strong>Download</strong> to save the compressed image</li>
+    </ol>
   </section>
 </ToolLayout>

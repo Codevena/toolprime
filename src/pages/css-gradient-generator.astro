@@ -10,23 +10,19 @@ if (!tool) throw new Error('Tool not found: css-gradient-generator')
 <ToolLayout tool={tool}>
   <CssGradientGenerator client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the CSS Gradient Generator</h2>
-    <p>
-      Choose a gradient type (linear, radial, or conic), adjust the angle, and pick your colors. The live preview updates instantly as you make changes. Add or remove color stops to create complex gradients. Click <strong>Copy</strong> to copy the CSS code to your clipboard.
-    </p>
-    <p>
-      Start with one of the built-in presets for quick inspiration, then customize colors and positions to match your design.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      The gradient generator runs entirely in your browser. No data is sent to any server.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the CSS Gradient Generator</h2>
+    <ol class="step-list" role="list">
+      <li>Choose a gradient type: linear, radial, or conic</li>
+      <li>Add color stops by clicking the gradient bar</li>
+      <li>Adjust the angle or direction with the slider</li>
+      <li>Copy the generated CSS code with one click</li>
+      <li>Browse preset gradients below for inspiration</li>
+    </ol>
   </section>
 
-  <section slot="content" class="mt-8">
-    <h2 class="text-xl font-semibold mb-4">Popular Gradient Presets</h2>
+  <section slot="content" class="mt-8" aria-labelledby="related-content">
+    <h2 id="related-content" class="text-xl font-bold text-[var(--color-text)] mb-3">Popular Gradient Presets</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       {[
         { slug: 'sunset-orange', name: 'Sunset Orange', colors: ['#FF512F', '#F09819'] },

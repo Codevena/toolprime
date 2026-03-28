@@ -91,8 +91,9 @@ export function PercentageCalculator() {
       {/* Inputs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1">{labelX}</label>
+          <label htmlFor="calc-x" className="block text-sm font-medium mb-1">{labelX}</label>
           <input
+            id="calc-x"
             type="number"
             value={x}
             onChange={(e) => setX(e.target.value)}
@@ -101,8 +102,9 @@ export function PercentageCalculator() {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">{labelY}</label>
+          <label htmlFor="calc-y" className="block text-sm font-medium mb-1">{labelY}</label>
           <input
+            id="calc-y"
             type="number"
             value={y}
             onChange={(e) => setY(e.target.value)}
@@ -114,7 +116,7 @@ export function PercentageCalculator() {
 
       {/* Result */}
       {calc && (
-        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6 space-y-2">
+        <div role="status" aria-live="polite" className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6 space-y-2">
           <div className="text-sm text-[var(--color-text-muted)]">{MODES[mode].description}</div>
           <div className="text-4xl font-bold text-[var(--color-primary)]">
             {formatNum(calc.result)}{mode === 'xIsWhatPercentOfY' || mode === 'percentChange' ? '%' : ''}

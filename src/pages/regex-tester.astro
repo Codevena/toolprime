@@ -10,23 +10,19 @@ if (!tool) throw new Error('Tool not found: regex-tester')
 <ToolLayout tool={tool}>
   <RegexTester client:load />
 
-  <section slot="content" class="mt-8 prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to Use the Regex Tester</h2>
-    <p>
-      Enter a regular expression pattern in the input field. Type or paste your test string below. Matches are highlighted in real-time as you type. Toggle flags like <code>g</code> (global), <code>i</code> (case-insensitive), <code>m</code> (multiline), and <code>s</code> (dotall) to change matching behavior.
-    </p>
-    <p>
-      The match details panel shows each match with its index position and any captured groups. If your pattern is invalid, a clear error message is displayed instead.
-    </p>
-
-    <h2>Privacy</h2>
-    <p>
-      All regex matching is performed locally in your browser using the built-in <code>RegExp</code> object. Your test strings are never sent to any server.
-    </p>
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Regex Tester</h2>
+    <ol class="step-list" role="list">
+      <li>Enter your regex pattern in the pattern field</li>
+      <li>Toggle flags: global (g), case-insensitive (i), multiline (m)</li>
+      <li>Paste your test string in the text area</li>
+      <li>See matches highlighted in real time with capture groups</li>
+      <li>View match details including index positions</li>
+    </ol>
   </section>
 
-  <section slot="content" class="mt-8">
-    <h2 class="text-xl font-semibold mb-4">Common Regex Patterns</h2>
+  <section slot="content" class="mt-8" aria-labelledby="related-content">
+    <h2 id="related-content" class="text-xl font-bold text-[var(--color-text)] mb-3">Common Regex Patterns</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
       {[
         { slug: 'email-validation', name: 'Email' },
