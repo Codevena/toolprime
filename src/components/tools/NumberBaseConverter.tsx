@@ -21,7 +21,7 @@ function parseInput(input: string, fromBase: Base): number | null {
   const num = parseInt(clean, radix)
   if (isNaN(num) || num < 0) return null
   // Validate that the string is valid for the given base
-  const valid = num.toString(radix).toUpperCase() === clean.toUpperCase().replace(/^0+/, '') || clean === '0'
+  const valid = num.toString(radix).toUpperCase() === clean.toUpperCase().replace(/^0+/, '') || clean === '0' || clean.replace(/^0+/, '') === ''
   if (!valid) return null
   return num
 }

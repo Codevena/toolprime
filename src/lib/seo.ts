@@ -386,7 +386,7 @@ export function getDecimalToFractionMeta(decimal: number, n: number, d: number):
   return {
     title: `${decimal} as a Fraction — ${n}/${d} | ${SITE_NAME}`,
     description: `${decimal} as a fraction is ${n}/${d}. Convert decimals to fractions instantly with our free calculator.`,
-    canonical: `${SITE_URL}/convert/${String(decimal).replace('.', '-')}-to-fraction`,
+    canonical: `${SITE_URL}/calculate/${String(decimal).replace('.', '-')}-to-fraction`,
     ogTitle: `${decimal} as a Fraction`,
     ogDescription: `${decimal} = ${n}/${d}`,
     ogType: 'website',

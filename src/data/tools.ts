@@ -477,7 +477,7 @@ export const tools: Tool[] = [
     id: 'number-base-converter',
     name: 'Number Base Converter',
     description: 'Convert numbers between binary, octal, decimal, and hexadecimal. Includes ASCII table lookup.',
-    longDescription: 'Convert numbers between base 2 (binary), base 8 (octal), base 10 (decimal), base 16 (hexadecimal), and base 32. Includes an interactive ASCII reference table.',
+    longDescription: 'Convert numbers between base 2 (binary), base 8 (octal), base 10 (decimal), and base 16 (hexadecimal). Includes an interactive ASCII reference table.',
     category: 'developer',
     path: '/number-base-converter',
     icon: 'Binary',

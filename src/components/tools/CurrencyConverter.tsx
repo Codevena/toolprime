@@ -1,63 +1,12 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { ArrowLeftRight } from 'lucide-react'
+import { currencies, fallbackRates } from '@/data/currencyData'
 
-// ─── Self-contained currency list & fallback rates ──────────────────────────
+// ─── Derive component data from shared currency definitions ─────────────────
 
-interface CurrencyOption {
-  code: string
-  name: string
-  symbol: string
-  flag: string
-}
-
-const CURRENCIES: CurrencyOption[] = [
-  { code: 'USD', name: 'US Dollar', symbol: '$', flag: '\u{1F1FA}\u{1F1F8}' },
-  { code: 'EUR', name: 'Euro', symbol: '\u20AC', flag: '\u{1F1EA}\u{1F1FA}' },
-  { code: 'GBP', name: 'British Pound', symbol: '\u00A3', flag: '\u{1F1EC}\u{1F1E7}' },
-  { code: 'JPY', name: 'Japanese Yen', symbol: '\u00A5', flag: '\u{1F1EF}\u{1F1F5}' },
-  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF', flag: '\u{1F1E8}\u{1F1ED}' },
-  { code: 'CAD', name: 'Canadian Dollar', symbol: 'CA$', flag: '\u{1F1E8}\u{1F1E6}' },
-  { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', flag: '\u{1F1E6}\u{1F1FA}' },
-  { code: 'CNY', name: 'Chinese Yuan', symbol: '\u00A5', flag: '\u{1F1E8}\u{1F1F3}' },
-  { code: 'INR', name: 'Indian Rupee', symbol: '\u20B9', flag: '\u{1F1EE}\u{1F1F3}' },
-  { code: 'KRW', name: 'South Korean Won', symbol: '\u20A9', flag: '\u{1F1F0}\u{1F1F7}' },
-  { code: 'NZD', name: 'New Zealand Dollar', symbol: 'NZ$', flag: '\u{1F1F3}\u{1F1FF}' },
-  { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$', flag: '\u{1F1F8}\u{1F1EC}' },
-  { code: 'HKD', name: 'Hong Kong Dollar', symbol: 'HK$', flag: '\u{1F1ED}\u{1F1F0}' },
-  { code: 'TWD', name: 'Taiwan Dollar', symbol: 'NT$', flag: '\u{1F1F9}\u{1F1FC}' },
-  { code: 'SEK', name: 'Swedish Krona', symbol: 'kr', flag: '\u{1F1F8}\u{1F1EA}' },
-  { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr', flag: '\u{1F1F3}\u{1F1F4}' },
-  { code: 'DKK', name: 'Danish Krone', symbol: 'kr', flag: '\u{1F1E9}\u{1F1F0}' },
-  { code: 'PLN', name: 'Polish Zloty', symbol: 'z\u0142', flag: '\u{1F1F5}\u{1F1F1}' },
-  { code: 'CZK', name: 'Czech Koruna', symbol: 'K\u010D', flag: '\u{1F1E8}\u{1F1FF}' },
-  { code: 'HUF', name: 'Hungarian Forint', symbol: 'Ft', flag: '\u{1F1ED}\u{1F1FA}' },
-  { code: 'TRY', name: 'Turkish Lira', symbol: '\u20BA', flag: '\u{1F1F9}\u{1F1F7}' },
-  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$', flag: '\u{1F1E7}\u{1F1F7}' },
-  { code: 'MXN', name: 'Mexican Peso', symbol: 'MX$', flag: '\u{1F1F2}\u{1F1FD}' },
-  { code: 'ZAR', name: 'South African Rand', symbol: 'R', flag: '\u{1F1FF}\u{1F1E6}' },
-  { code: 'THB', name: 'Thai Baht', symbol: '\u0E3F', flag: '\u{1F1F9}\u{1F1ED}' },
-  { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM', flag: '\u{1F1F2}\u{1F1FE}' },
-  { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp', flag: '\u{1F1EE}\u{1F1E9}' },
-  { code: 'PHP', name: 'Philippine Peso', symbol: '\u20B1', flag: '\u{1F1F5}\u{1F1ED}' },
-  { code: 'AED', name: 'UAE Dirham', symbol: 'AED', flag: '\u{1F1E6}\u{1F1EA}' },
-  { code: 'SAR', name: 'Saudi Riyal', symbol: 'SAR', flag: '\u{1F1F8}\u{1F1E6}' },
-  { code: 'ILS', name: 'Israeli Shekel', symbol: '\u20AA', flag: '\u{1F1EE}\u{1F1F1}' },
-  { code: 'BTC', name: 'Bitcoin', symbol: '\u20BF', flag: '\u{1FA99}' },
-  { code: 'ETH', name: 'Ethereum', symbol: '\u039E', flag: '\u{1FA99}' },
-  { code: 'SOL', name: 'Solana', symbol: 'SOL', flag: '\u{1FA99}' },
-  { code: 'DOGE', name: 'Dogecoin', symbol: '\u0110', flag: '\u{1FA99}' },
-]
-
-const FALLBACK_RATES: Record<string, number> = {
-  USD: 1, EUR: 0.92, GBP: 0.79, JPY: 149.5, CHF: 0.88, CAD: 1.36,
-  AUD: 1.53, CNY: 7.24, INR: 83.1, KRW: 1330, NZD: 1.64, SGD: 1.34,
-  HKD: 7.82, TWD: 31.5, SEK: 10.4, NOK: 10.6, DKK: 6.87, PLN: 3.98,
-  CZK: 23.2, HUF: 362, TRY: 32.5, BRL: 4.97, MXN: 17.1, ZAR: 18.6,
-  THB: 35.2, MYR: 4.72, IDR: 15650, PHP: 55.8, AED: 3.67, SAR: 3.75,
-  ILS: 3.64, BTC: 0.0000148, ETH: 0.000285, SOL: 0.0053, DOGE: 5.88,
-}
-
-const CRYPTO_CODES = new Set(['BTC', 'ETH', 'SOL', 'DOGE'])
+const CURRENCIES = currencies
+const FALLBACK_RATES = fallbackRates
+const CRYPTO_CODES = new Set(currencies.filter((c) => c.isCrypto).map((c) => c.code))
 
 function convert(amount: number, from: string, to: string, rates: Record<string, number>): number {
   const fromRate = rates[from]
@@ -114,11 +63,13 @@ export function CurrencyConverter({
     return () => { cancelled = true }
   }, [])
 
+  const parsedAmount = useMemo(() => parseFloat(amount), [amount])
+  const isNegative = !isNaN(parsedAmount) && parsedAmount < 0
+
   const result = useMemo(() => {
-    const num = parseFloat(amount)
-    if (isNaN(num) || num < 0) return null
-    return convert(num, fromCode, toCode, rates)
-  }, [amount, fromCode, toCode, rates])
+    if (isNaN(parsedAmount) || parsedAmount < 0) return null
+    return convert(parsedAmount, fromCode, toCode, rates)
+  }, [parsedAmount, fromCode, toCode, rates])
 
   const rate = useMemo(() => convert(1, fromCode, toCode, rates), [fromCode, toCode, rates])
 
@@ -211,6 +162,10 @@ export function CurrencyConverter({
       {loading ? (
         <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6 text-center text-[var(--color-text-muted)]">
           Loading live rates...
+        </div>
+      ) : isNegative ? (
+        <div className="p-3 rounded-lg text-sm" style={{ border: '1px solid var(--color-warning-border)', background: 'var(--color-warning-bg)', color: 'var(--color-warning-text)' }}>
+          Please enter a positive amount.
         </div>
       ) : result !== null ? (
         <div role="status" aria-live="polite" className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6">

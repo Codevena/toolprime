@@ -195,7 +195,7 @@ export const faqs: Record<string, Faq[]> = {
     { question: 'Does it simplify fractions automatically?', answer: 'Yes, all results are automatically reduced to their simplest form using the greatest common divisor (GCD).' },
   ],
   'number-base-converter': [
-    { question: 'What number bases are supported?', answer: 'The converter supports binary (base 2), octal (base 8), decimal (base 10), hexadecimal (base 16), and base 32.' },
+    { question: 'What number bases are supported?', answer: 'The converter supports binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16).' },
     { question: 'What is the ASCII table?', answer: 'ASCII (American Standard Code for Information Interchange) maps numbers 0-127 to characters. For example, ASCII 65 = A, ASCII 97 = a.' },
     { question: 'How do I convert hex to decimal?', answer: 'Each hex digit represents a power of 16. For example, FF = 15×16 + 15 = 255. Our converter handles this instantly.' },
   ],

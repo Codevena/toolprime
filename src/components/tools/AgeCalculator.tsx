@@ -44,8 +44,10 @@ export function AgeCalculator({ defaultYear, defaultMonth, defaultDay }: Props) 
   const d = parseInt(day, 10)
   const validYear = !isNaN(y) && y >= 1920 && y <= currentYear
   const validMonth = !isNaN(m) && m >= 1 && m <= 12
-  const validDay = !isNaN(d) && d >= 1 && d <= 31
-  const hasValidInput = validYear && validMonth && validDay
+  const maxDay = validYear && validMonth ? new Date(y, m, 0).getDate() : 31
+  const validDay = !isNaN(d) && d >= 1 && d <= maxDay
+  const notFuture = validYear && validMonth && validDay ? new Date(y, m - 1, d) <= new Date() : true
+  const hasValidInput = validYear && validMonth && validDay && notFuture
 
   const result = hasValidInput ? calculateAge(y, m, d) : null
   const generation = validYear ? getGeneration(y) : null

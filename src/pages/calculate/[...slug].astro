@@ -47,9 +47,7 @@ if (props.type === 'age') {
   const { f1, f2, op, result } = props.fraction
   meta = getFractionMeta(f1.n, f1.d, op, opSymbols[op], f2.n, f2.d, result.n, result.d)
 } else {
-  const dm = getDecimalToFractionMeta(props.decimal.decimal, props.decimal.fraction.n, props.decimal.fraction.d)
-  // Override canonical to /calculate/ since these pages live under the calculate route
-  meta = { ...dm, canonical: `https://toolprime.dev/calculate/${props.decimal.slug}` }
+  meta = getDecimalToFractionMeta(props.decimal.decimal, props.decimal.fraction.n, props.decimal.fraction.d)
 }
 ---
 

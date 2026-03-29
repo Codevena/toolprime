@@ -7,9 +7,11 @@ import { GradientIcon } from '@/components/ui/GradientIcon'
 import { formatConversions, type FormatConversion } from '@/data/formatConversions'
 import { getToolById, getRelatedTools } from '@/data/tools'
 import { getFormatConversionMeta, getCurrencyConversionMeta, getNumberBaseMeta, getHexToDecimalMeta, getAsciiMeta } from '@/lib/seo'
-import { formatConversionHowToSchema } from '@/lib/schema'
+import { formatConversionHowToSchema, faqPageSchema } from '@/lib/schema'
 import CurrencyConversionPage from '@/components/pseo/CurrencyConversionPage.astro'
 import NumberBaseConversionPage from '@/components/pseo/NumberBaseConversionPage.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { NumberBaseConverter } from '@/components/tools/NumberBaseConverter'
 import AsciiPage from '@/components/pseo/AsciiPage.astro'
 import {
   currencyEntries,
@@ -181,14 +183,31 @@ if (props.type === 'format') {
 
   {props.type === 'hexToDec' && (() => {
     const entry = props.hexToDec
-    // Render hex-to-decimal as a number base page with a synthetic entry
-    const syntheticEntry = {
-      slug: entry.slug,
-      value: entry.decimal,
-      toBase: 'hexadecimal',
-      result: entry.hex,
-    }
-    return <NumberBaseConversionPage entry={syntheticEntry} />
+    const faqJson = faqPageSchema([
+      { question: `What is ${entry.hex} hex in decimal?`, answer: `Hexadecimal ${entry.hex} in decimal is ${entry.decimal}.` },
+      { question: `How do you convert hex to decimal?`, answer: `Multiply each hex digit by its positional power of 16, then sum the results. Our converter handles this instantly.` },
+    ])
+    return (
+      <>
+        <SchemaMarkup json={faqJson} slot="head" />
+        <Breadcrumbs items={[
+          { name: 'Number Base Converter', url: 'https://toolprime.dev/number-base-converter' },
+          { name: `${entry.hex} Hex to Decimal`, url: `https://toolprime.dev/convert/${entry.slug}` },
+        ]} />
+        <h1 class="text-3xl font-bold mb-2">0x{entry.hex} in Decimal = {entry.decimal}</h1>
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+          <p class="text-lg text-[var(--color-text-muted)] mb-1">Decimal Representation</p>
+          <p class="text-4xl font-bold font-mono text-[var(--color-primary-text)]">{entry.decimal}</p>
+          <p class="text-sm text-[var(--color-text-muted)] mt-2">0x{entry.hex} = {entry.decimal} (decimal)</p>
+        </div>
+        <AdSlot position="top" />
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+          <h2 class="text-lg font-semibold mb-4">Try the Number Base Converter</h2>
+          <NumberBaseConverter client:load defaultValue={entry.hex} defaultBase="hexadecimal" />
+        </div>
+        <AdSlot position="bottom" />
+      </>
+    )
   })()}
 
   {props.type === 'ascii' && (

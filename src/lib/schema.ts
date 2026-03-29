@@ -256,7 +256,8 @@ export function ageFaqSchema(birthYear: number, ageYears: number, birthMonth?: s
 }
 
 function getGenerationAnswer(year: number): string {
-  if (year >= 1997) return `Someone born in ${year} belongs to Generation Z (born 1997–2012) or Generation Alpha (born 2013+).`
+  if (year >= 2013) return `Someone born in ${year} belongs to Generation Alpha (born 2013+).`
+  if (year >= 1997) return `Someone born in ${year} belongs to Generation Z, born between 1997 and 2012.`
   if (year >= 1981) return `Someone born in ${year} is a Millennial (Generation Y), born between 1981 and 1996.`
   if (year >= 1965) return `Someone born in ${year} belongs to Generation X, born between 1965 and 1980.`
   if (year >= 1946) return `Someone born in ${year} is a Baby Boomer, born between 1946 and 1964.`
@@ -276,10 +277,10 @@ export function fractionFaqSchema(
       answer: `${n1}/${d1} ${opSymbol} ${n2}/${d2} = ${resultN}/${resultD}.`,
     },
     {
-      question: `How do you ${opSymbol === '+' ? 'add' : opSymbol === '-' ? 'subtract' : opSymbol === '×' ? 'multiply' : 'divide'} fractions?`,
-      answer: opSymbol === '+' || opSymbol === '-'
+      question: `How do you ${opSymbol === '+' ? 'add' : opSymbol === '\u2212' ? 'subtract' : opSymbol === '\u00D7' ? 'multiply' : 'divide'} fractions?`,
+      answer: opSymbol === '+' || opSymbol === '\u2212'
         ? `To ${opSymbol === '+' ? 'add' : 'subtract'} fractions, find a common denominator, then ${opSymbol === '+' ? 'add' : 'subtract'} the numerators.`
-        : opSymbol === '×'
+        : opSymbol === '\u00D7'
           ? `To multiply fractions, multiply the numerators together and the denominators together, then simplify.`
           : `To divide fractions, multiply the first fraction by the reciprocal of the second.`,
     },

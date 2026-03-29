@@ -172,7 +172,7 @@ export const toolContent12: Record<string, ToolContent> = {
   "number-base-converter": {
     whatIs: {
       heading: "What Is a Number Base Converter?",
-      body: "A number base converter translates values between different positional numeral systems — such as binary (base 2), octal (base 8), decimal (base 10), hexadecimal (base 16), and base 32. Each base uses a different set of digits to represent quantities, and converting between them is a fundamental task in computer science, networking, and digital electronics.\n\nBinary is the native language of computers, hexadecimal provides a compact way to represent binary data, and octal was historically used in Unix file permissions. Our converter handles conversions instantly, displays results in all supported bases simultaneously, and includes a full ASCII reference table for looking up character codes.",
+      body: "A number base converter translates values between different positional numeral systems — such as binary (base 2), octal (base 8), decimal (base 10), and hexadecimal (base 16). Each base uses a different set of digits to represent quantities, and converting between them is a fundamental task in computer science, networking, and digital electronics.\n\nBinary is the native language of computers, hexadecimal provides a compact way to represent binary data, and octal was historically used in Unix file permissions. Our converter handles conversions instantly, displays results in all supported bases simultaneously, and includes a full ASCII reference table for looking up character codes.",
     },
     useCases: {
       heading: "Popular Use Cases",
@@ -195,7 +195,7 @@ export const toolContent12: Record<string, ToolContent> = {
         {
           title: "Cryptography and Encoding",
           description:
-            "Convert data between hex and base 32 representations commonly used in hash outputs, encryption keys, and encoding schemes like Base32 tokens.",
+            "Convert data between hex and other representations commonly used in hash outputs, encryption keys, and encoding schemes.",
         },
       ],
     },
