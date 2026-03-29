@@ -199,26 +199,47 @@ Each programmatic page follows this structure:
 
 ## Technical Considerations
 
-### Build Time
-- 58K pages at ~50ms each ≈ ~48 min build time
-- Mitigation: Astro's parallel page generation, incremental builds
-- Consider splitting sitemap into multiple files (Google limit: 50K URLs per sitemap)
+### Build Time & Cloudflare Pages Timeout
+- Cloudflare Pages has a **20-minute build timeout**
+- Phase 5a (~16K pages) should be fine within 20 min
+- Phase 5b+ (~33K+ pages) will exceed the timeout
+- **Solution options (pick one when we hit the limit):**
+  1. **Cloudflare Workers Build** — no timeout, more control
+  2. **GitHub Actions build + Cloudflare Pages deploy** — build on GH (60 min timeout), deploy pre-built `/dist` to CF Pages via `wrangler pages deploy`
+  3. **Split deploys** — separate CF Pages projects per section (e.g., currency.toolprime.dev)
+- **Recommended:** Option 2 (GitHub Actions) — simplest migration, keeps single domain
 
 ### Sitemap Strategy
 - Multiple sitemaps: `sitemap-tools.xml`, `sitemap-currency.xml`, `sitemap-fractions.xml`, etc.
 - Sitemap index file pointing to all sub-sitemaps
-- Astro's @astrojs/sitemap handles this automatically with 45K URL chunks
+- Astro's @astrojs/sitemap handles this automatically with 45K URL chunks (under Google's 50K limit)
 
-### Data Sources
-- **Currency rates:** Free API (e.g., exchangerate.host) fetched at build time
-- **Time zones:** Built-in Intl API + IANA timezone database
-- **IP/DNS/WHOIS:** Client-side APIs or build-time lookups for pSEO pages
-- **All other tools:** Pure computation, no external dependencies
+### Data Sources & Live APIs
+
+**Currency Converter:**
+- Build-time: Free API (e.g., exchangerate.host) fetched during build for pSEO pages
+- **Rates freshness:** Scheduled daily rebuild via GitHub Actions cron (`0 6 * * *`) or Cloudflare Cron Trigger
+- Live tool: Client-side fetch from free API for real-time rates
+
+**Time zones:**
+- Built-in `Intl` API + IANA timezone database — no external dependency
+
+**DNS/WHOIS/IP Lookup — requires server-side access:**
+- pSEO pages: Generated at build-time with pre-fetched data for popular domains/IPs
+- Live tool: **Needs an API proxy** since browsers cannot do DNS/WHOIS directly
+- Options:
+  1. **Cloudflare Worker as API proxy** — lightweight, stays in CF ecosystem
+  2. **External APIs** — e.g., `dns.google/resolve` (free, CORS-friendly for DNS), RDAP for WHOIS (free, replaces legacy WHOIS)
+  3. **Hybrid:** Use `dns.google` for DNS (no proxy needed), CF Worker for WHOIS/IP
+- **Recommended:** Option 3 (hybrid) — minimal infrastructure, free APIs
+
+**All other tools:**
+- Pure client-side computation, no external dependencies
 
 ### Hosting
 - Cloudflare Pages handles 58K static files without issues
 - Assets cached at edge globally
-- No server-side computation needed
+- Only DNS/WHOIS/IP tools need a CF Worker proxy (Phase 5c)
 
 ---
 

@@ -110,14 +110,43 @@
 - **4320 pages total, 31 tools, 0 errors, 0 TypeScript errors, ~15s build**
 - **Deployed to production**
 
+**Session 8 (2026-03-29):**
+- **Phase 5a — Tool Expansion + Audience Split**:
+  - Wrote implementation plan: `docs/superpowers/plans/2026-03-29-phase5a-tool-expansion.md`
+  - **4 New Tools** via subagent-driven development (9 tasks):
+    - Currency Converter (hero tool) — 50 currencies + 4 crypto, Frankfurter API rates at build time, fallback rates
+    - Age Calculator — birth year/month pSEO pages, generation + zodiac info
+    - Fraction Calculator — 45 common fractions × 4 operations, step-by-step solutions, decimal-to-fraction
+    - Number Base Converter — binary/octal/hex, 128 ASCII table pages, hex-to-decimal
+  - **Audience-Split Navigation**: 3 hub pages (/everyday, /developer, /design) with subcategory groupings
+    - Header nav updated: Everyday | Developer | Design | Blog
+    - Mobile nav updated with hub links
+    - All 35 tools mapped to audiences via `toolAudienceMap`
+  - **pSEO Pages**: ~15,500 new pages across all 4 tools
+    - ~5,300 currency conversion pages + 50 currency hub pages
+    - ~1,250 age calculator pages (96 years × 12 months + year-only)
+    - ~8,100 fraction calculation pages + 25 decimal-to-fraction
+    - ~800 number base pages + 128 ASCII + 17 hex-to-decimal
+    - 3 hub landing pages
+  - **SEO Content**: FAQs, 500+ word content, OG images for all 4 tools
+  - **2 rounds of 4-agent code review (8 reviews)**:
+    - Round 1: 15 findings fixed (fraction FAQ Unicode bug, age validation, HRK removal, base32 claims, currency dedup, canonical URL, hex-to-decimal inversion, etc.)
+    - Round 2: 3 findings fixed (currency rate formatting, fraction 0/1 display, misleading decimal entries)
+- **~19,900 pages total, 35 tools, 0 TypeScript errors, ~55s build**
+
 ## Current state
 
 - **Design C UI** — step-cards, grid cards, custom tables, privacy banner
-- **4320 pages** building in ~15 seconds
-- **31 tools** across 6 categories (text, developer, image, math, design, business)
+- **~19,900 pages** building in ~55 seconds
+- **35 tools** across 6 categories (text, developer, image, math, design, business)
+- **3 audience hubs**: /everyday (12 tools), /developer (17 tools), /design (5 tools)
 - **183 unit conversions** across 12 categories (incl. 35 Cooking & Kitchen)
-- **~2340 percentage pages** (forward + reverse + index)
-- **1000 hash lookup pages** (4 algorithms × 250 words)
+- **~5,300 currency conversion pages** + 50 currency hub pages
+- **~1,250 age calculator pages** (year + month variants)
+- **~8,100 fraction calculation pages** + 25 decimal-to-fraction
+- **~800 number base pages** + 128 ASCII + 17 hex-to-decimal
+- **~2,340 percentage pages** (forward + reverse + index)
+- **1,000 hash lookup pages** (4 algorithms × 250 words)
 - **40 regex pattern pages** with live tester
 - **50 gradient preset pages** with interactive editor
 - **66 "Convert X to Y" landing pages** with HowTo schema
@@ -129,52 +158,51 @@
 - **154 mortgage calculator pages**
 - **28 tip calculator pages**
 - **Blog**: 10 articles + 40 how-to posts + 58 tag pages
-- **31 dynamic OG images** (Branded Card design, Satori + Sharp)
-- **500+ word SEO content** on all 31 tool pages
+- **35 dynamic OG images** (Branded Card design, Satori + Sharp)
+- **500+ word SEO content** on all 35 tool pages
 - **AdSlot component** ready (env-gated, needs PUBLIC_ENABLE_ADS=true)
 - **ads.txt** placeholder ready (needs publisher ID)
-- **0 errors, 0 TypeScript errors**
+- **0 TypeScript errors**
 - **LIVE** at https://toolprime.dev (Cloudflare Pages)
-- **Google Search Console**: Verified, sitemap resubmitted (4320 pages)
+- **Google Search Console**: Verified, needs sitemap resubmission (~19,900 pages)
 - **Bing Webmaster Tools**: Active
 - Analytics: Umami at analytics.codevena.dev
 - Branch: `main`
 
-## What to do next (Session 8)
+## Known issue: Intermittent build error
 
-### Priority 1: Impressum Address
-- Add full postal address (TMG §5 requirement) — needs real address or Impressumsservice (~10/mo)
+Astro 6.1.1 + @tailwindcss/node 4.2.2 has a race condition in the prerender phase (`Cannot find module noop-entrypoint...`). This is environment-specific (Node 25) and non-deterministic — rebuilds usually succeed. Clean `rm -rf dist .astro` before build if it happens. Not caused by Phase 5a code.
 
-### Priority 2: AdSense Application
-- Wait for 1-2 weeks of traffic data
-- Apply at https://adsense.google.com
-- Once approved: set `PUBLIC_ENABLE_ADS=true`, `PUBLIC_ADSENSE_CLIENT=ca-pub-XXX`, `PUBLIC_ADSENSE_SLOT=XXX` in Cloudflare env vars
-- Update ads.txt with actual publisher ID
+## What to do next (Session 9)
 
-### Priority 3: Directory Submissions
-- See `docs/directory-submissions.md` for pre-written copy
-- Submit to: Product Hunt, AlternativeTo, SaaSHub, Indie Hackers, HN, BetaList, Reddit, Twitter/X
-- Track submissions in the checklist
+### Priority 1: Deploy Phase 5a + SEO Resubmission
+- Push to GitHub, trigger Cloudflare Pages deployment
+- Purge sitemap cache, resubmit to GSC (~19,900 pages)
+- Resubmit to Bing
 
-### Priority 4: Phase 5 Tools
-Potential new tools:
-- Markdown Table Generator
-- HTML to Markdown
-- Lorem Picsum (placeholder images)
-- Pomodoro Timer
-- Kanban Board (local storage)
-- Screen Resolution Checker
-- Aspect Ratio Calculator
+### Priority 2: Phase 5b — Tool Expansion (5 more tools)
+**Design spec:** `docs/superpowers/specs/2026-03-29-phase5-tool-expansion-design.md`
 
-### Priority 5: i18n (German)
-- German version for DACH market
-- Separate /de/ routes or language toggle
-- Biggest SEO impact: German programmatic pages (percentage, BMI, mortgage)
+Phase 5b adds:
+1. **Time Zone Converter** (Hero) — 8,000+ pSEO pages, city time pages
+2. **Date Calculator** — 5,000+ pSEO pages, days between dates, countdowns
+3. **Compound Interest Calculator** — 2,000+ pSEO pages, visual charts
+4. **Loan/EMI Calculator** — 2,000+ pSEO pages, amortization tables
+5. **Aspect Ratio Calculator** — 1,000+ pSEO pages, device-specific
 
-### Priority 6: Performance & UX
-- Lighthouse audit and optimize Core Web Vitals
-- Add search functionality to blog
-- PWA support (offline tool access)
+**Target:** ~33,500 pages. Will need GitHub Actions build (CF Pages 20 min timeout).
+
+### Priority 3: Expand Phase 5a Page Counts
+Current counts are below spec targets:
+- Currency: ~5,300 (spec: 15,000+) — add more cross-pairs and amounts
+- Number Base: ~950 (spec: 3,000+) — expand to 0-1023 range
+- Fractions: ~8,100 (spec: 10,000+) — extend denominators to 16
+
+### Priority 4: Impressum Address
+- Use online-impressum.de service (~3 EUR/mo) for ladungsfähige Anschrift
+
+### Priority 5: AdSense / Directory Submissions
+- See previous session notes
 
 ## Revenue Milestones
 
@@ -189,10 +217,12 @@ Potential new tools:
 Astro 6, React 19, TypeScript 5.9, Tailwind CSS 4, Geist + Geist Mono, Lucide React, Satori + Sharp (OG images), DOMPurify, marked + marked-highlight + highlight.js, html2pdf.js, papaparse, cronstrue, Cloudflare Pages
 
 ## Key files
-- **Tools:** `src/components/tools/*.tsx` (31 tools)
+- **Tools:** `src/components/tools/*.tsx` (35 tools)
 - **Pages:** `src/pages/*.astro`
+- **Hub Pages:** `src/pages/everyday.astro`, `src/pages/developer.astro`, `src/pages/design.astro`
 - **Blog:** `src/content/blog/*.md`, `src/data/blogTemplates.ts`, `src/layouts/BlogLayout.astro`
-- **Data:** `src/data/tools.ts`, `src/data/tool-content.ts`, `src/data/faqs.ts`, `src/data/conversions.ts`, `src/data/percentages.ts`, `src/data/hashes.ts`, `src/data/regexPatterns.ts`, `src/data/gradients.ts`, `src/data/formatConversions.ts`, `src/data/cronExpressions.ts`, `src/data/bmiData.ts`, `src/data/mortgageData.ts`, `src/data/tipData.ts`, `src/data/metaTagTemplates.ts`, `src/data/colorPalettes.ts`, `src/data/robotsTxtTemplates.ts`
+- **Data:** `src/data/tools.ts`, `src/data/tool-content.ts`, `src/data/faqs.ts`, `src/data/conversions.ts`, `src/data/percentages.ts`, `src/data/hashes.ts`, `src/data/regexPatterns.ts`, `src/data/gradients.ts`, `src/data/formatConversions.ts`, `src/data/cronExpressions.ts`, `src/data/bmiData.ts`, `src/data/mortgageData.ts`, `src/data/tipData.ts`, `src/data/metaTagTemplates.ts`, `src/data/colorPalettes.ts`, `src/data/robotsTxtTemplates.ts`, `src/data/currencyData.ts`, `src/data/ageData.ts`, `src/data/fractionData.ts`, `src/data/numberBaseData.ts`, `src/data/audienceHubs.ts`
+- **pSEO Templates:** `src/components/pseo/*.astro` (7 templates)
 - **SEO:** `src/lib/seo.ts`, `src/lib/schema.ts`
 - **OG Images:** `src/lib/og-image.ts`, `src/pages/og/[id].png.ts`
 - **Layouts:** `src/layouts/BaseLayout.astro`, `src/layouts/ToolLayout.astro`, `src/layouts/BlogLayout.astro`
@@ -201,11 +231,12 @@ Astro 6, React 19, TypeScript 5.9, Tailwind CSS 4, Geist + Geist Mono, Lucide Re
 - **Styles:** `src/styles/global.css`
 - **Docs:** `docs/seo-launch-guide.md`, `docs/directory-submissions.md`
 - **Specs:** `docs/superpowers/specs/`
+- **Plans:** `docs/superpowers/plans/`
 - **Reviews:** `docs/reviews/`
 
 ## Quick commands
 ```bash
 pnpm dev      # Dev server at localhost:4321
-pnpm build    # Build all 4320 pages
+pnpm build    # Build all ~19,900 pages
 pnpm preview  # Preview production build
 ```
