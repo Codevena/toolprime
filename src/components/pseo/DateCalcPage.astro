@@ -1,0 +1,77 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { DateCalculator } from '@/components/tools/DateCalculator'
+import { addDays, daysBetween, daysUntilHoliday, formatDate, monthLabels } from '@/data/dateCalcData'
+
+interface Props {
+  type: 'daysFromToday' | 'daysAgo' | 'weeksFromToday' | 'monthsFromToday' | 'holiday' | 'daysBetween' | 'weekNumber'
+  days?: number
+  weeks?: number
+  months?: number
+  holidayName?: string
+  holidayMonth?: number
+  holidayDay?: number
+  fromMonth?: number
+  fromDay?: number
+  toMonth?: number
+  toDay?: number
+  weekNum?: number
+  slug: string
+}
+
+const props = Astro.props
+const now = new Date()
+
+let heading = ''
+let description = ''
+
+if (props.type === 'daysFromToday' && props.days !== undefined) {
+  const target = addDays(now, props.days)
+  heading = `${props.days} Days From Today — ${formatDate(target)}`
+  description = `${props.days} days from today is ${formatDate(target)}.`
+} else if (props.type === 'daysAgo' && props.days !== undefined) {
+  const target = addDays(now, -props.days)
+  heading = `${props.days} Days Ago — ${formatDate(target)}`
+  description = `${props.days} days ago was ${formatDate(target)}.`
+} else if (props.type === 'weeksFromToday' && props.weeks !== undefined) {
+  const target = addDays(now, props.weeks * 7)
+  heading = `${props.weeks} Weeks From Today — ${formatDate(target)}`
+  description = `${props.weeks} weeks (${props.weeks * 7} days) from today is ${formatDate(target)}.`
+} else if (props.type === 'monthsFromToday' && props.months !== undefined) {
+  const target = new Date(now)
+  target.setMonth(target.getMonth() + props.months)
+  heading = `${props.months} Months From Today — ${formatDate(target)}`
+  description = `${props.months} months from today is ${formatDate(target)}.`
+} else if (props.type === 'holiday' && props.holidayName && props.holidayMonth && props.holidayDay) {
+  const { days, date } = daysUntilHoliday(props.holidayMonth, props.holidayDay)
+  heading = `Days Until ${props.holidayName} — ${days} Days`
+  description = `There are ${days} days until ${props.holidayName} on ${formatDate(date)}.`
+} else if (props.type === 'daysBetween' && props.fromMonth && props.fromDay && props.toMonth && props.toDay) {
+  const d1 = new Date(now.getFullYear(), props.fromMonth - 1, props.fromDay)
+  const d2 = new Date(now.getFullYear(), props.toMonth - 1, props.toDay)
+  const days = daysBetween(d1, d2)
+  heading = `Days Between ${monthLabels[props.fromMonth - 1]} ${props.fromDay} and ${monthLabels[props.toMonth - 1]} ${props.toDay} — ${days} Days`
+  description = `There are ${days} days between ${monthLabels[props.fromMonth - 1]} ${props.fromDay} and ${monthLabels[props.toMonth - 1]} ${props.toDay}.`
+} else if (props.type === 'weekNumber' && props.weekNum) {
+  heading = `Week ${props.weekNum} — Dates and Calendar`
+  description = `Week ${props.weekNum} of the year: dates, start day, and days remaining.`
+}
+---
+
+<Breadcrumbs items={[
+  { name: 'Date Calculator', url: 'https://toolprime.dev/date-calculator' },
+  { name: heading.split(' — ')[0], url: `https://toolprime.dev/calculate/${props.slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">{heading}</h1>
+<p class="text-[var(--color-text-muted)] mb-6">{description}</p>
+
+<AdSlot position="top" />
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try a Different Calculation</h2>
+  <DateCalculator client:load />
+</div>
+
+<AdSlot position="bottom" />

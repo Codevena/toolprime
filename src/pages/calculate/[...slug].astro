@@ -3,6 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro'
 import AgeCalculationPage from '@/components/pseo/AgeCalculationPage.astro'
 import FractionCalculationPage from '@/components/pseo/FractionCalculationPage.astro'
 import DecimalToFractionPage from '@/components/pseo/DecimalToFractionPage.astro'
+import DateCalcPage from '@/components/pseo/DateCalcPage.astro'
 import { ageEntries, type AgeEntry } from '@/data/ageData'
 import {
   fractionEntries,
@@ -11,13 +12,25 @@ import {
   type FractionEntry,
   type DecimalToFractionEntry,
 } from '@/data/fractionData'
-import { getAgeMeta, getFractionMeta, getDecimalToFractionMeta } from '@/lib/seo'
+import {
+  daysFromTodayEntries,
+  holidays,
+  daysBetweenEntries,
+  extendedDaysBetweenEntries,
+  weekNumberEntries,
+  weeksFromTodayEntries,
+  monthsFromTodayEntries,
+  daysAgoEntries,
+  monthLabels,
+} from '@/data/dateCalcData'
+import { getAgeMeta, getFractionMeta, getDecimalToFractionMeta, getDateCalcMeta } from '@/lib/seo'
 import type { MetaTags } from '@/lib/seo'
 
 type PageProps =
   | { type: 'age'; age: AgeEntry; fraction: null; decimal: null }
   | { type: 'fraction'; age: null; fraction: FractionEntry; decimal: null }
   | { type: 'decimalToFraction'; age: null; fraction: null; decimal: DecimalToFractionEntry }
+  | { type: 'dateCalc'; age: null; fraction: null; decimal: null; dateCalcType: string; dateCalcProps: Record<string, unknown>; dateCalcSlug: string; dateCalcHeading: string; dateCalcDescription: string }
 
 export function getStaticPaths() {
   const agePaths = ageEntries.map((entry) => ({
@@ -35,7 +48,123 @@ export function getStaticPaths() {
     props: { type: 'decimalToFraction' as const, age: null, fraction: null, decimal: entry },
   }))
 
-  return [...agePaths, ...fractionPaths, ...decimalPaths]
+  const daysFromTodayPaths = daysFromTodayEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      type: 'dateCalc' as const,
+      age: null, fraction: null, decimal: null,
+      dateCalcType: 'daysFromToday',
+      dateCalcProps: { days: entry.days, slug: entry.slug },
+      dateCalcSlug: entry.slug,
+      dateCalcHeading: `${entry.days} Days From Today`,
+      dateCalcDescription: `${entry.days} days from today — find the exact date.`,
+    },
+  }))
+
+  const holidayPaths = holidays.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      type: 'dateCalc' as const,
+      age: null, fraction: null, decimal: null,
+      dateCalcType: 'holiday',
+      dateCalcProps: { holidayName: entry.name, holidayMonth: entry.month, holidayDay: entry.day, slug: entry.slug },
+      dateCalcSlug: entry.slug,
+      dateCalcHeading: `Days Until ${entry.name}`,
+      dateCalcDescription: `How many days until ${entry.name}? Find out the exact countdown.`,
+    },
+  }))
+
+  const daysBetweenPaths = daysBetweenEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      type: 'dateCalc' as const,
+      age: null, fraction: null, decimal: null,
+      dateCalcType: 'daysBetween',
+      dateCalcProps: { fromMonth: entry.fromMonth, fromDay: entry.fromDay, toMonth: entry.toMonth, toDay: entry.toDay, slug: entry.slug },
+      dateCalcSlug: entry.slug,
+      dateCalcHeading: `Days Between ${monthLabels[entry.fromMonth - 1]} ${entry.fromDay} and ${monthLabels[entry.toMonth - 1]} ${entry.toDay}`,
+      dateCalcDescription: `Calculate the number of days between ${monthLabels[entry.fromMonth - 1]} ${entry.fromDay} and ${monthLabels[entry.toMonth - 1]} ${entry.toDay}.`,
+    },
+  }))
+
+  const extendedDaysBetweenPaths = extendedDaysBetweenEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      type: 'dateCalc' as const,
+      age: null, fraction: null, decimal: null,
+      dateCalcType: 'daysBetween',
+      dateCalcProps: { fromMonth: entry.fromMonth, fromDay: entry.fromDay, toMonth: entry.toMonth, toDay: entry.toDay, slug: entry.slug },
+      dateCalcSlug: entry.slug,
+      dateCalcHeading: `Days Between ${monthLabels[entry.fromMonth - 1]} ${entry.fromDay} and ${monthLabels[entry.toMonth - 1]} ${entry.toDay}`,
+      dateCalcDescription: `Calculate the number of days between ${monthLabels[entry.fromMonth - 1]} ${entry.fromDay} and ${monthLabels[entry.toMonth - 1]} ${entry.toDay}.`,
+    },
+  }))
+
+  const weekNumberPaths = weekNumberEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      type: 'dateCalc' as const,
+      age: null, fraction: null, decimal: null,
+      dateCalcType: 'weekNumber',
+      dateCalcProps: { weekNum: entry.week, slug: entry.slug },
+      dateCalcSlug: entry.slug,
+      dateCalcHeading: `Week ${entry.week} — Dates and Calendar`,
+      dateCalcDescription: `Week ${entry.week} of the year: dates, start day, and days remaining.`,
+    },
+  }))
+
+  const weeksFromTodayPaths = weeksFromTodayEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      type: 'dateCalc' as const,
+      age: null, fraction: null, decimal: null,
+      dateCalcType: 'weeksFromToday',
+      dateCalcProps: { weeks: entry.weeks, slug: entry.slug },
+      dateCalcSlug: entry.slug,
+      dateCalcHeading: `${entry.weeks} Weeks From Today`,
+      dateCalcDescription: `${entry.weeks} weeks from today — find the exact date.`,
+    },
+  }))
+
+  const monthsFromTodayPaths = monthsFromTodayEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      type: 'dateCalc' as const,
+      age: null, fraction: null, decimal: null,
+      dateCalcType: 'monthsFromToday',
+      dateCalcProps: { months: entry.months, slug: entry.slug },
+      dateCalcSlug: entry.slug,
+      dateCalcHeading: `${entry.months} Months From Today`,
+      dateCalcDescription: `${entry.months} months from today — find the exact date.`,
+    },
+  }))
+
+  const daysAgoPaths = daysAgoEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      type: 'dateCalc' as const,
+      age: null, fraction: null, decimal: null,
+      dateCalcType: 'daysAgo',
+      dateCalcProps: { days: entry.days, slug: entry.slug },
+      dateCalcSlug: entry.slug,
+      dateCalcHeading: `${entry.days} Days Ago`,
+      dateCalcDescription: `${entry.days} days ago — find the exact date.`,
+    },
+  }))
+
+  return [
+    ...agePaths,
+    ...fractionPaths,
+    ...decimalPaths,
+    ...daysFromTodayPaths,
+    ...holidayPaths,
+    ...daysBetweenPaths,
+    ...extendedDaysBetweenPaths,
+    ...weekNumberPaths,
+    ...weeksFromTodayPaths,
+    ...monthsFromTodayPaths,
+    ...daysAgoPaths,
+  ]
 }
 
 const props = Astro.props as PageProps
@@ -46,6 +175,8 @@ if (props.type === 'age') {
 } else if (props.type === 'fraction') {
   const { f1, f2, op, result } = props.fraction
   meta = getFractionMeta(f1.n, f1.d, op, opSymbols[op], f2.n, f2.d, result.n, result.d)
+} else if (props.type === 'dateCalc') {
+  meta = getDateCalcMeta(props.dateCalcSlug, props.dateCalcHeading, props.dateCalcDescription)
 } else {
   meta = getDecimalToFractionMeta(props.decimal.decimal, props.decimal.fraction.n, props.decimal.fraction.d)
 }
@@ -55,4 +186,5 @@ if (props.type === 'age') {
   {props.type === 'age' && <AgeCalculationPage entry={props.age} />}
   {props.type === 'fraction' && <FractionCalculationPage entry={props.fraction} />}
   {props.type === 'decimalToFraction' && <DecimalToFractionPage entry={props.decimal} />}
+  {props.type === 'dateCalc' && <DateCalcPage type={props.dateCalcType as any} {...props.dateCalcProps as any} />}
 </BaseLayout>

@@ -24,7 +24,7 @@ export const audienceHubs: AudienceHub[] = [
     subcategories: [
       {
         name: 'Calculators',
-        toolIds: ['age-calculator', 'fraction-calculator', 'percentage-calculator', 'bmi-calculator', 'tip-calculator', 'mortgage-calculator'],
+        toolIds: ['age-calculator', 'fraction-calculator', 'percentage-calculator', 'bmi-calculator', 'tip-calculator', 'mortgage-calculator', 'date-calculator'],
       },
       {
         name: 'Converters',

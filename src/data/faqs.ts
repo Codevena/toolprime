@@ -199,6 +199,11 @@ export const faqs: Record<string, Faq[]> = {
     { question: 'What is the ASCII table?', answer: 'ASCII (American Standard Code for Information Interchange) maps numbers 0-127 to characters. For example, ASCII 65 = A, ASCII 97 = a.' },
     { question: 'How do I convert hex to decimal?', answer: 'Each hex digit represents a power of 16. For example, FF = 15×16 + 15 = 255. Our converter handles this instantly.' },
   ],
+  'date-calculator': [
+    { question: 'How does the date calculator work?', answer: 'Enter two dates to find the difference in days, weeks, and months. Or enter a start date and number of days to add or subtract to find the resulting date. All calculations use standard calendar rules.' },
+    { question: 'Does it account for leap years?', answer: 'Yes. The calculator uses JavaScript\'s built-in Date object which correctly handles leap years, including the 100-year and 400-year rules.' },
+    { question: 'Is my data safe?', answer: 'Yes. All date calculations happen locally in your browser. No data is sent to any server.' },
+  ],
   'timezone-converter': [
     { question: 'How does the time zone converter work?', answer: 'The converter uses the built-in Intl API and the IANA timezone database to calculate exact time differences between cities. It accounts for daylight saving time changes automatically.' },
     { question: 'Does it handle daylight saving time?', answer: 'Yes. The converter uses real timezone rules from the IANA database, which includes all historical and current DST transitions. The hour difference may change when a region enters or exits DST.' },

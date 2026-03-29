@@ -458,6 +458,18 @@ export function getCityTimeMeta(cityName: string, citySlug: string): MetaTags {
   }
 }
 
+// Date calculator pSEO pages
+export function getDateCalcMeta(slug: string, heading: string, description: string): MetaTags {
+  return {
+    title: `${heading} | ${SITE_NAME}`,
+    description,
+    canonical: `${SITE_URL}/calculate/${slug}`,
+    ogTitle: heading,
+    ogDescription: description,
+    ogType: 'website',
+  }
+}
+
 // Hub pages
 export function getHubMeta(title: string, description: string, path: string): MetaTags {
   return {

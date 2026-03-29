@@ -97,6 +97,7 @@ export const toolAudienceMap: Record<string, ToolAudience> = {
   // Everyday (additional)
   'lorem-ipsum-generator': 'everyday',
   'timezone-converter': 'everyday',
+  'date-calculator': 'everyday',
 }
 
 export const tools: Tool[] = [
@@ -495,6 +496,17 @@ export const tools: Tool[] = [
     icon: 'Globe',
     keywords: ['timezone', 'time zone', 'world clock', 'time converter', 'city time'],
     relatedTools: ['date-calculator', 'currency-converter', 'unit-converter'],
+  },
+  {
+    id: 'date-calculator',
+    name: 'Date Calculator',
+    description: 'Calculate days between dates, add or subtract days, weeks, and months. Holiday countdowns.',
+    longDescription: 'Calculate the number of days between two dates, find the date X days from today, or count down to holidays and events. Includes week numbers and month calculations.',
+    category: 'math',
+    path: '/date-calculator',
+    icon: 'CalendarDays',
+    keywords: ['date calculator', 'days between dates', 'days from today', 'countdown', 'week number'],
+    relatedTools: ['timezone-converter', 'age-calculator', 'percentage-calculator'],
   },
 ]
 
