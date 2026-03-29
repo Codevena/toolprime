@@ -140,6 +140,28 @@ export function formatConversionHowToSchema(title: string, steps: string[]): str
   })
 }
 
+export function articleSchema(title: string, description: string, slug: string, date: string): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description,
+    url: `https://toolprime.dev/blog/${slug}`,
+    datePublished: date,
+    dateModified: date,
+    author: {
+      '@type': 'Organization',
+      name: 'ToolPrime Team',
+      url: 'https://toolprime.dev',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'ToolPrime',
+      url: 'https://toolprime.dev',
+    },
+  })
+}
+
 export function gradientFaqSchema(name: string, cssCode: string): string {
   return JSON.stringify({
     '@context': 'https://schema.org',

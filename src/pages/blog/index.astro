@@ -1,0 +1,120 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import { getCollection } from 'astro:content'
+import { getBlogIndexMeta } from '@/lib/seo'
+import { howToUseArticles, conversionArticles } from '@/data/blogTemplates'
+
+const meta = getBlogIndexMeta()
+
+// Content collection articles
+const posts = (await getCollection('blog')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+// Programmatic articles (for listing)
+const programmaticArticles = [
+  ...howToUseArticles.map(a => ({
+    slug: `how-to-${a.slug}`,
+    title: a.title,
+    description: a.description,
+    date: new Date('2026-03-29'),
+    category: 'tutorial' as const,
+    tags: a.tags,
+    isProgrammatic: true,
+  })),
+  ...conversionArticles.map(a => ({
+    slug: `how-to-${a.slug}`,
+    title: a.title,
+    description: a.description,
+    date: new Date('2026-03-29'),
+    category: 'tutorial' as const,
+    tags: a.tags,
+    isProgrammatic: true,
+  })),
+]
+
+// Merge all articles
+const allArticles = [
+  ...posts.map(p => ({
+    slug: p.id,
+    title: p.data.title,
+    description: p.data.description,
+    date: p.data.date,
+    category: p.data.category,
+    tags: p.data.tags,
+    isProgrammatic: false,
+  })),
+  ...programmaticArticles,
+].sort((a, b) => b.date.getTime() - a.date.getTime())
+
+const categories = ['all', 'tutorial', 'roundup', 'explainer', 'tips', 'reference'] as const
+---
+
+<BaseLayout {...meta}>
+  <Breadcrumbs items={[
+    { name: 'Blog', url: 'https://toolprime.dev/blog' },
+  ]} />
+
+  <header class="mb-8">
+    <h1 class="text-3xl font-extrabold text-[var(--color-text)]" style="letter-spacing: -0.02em;">Blog</h1>
+    <p class="text-sm text-[var(--color-text-muted)] mt-1">Tutorials, tips, and guides for developers, designers, and creators.</p>
+  </header>
+
+  <div class="flex flex-wrap gap-2 mb-8" id="category-filter">
+    {categories.map(cat => (
+      <button
+        data-category={cat}
+        class:list={[
+          'rounded-full border px-4 py-1.5 text-sm font-medium transition-colors cursor-pointer',
+          cat === 'all'
+            ? 'border-[var(--color-primary)] bg-[var(--color-primary)] text-white'
+            : 'border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-text)]',
+        ]}
+      >
+        {cat === 'all' ? 'All' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+      </button>
+    ))}
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" id="articles-grid">
+    {allArticles.map(article => (
+      <a
+        href={article.isProgrammatic ? `/blog/${article.slug}` : `/blog/${article.slug}`}
+        data-category={article.category}
+        class="group block rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5 hover:border-[var(--color-primary)] transition-colors"
+      >
+        <div class="flex items-center gap-2 mb-2">
+          <span class="inline-block rounded-full bg-[var(--color-primary)]/10 px-2.5 py-0.5 text-xs font-medium text-[var(--color-primary)]">{article.category}</span>
+          <time datetime={article.date.toISOString().split('T')[0]} class="text-xs text-[var(--color-text-muted)]">
+            {article.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+          </time>
+        </div>
+        <h2 class="text-sm font-bold text-[var(--color-text)] group-hover:text-[var(--color-primary)] transition-colors mb-1">{article.title}</h2>
+        <p class="text-xs text-[var(--color-text-muted)] leading-relaxed line-clamp-2">{article.description}</p>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
+
+<script>
+  const buttons = document.querySelectorAll('#category-filter button')
+  const cards = document.querySelectorAll('#articles-grid > a')
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cat = (btn as HTMLElement).dataset.category
+      buttons.forEach(b => {
+        b.className = 'rounded-full border px-4 py-1.5 text-sm font-medium transition-colors cursor-pointer border-[var(--color-border)] text-[var(--color-text-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-text)]'
+      })
+      btn.className = 'rounded-full border px-4 py-1.5 text-sm font-medium transition-colors cursor-pointer border-[var(--color-primary)] bg-[var(--color-primary)] text-white'
+
+      cards.forEach(card => {
+        const el = card as HTMLElement
+        if (cat === 'all' || el.dataset.category === cat) {
+          el.style.display = ''
+        } else {
+          el.style.display = 'none'
+        }
+      })
+    })
+  })
+</script>

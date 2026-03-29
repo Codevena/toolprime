@@ -1,0 +1,133 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { getBlogMeta } from '@/lib/seo'
+import { articleSchema, breadcrumbSchema } from '@/lib/schema'
+import { howToUseArticles, conversionArticles } from '@/data/blogTemplates'
+import { getToolById } from '@/data/tools'
+
+export function getStaticPaths() {
+  const howToPages = howToUseArticles.map(a => ({
+    params: { slug: a.slug },
+    props: { article: a, type: 'howto' as const },
+  }))
+
+  const conversionPages = conversionArticles.map(a => ({
+    params: { slug: a.slug },
+    props: { article: a, type: 'conversion' as const },
+  }))
+
+  return [...howToPages, ...conversionPages]
+}
+
+const { article, type } = Astro.props
+const meta = getBlogMeta(article.title, `how-to-${article.slug}`, article.description)
+const tool = getToolById(article.toolId)
+const dateStr = '2026-03-29'
+---
+
+<BaseLayout {...meta} ogType="article">
+  <SchemaMarkup json={articleSchema(article.title, article.description, `how-to-${article.slug}`, dateStr)} slot="head" />
+
+  <Breadcrumbs items={[
+    { name: 'Blog', url: 'https://toolprime.dev/blog' },
+    { name: article.title, url: meta.canonical },
+  ]} />
+
+  <div class="lg:grid lg:grid-cols-[1fr_260px] lg:gap-8">
+    <article class="min-w-0">
+      <header class="mb-8">
+        <h1 class="text-3xl font-extrabold text-[var(--color-text)] mb-3" style="letter-spacing: -0.02em;">{article.title}</h1>
+        <div class="flex flex-wrap items-center gap-3 text-sm text-[var(--color-text-muted)]">
+          <span>ToolPrime Team</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={dateStr}>March 29, 2026</time>
+          <span aria-hidden="true">·</span>
+          <span>2 min read</span>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-3">
+          {article.tags.map((tag: string) => (
+            <a href={`/blog/tag/${tag}`} class="inline-block rounded-full border border-[var(--color-border)] px-3 py-0.5 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors">{tag}</a>
+          ))}
+        </div>
+      </header>
+
+      <div class="space-y-6 text-sm text-[var(--color-text-muted)] leading-relaxed">
+        <p class="text-base">{article.intro}</p>
+
+        {article.steps.map((step: { heading: string; body: string }, i: number) => (
+          <div>
+            <h2 class="text-lg font-bold text-[var(--color-text)] mb-2">
+              <span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold text-white mr-2" style="background: var(--color-primary);">{i + 1}</span>
+              {step.heading}
+            </h2>
+            <p>{step.body}</p>
+          </div>
+        ))}
+
+        {type === 'howto' && 'useCases' in article && (
+          <div>
+            <h2 class="text-lg font-bold text-[var(--color-text)] mb-3">Common Use Cases</h2>
+            <ul class="list-disc pl-5 space-y-1">
+              {(article as any).useCases.map((uc: string) => (
+                <li>{uc}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {type === 'howto' && 'tips' in article && (
+          <div>
+            <h2 class="text-lg font-bold text-[var(--color-text)] mb-3">Pro Tips</h2>
+            <div class="grid gap-3 sm:grid-cols-2">
+              {(article as any).tips.map((tip: string) => (
+                <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+                  <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">{tip}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {type === 'conversion' && 'explanation' in article && (
+          <div>
+            <h2 class="text-lg font-bold text-[var(--color-text)] mb-2">How It Works</h2>
+            <p>{(article as any).explanation}</p>
+          </div>
+        )}
+
+        {tool && (
+          <div class="rounded-xl border border-[var(--color-primary)]/20 bg-[var(--color-primary)]/5 p-5 mt-6">
+            <p class="text-sm font-medium text-[var(--color-text)] mb-2">Try it yourself</p>
+            <a href={tool.path} class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors" style="background: var(--color-primary);">
+              Open {tool.name}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        )}
+      </div>
+    </article>
+
+    <aside class="hidden lg:block space-y-6 mt-2">
+      {tool && (
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">Related Tool</h2>
+          <a href={tool.path} class="text-sm text-[var(--color-primary)] hover:underline">{tool.name}</a>
+          <p class="text-xs text-[var(--color-text-muted)] mt-1">{tool.description}</p>
+        </div>
+      )}
+
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">On this page</h2>
+        <ul class="space-y-1.5 text-sm">
+          {article.steps.map((step: { heading: string; body: string }) => (
+            <li>
+              <span class="text-[var(--color-text-muted)] leading-snug block">{step.heading}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  </div>
+</BaseLayout>

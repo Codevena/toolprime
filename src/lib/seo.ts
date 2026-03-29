@@ -132,6 +132,40 @@ export function getConvertIndexMeta(): MetaTags {
   }
 }
 
+export function getBlogMeta(title: string, slug: string, description: string): MetaTags {
+  return {
+    title: `${title} | ${SITE_NAME} Blog`,
+    description,
+    canonical: `${SITE_URL}/blog/${slug}`,
+    ogTitle: title,
+    ogDescription: description,
+    ogType: 'article',
+  }
+}
+
+export function getBlogIndexMeta(): MetaTags {
+  return {
+    title: `Blog — Tips, Tutorials & Tool Guides | ${SITE_NAME}`,
+    description: 'Tutorials, tips, and guides for developers, designers, and creators. Learn how to use free online tools and improve your workflow.',
+    canonical: `${SITE_URL}/blog`,
+    ogTitle: `${SITE_NAME} Blog`,
+    ogDescription: 'Tutorials, tips, and guides for developers, designers, and creators.',
+    ogType: 'website',
+  }
+}
+
+export function getBlogTagMeta(tag: string): MetaTags {
+  const label = tag.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+  return {
+    title: `Articles tagged "${label}" | ${SITE_NAME} Blog`,
+    description: `Browse articles about ${label}. Tutorials, tips, and guides from the ToolPrime team.`,
+    canonical: `${SITE_URL}/blog/tag/${tag}`,
+    ogTitle: `Articles tagged "${label}"`,
+    ogDescription: `Browse articles about ${label} on the ToolPrime blog.`,
+    ogType: 'website',
+  }
+}
+
 export function getGradientMeta(name: string, slug: string, colors: string[]): MetaTags {
   return {
     title: `${name} Gradient — CSS Code & Preview | ${SITE_NAME}`,

@@ -1,0 +1,108 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { getBlogMeta } from '@/lib/seo'
+import { articleSchema } from '@/lib/schema'
+import { getToolById } from '@/data/tools'
+
+interface Props {
+  title: string
+  description: string
+  slug: string
+  date: Date
+  tags: string[]
+  relatedTools: string[]
+  headings?: { depth: number; slug: string; text: string }[]
+}
+
+const { title, description, slug, date, tags, relatedTools, headings = [] } = Astro.props
+const meta = getBlogMeta(title, slug, description)
+
+// Reading time estimate (assuming ~1400 chars per minute)
+const body = await Astro.slots.render('default')
+const wordCount = body.replace(/<[^>]*>/g, '').split(/\s+/).length
+const readingTime = Math.max(1, Math.round(wordCount / 200))
+
+// Build TOC from headings
+const tocItems = headings.filter(h => h.depth === 2 || h.depth === 3)
+
+// Resolve related tools
+const resolvedTools = relatedTools.map(id => getToolById(id)).filter(Boolean)
+
+const dateStr = date.toISOString().split('T')[0]
+const displayDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+---
+
+<BaseLayout {...meta} ogType="article">
+  <SchemaMarkup json={articleSchema(title, description, slug, dateStr)} slot="head" />
+
+  <Breadcrumbs items={[
+    { name: 'Blog', url: 'https://toolprime.dev/blog' },
+    { name: title, url: meta.canonical },
+  ]} />
+
+  <div class="lg:grid lg:grid-cols-[1fr_260px] lg:gap-8">
+    <article class="min-w-0">
+      <header class="mb-8">
+        <h1 class="text-3xl font-extrabold text-[var(--color-text)] mb-3" style="letter-spacing: -0.02em;">{title}</h1>
+        <div class="flex flex-wrap items-center gap-3 text-sm text-[var(--color-text-muted)]">
+          <span>ToolPrime Team</span>
+          <span aria-hidden="true">·</span>
+          <time datetime={dateStr}>{displayDate}</time>
+          <span aria-hidden="true">·</span>
+          <span>{readingTime} min read</span>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-3">
+          {tags.map(tag => (
+            <a href={`/blog/tag/${tag}`} class="inline-block rounded-full border border-[var(--color-border)] px-3 py-0.5 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors">{tag}</a>
+          ))}
+        </div>
+      </header>
+
+      <div class="prose prose-sm max-w-none
+        prose-headings:text-[var(--color-text)] prose-headings:font-bold
+        prose-p:text-[var(--color-text-muted)] prose-p:leading-relaxed
+        prose-a:text-[var(--color-primary)] prose-a:underline prose-a:decoration-[var(--color-primary)]/30 hover:prose-a:decoration-[var(--color-primary)]
+        prose-strong:text-[var(--color-text)]
+        prose-code:text-[var(--color-primary)] prose-code:bg-[var(--color-surface-alt)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs
+        prose-pre:bg-[var(--color-surface-alt)] prose-pre:border prose-pre:border-[var(--color-border)] prose-pre:rounded-xl
+        prose-li:text-[var(--color-text-muted)]
+        prose-blockquote:border-[var(--color-primary)] prose-blockquote:text-[var(--color-text-muted)]
+        prose-table:text-sm
+        prose-th:text-[var(--color-text)]
+        prose-td:text-[var(--color-text-muted)]
+        prose-img:rounded-xl">
+        <slot />
+      </div>
+    </article>
+
+    <aside class="hidden lg:block space-y-6 mt-2">
+      {tocItems.length > 0 && (
+        <nav aria-label="Table of contents" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">On this page</h2>
+          <ul class="space-y-1.5 text-sm">
+            {tocItems.map(h => (
+              <li style={h.depth === 3 ? 'padding-left: 0.75rem;' : ''}>
+                <a href={`#${h.slug}`} class="text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors leading-snug block">{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+
+      {resolvedTools.length > 0 && (
+        <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h2 class="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">Related Tools</h2>
+          <ul class="space-y-2">
+            {resolvedTools.map(tool => tool && (
+              <li>
+                <a href={tool.path} class="text-sm text-[var(--color-primary)] hover:underline">{tool.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </aside>
+  </div>
+</BaseLayout>
