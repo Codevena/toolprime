@@ -1,0 +1,58 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { TimezoneConverter } from '@/components/tools/TimezoneConverter'
+import {
+  getUtcOffset,
+  formatTimeInZone,
+  formatDateInZone,
+  getRelatedCityEntries,
+  type City,
+} from '@/data/timezoneData'
+
+interface Props {
+  city: City
+}
+
+const { city } = Astro.props
+const now = new Date()
+const offset = getUtcOffset(city.timezone, now)
+const time = formatTimeInZone(city.timezone, now)
+const date = formatDateInZone(city.timezone, now)
+const related = getRelatedCityEntries(city.slug, 12)
+---
+
+<Breadcrumbs items={[
+  { name: 'Time Zone Converter', url: 'https://toolprime.dev/timezone-converter' },
+  { name: `Time in ${city.name}`, url: `https://toolprime.dev/time/${city.slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">
+  {city.flag} Current Time in {city.name}
+</h1>
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6 mb-6 text-center">
+  <p class="text-4xl font-bold font-mono" role="status" aria-live="polite">{time}</p>
+  <p class="text-[var(--color-text-muted)] mt-2">{date}</p>
+  <p class="text-sm text-[var(--color-text-muted)]">{city.timezone} ({offset})</p>
+</div>
+
+<AdSlot position="top" />
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Convert to Another Time Zone</h2>
+  <TimezoneConverter client:load defaultFrom={city.timezone} defaultTo="America/New_York" />
+</div>
+
+<section aria-labelledby="other-cities">
+  <h2 id="other-cities" class="text-xl font-bold mb-4">Time in Other Cities</h2>
+  <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+    {related.map((r) => (
+      <li>
+        <a href={`/time/${r.slug}`} class="text-[var(--color-primary)] hover:underline">
+          {r.city.flag} {r.city.name}
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

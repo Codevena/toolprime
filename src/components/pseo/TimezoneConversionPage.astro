@@ -1,0 +1,99 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { TimezoneConverter } from '@/components/tools/TimezoneConverter'
+import {
+  getUtcOffset,
+  formatTimeInZone,
+  formatDateInZone,
+  getHourDifference,
+  getRelatedPairEntries,
+  type City,
+} from '@/data/timezoneData'
+import { timezoneFaqSchema } from '@/lib/schema'
+
+interface Props {
+  from: City
+  to: City
+}
+
+const { from, to } = Astro.props
+const now = new Date()
+const hourDiff = getHourDifference(from.timezone, to.timezone, now)
+const fromOffset = getUtcOffset(from.timezone, now)
+const toOffset = getUtcOffset(to.timezone, now)
+const related = getRelatedPairEntries(from.slug, to.slug, 8)
+const ahead = hourDiff >= 0 ? 'ahead of' : 'behind'
+const diff = Math.abs(hourDiff)
+---
+
+<SchemaMarkup json={timezoneFaqSchema(from.name, to.name, hourDiff)} />
+
+<Breadcrumbs items={[
+  { name: 'Time Zone Converter', url: 'https://toolprime.dev/timezone-converter' },
+  { name: `${from.name} to ${to.name}`, url: `https://toolprime.dev/time/${from.slug}-to-${to.slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">
+  {from.flag} {from.name} to {to.flag} {to.name} — Time Difference
+</h1>
+
+<p class="text-[var(--color-text-muted)] mb-6">
+  {to.name} is <strong>{diff} hour{diff !== 1 ? 's' : ''} {ahead} {from.name}</strong>.
+  {from.name} is {fromOffset}, {to.name} is {toOffset}.
+</p>
+
+<AdSlot position="top" />
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Convert a Different Time</h2>
+  <TimezoneConverter client:load defaultFrom={from.timezone} defaultTo={to.timezone} />
+</div>
+
+{/* Hour comparison table */}
+<section class="mb-8" aria-labelledby="hour-table">
+  <h2 id="hour-table" class="text-xl font-bold mb-4">Hour-by-Hour Comparison</h2>
+  <div class="overflow-x-auto">
+    <table class="w-full border-collapse text-sm">
+      <caption class="sr-only">{from.name} to {to.name} hourly time comparison</caption>
+      <thead>
+        <tr class="border-b border-[var(--color-border)]">
+          <th scope="col" class="text-left py-2 px-3 font-medium">{from.name}</th>
+          <th scope="col" class="text-left py-2 px-3 font-medium">{to.name}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Array.from({ length: 24 }, (_, h) => {
+          const fromHour = h === 0 ? '12:00 AM' : h < 12 ? `${h}:00 AM` : h === 12 ? '12:00 PM' : `${h - 12}:00 PM`
+          let toH = (h + hourDiff) % 24
+          if (toH < 0) toH += 24
+          const toHour = toH === 0 ? '12:00 AM' : toH < 12 ? `${toH}:00 AM` : toH === 12 ? '12:00 PM' : `${toH - 12}:00 PM`
+          return (
+            <tr class="border-b border-[var(--color-border)] last:border-0">
+              <td class="py-1.5 px-3 font-mono">{fromHour}</td>
+              <td class="py-1.5 px-3 font-mono">{toHour}</td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<AdSlot position="bottom" />
+
+{related.length > 0 && (
+  <section aria-labelledby="related-tz">
+    <h2 id="related-tz" class="text-xl font-bold mb-4">Related Time Zone Conversions</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      {related.map((r) => (
+        <li>
+          <a href={`/time/${r.slug}`} class="text-[var(--color-primary)] hover:underline">
+            {r.from.flag} {r.from.name} to {r.to.flag} {r.to.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

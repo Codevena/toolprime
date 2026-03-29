@@ -436,6 +436,28 @@ export function getAsciiMeta(code: number, char: string): MetaTags {
   }
 }
 
+export function getTimezonePairMeta(fromName: string, toName: string, fromSlug: string, toSlug: string): MetaTags {
+  return {
+    title: `${fromName} to ${toName} — Time Zone Converter | ${SITE_NAME}`,
+    description: `Convert time between ${fromName} and ${toName}. See current time, hour-by-hour comparison, and UTC offset difference.`,
+    canonical: `${SITE_URL}/time/${fromSlug}-to-${toSlug}`,
+    ogTitle: `${fromName} to ${toName} Time Converter`,
+    ogDescription: `Convert time between ${fromName} and ${toName} instantly.`,
+    ogType: 'website',
+  }
+}
+
+export function getCityTimeMeta(cityName: string, citySlug: string): MetaTags {
+  return {
+    title: `Current Time in ${cityName} — Live Clock | ${SITE_NAME}`,
+    description: `What time is it in ${cityName} right now? See the current local time, date, UTC offset, and timezone info for ${cityName}.`,
+    canonical: `${SITE_URL}/time/${citySlug}`,
+    ogTitle: `Current Time in ${cityName}`,
+    ogDescription: `Live clock showing the current time in ${cityName}.`,
+    ogType: 'website',
+  }
+}
+
 // Hub pages
 export function getHubMeta(title: string, description: string, path: string): MetaTags {
   return {

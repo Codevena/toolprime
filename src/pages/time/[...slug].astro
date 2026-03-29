@@ -1,0 +1,44 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import TimezoneConversionPage from '@/components/pseo/TimezoneConversionPage.astro'
+import CityTimePage from '@/components/pseo/CityTimePage.astro'
+import {
+  timezonePairEntries,
+  cityTimeEntries,
+  type TimezonePairEntry,
+  type CityTimeEntry,
+} from '@/data/timezoneData'
+import { getTimezonePairMeta, getCityTimeMeta, type MetaTags } from '@/lib/seo'
+
+type PageProps =
+  | { type: 'pair'; pair: TimezonePairEntry; cityTime: null }
+  | { type: 'cityTime'; pair: null; cityTime: CityTimeEntry }
+
+export function getStaticPaths() {
+  const pairPaths = timezonePairEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'pair' as const, pair: entry, cityTime: null },
+  }))
+
+  const cityPaths = cityTimeEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'cityTime' as const, pair: null, cityTime: entry },
+  }))
+
+  return [...pairPaths, ...cityPaths]
+}
+
+const props = Astro.props as PageProps
+
+let meta: MetaTags
+if (props.type === 'pair') {
+  meta = getTimezonePairMeta(props.pair.from.name, props.pair.to.name, props.pair.from.slug, props.pair.to.slug)
+} else {
+  meta = getCityTimeMeta(props.cityTime.city.name, props.cityTime.city.slug)
+}
+---
+
+<BaseLayout {...meta}>
+  {props.type === 'pair' && <TimezoneConversionPage from={props.pair.from} to={props.pair.to} />}
+  {props.type === 'cityTime' && <CityTimePage city={props.cityTime.city} />}
+</BaseLayout>

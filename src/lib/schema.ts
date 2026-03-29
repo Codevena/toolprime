@@ -287,6 +287,41 @@ export function fractionFaqSchema(
   ])
 }
 
+export function timezoneFaqSchema(fromName: string, toName: string, hourDiff: number): string {
+  const ahead = hourDiff >= 0 ? 'ahead of' : 'behind'
+  const diff = Math.abs(hourDiff)
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: `What is the time difference between ${fromName} and ${toName}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `${toName} is ${diff} hour${diff !== 1 ? 's' : ''} ${ahead} ${fromName}.`,
+        },
+      },
+      {
+        '@type': 'Question',
+        name: `When it is 9 AM in ${fromName}, what time is it in ${toName}?`,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: `When it is 9:00 AM in ${fromName}, it is ${formatHourOffset(9, hourDiff)} in ${toName}.`,
+        },
+      },
+    ],
+  })
+}
+
+function formatHourOffset(hour: number, diff: number): string {
+  let h = (hour + diff) % 24
+  if (h < 0) h += 24
+  const period = h >= 12 ? 'PM' : 'AM'
+  const displayHour = h === 0 ? 12 : h > 12 ? h - 12 : h
+  return `${displayHour}:00 ${period}`
+}
+
 // Number base conversion FAQ schema
 export function numberBaseFaqSchema(value: number, toBase: string, result: string): string {
   return faqPageSchema([
