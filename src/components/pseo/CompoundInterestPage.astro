@@ -1,0 +1,95 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { CompoundInterestCalculator } from '@/components/tools/CompoundInterestCalculator'
+import { compoundInterest, formatMoney, getRelatedCompoundEntries, type CompoundInterestEntry } from '@/data/compoundInterestData'
+
+interface Props {
+  entry: CompoundInterestEntry
+}
+
+const { entry } = Astro.props
+const { principal, rate, years, result, slug } = entry
+const totalInterest = result - principal
+const related = getRelatedCompoundEntries(slug, principal, rate)
+
+// Build year-by-year table
+const yearRows: { year: number; balance: number; yearInterest: number; totalInterest: number }[] = []
+for (let y = 1; y <= years; y++) {
+  const balance = compoundInterest(principal, rate, y)
+  const prevBalance = y > 1 ? compoundInterest(principal, rate, y - 1) : principal
+  yearRows.push({
+    year: y,
+    balance,
+    yearInterest: balance - prevBalance,
+    totalInterest: balance - principal,
+  })
+}
+---
+
+<Breadcrumbs items={[
+  { name: 'Compound Interest Calculator', url: 'https://toolprime.dev/compound-interest-calculator' },
+  { name: `${formatMoney(principal)} at ${rate}%`, url: `https://toolprime.dev/calculate/${slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">
+  {formatMoney(principal)} at {rate}% for {years} Year{years !== 1 ? 's' : ''} = {formatMoney(result)}
+</h1>
+
+<p class="text-[var(--color-text-muted)] mb-6">
+  An investment of {formatMoney(principal)} at {rate}% annual interest for {years} years grows to <strong>{formatMoney(result)}</strong>,
+  earning {formatMoney(totalInterest)} in interest.
+</p>
+
+<AdSlot position="top" />
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try Different Values</h2>
+  <CompoundInterestCalculator client:load defaultPrincipal={principal} defaultRate={rate} defaultYears={years} />
+</div>
+
+{yearRows.length > 1 && (
+  <section class="mb-8" aria-labelledby="growth-table">
+    <h2 id="growth-table" class="text-xl font-bold mb-4">Year-by-Year Growth</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-sm">
+        <caption class="sr-only">Compound interest growth table</caption>
+        <thead>
+          <tr class="border-b border-[var(--color-border)]">
+            <th scope="col" class="text-left py-2 px-3 font-medium">Year</th>
+            <th scope="col" class="text-right py-2 px-3 font-medium">Balance</th>
+            <th scope="col" class="text-right py-2 px-3 font-medium">Year Interest</th>
+            <th scope="col" class="text-right py-2 px-3 font-medium">Total Interest</th>
+          </tr>
+        </thead>
+        <tbody>
+          {yearRows.map((row) => (
+            <tr class="border-b border-[var(--color-border)] last:border-0">
+              <td class="py-1.5 px-3">{row.year}</td>
+              <td class="py-1.5 px-3 text-right font-mono">{formatMoney(row.balance)}</td>
+              <td class="py-1.5 px-3 text-right font-mono">{formatMoney(row.yearInterest)}</td>
+              <td class="py-1.5 px-3 text-right font-mono">{formatMoney(row.totalInterest)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+)}
+
+<AdSlot position="bottom" />
+
+{related.length > 0 && (
+  <section aria-labelledby="related-ci">
+    <h2 id="related-ci" class="text-xl font-bold mb-4">Related Calculations</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      {related.map((r) => (
+        <li>
+          <a href={`/calculate/${r.slug}`} class="text-[var(--color-primary)] hover:underline">
+            {formatMoney(r.principal)} at {r.rate}% for {r.years} years
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

@@ -470,6 +470,20 @@ export function getDateCalcMeta(slug: string, heading: string, description: stri
   }
 }
 
+// Compound interest pSEO pages
+export function getCompoundInterestMeta(principal: number, rate: number, years: number, result: number): MetaTags {
+  const p = principal.toLocaleString('en-US')
+  const r = result.toLocaleString('en-US', { maximumFractionDigits: 0 })
+  return {
+    title: `$${p} at ${rate}% for ${years} Years = $${r} | ${SITE_NAME}`,
+    description: `$${p} invested at ${rate}% annual interest for ${years} years grows to $${r} with compound interest. Free calculator with growth chart.`,
+    canonical: `${SITE_URL}/calculate/compound-interest-${principal}-at-${rate}-percent-for-${years}-years`,
+    ogTitle: `Compound Interest: $${p} at ${rate}% for ${years} Years`,
+    ogDescription: `$${p} grows to $${r} with compound interest.`,
+    ogType: 'website',
+  }
+}
+
 // Hub pages
 export function getHubMeta(title: string, description: string, path: string): MetaTags {
   return {

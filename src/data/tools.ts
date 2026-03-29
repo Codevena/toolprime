@@ -98,6 +98,7 @@ export const toolAudienceMap: Record<string, ToolAudience> = {
   'lorem-ipsum-generator': 'everyday',
   'timezone-converter': 'everyday',
   'date-calculator': 'everyday',
+  'compound-interest-calculator': 'everyday',
 }
 
 export const tools: Tool[] = [
@@ -507,6 +508,17 @@ export const tools: Tool[] = [
     icon: 'CalendarDays',
     keywords: ['date calculator', 'days between dates', 'days from today', 'countdown', 'week number'],
     relatedTools: ['timezone-converter', 'age-calculator', 'percentage-calculator'],
+  },
+  {
+    id: 'compound-interest-calculator',
+    name: 'Compound Interest Calculator',
+    description: 'Calculate compound interest with visual growth chart. See how your investments grow over time.',
+    longDescription: 'Calculate compound interest for any principal, rate, and time period. Includes a visual growth chart, year-by-year breakdown table, and support for different compounding frequencies.',
+    category: 'math',
+    path: '/compound-interest-calculator',
+    icon: 'TrendingUp',
+    keywords: ['compound interest', 'investment calculator', 'interest rate', 'savings growth'],
+    relatedTools: ['mortgage-calculator', 'percentage-calculator'],
   },
 ]
 

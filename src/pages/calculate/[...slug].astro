@@ -4,6 +4,7 @@ import AgeCalculationPage from '@/components/pseo/AgeCalculationPage.astro'
 import FractionCalculationPage from '@/components/pseo/FractionCalculationPage.astro'
 import DecimalToFractionPage from '@/components/pseo/DecimalToFractionPage.astro'
 import DateCalcPage from '@/components/pseo/DateCalcPage.astro'
+import CompoundInterestPage from '@/components/pseo/CompoundInterestPage.astro'
 import { ageEntries, type AgeEntry } from '@/data/ageData'
 import {
   fractionEntries,
@@ -23,14 +24,16 @@ import {
   daysAgoEntries,
   monthLabels,
 } from '@/data/dateCalcData'
-import { getAgeMeta, getFractionMeta, getDecimalToFractionMeta, getDateCalcMeta } from '@/lib/seo'
+import { compoundInterestEntries, type CompoundInterestEntry } from '@/data/compoundInterestData'
+import { getAgeMeta, getFractionMeta, getDecimalToFractionMeta, getDateCalcMeta, getCompoundInterestMeta } from '@/lib/seo'
 import type { MetaTags } from '@/lib/seo'
 
 type PageProps =
-  | { type: 'age'; age: AgeEntry; fraction: null; decimal: null }
-  | { type: 'fraction'; age: null; fraction: FractionEntry; decimal: null }
-  | { type: 'decimalToFraction'; age: null; fraction: null; decimal: DecimalToFractionEntry }
-  | { type: 'dateCalc'; age: null; fraction: null; decimal: null; dateCalcType: string; dateCalcProps: Record<string, unknown>; dateCalcSlug: string; dateCalcHeading: string; dateCalcDescription: string }
+  | { type: 'age'; age: AgeEntry; fraction: null; decimal: null; compoundInterest?: undefined }
+  | { type: 'fraction'; age: null; fraction: FractionEntry; decimal: null; compoundInterest?: undefined }
+  | { type: 'decimalToFraction'; age: null; fraction: null; decimal: DecimalToFractionEntry; compoundInterest?: undefined }
+  | { type: 'dateCalc'; age: null; fraction: null; decimal: null; dateCalcType: string; dateCalcProps: Record<string, unknown>; dateCalcSlug: string; dateCalcHeading: string; dateCalcDescription: string; compoundInterest?: undefined }
+  | { type: 'compoundInterest'; age: null; fraction: null; decimal: null; compoundInterest: CompoundInterestEntry }
 
 export function getStaticPaths() {
   const agePaths = ageEntries.map((entry) => ({
@@ -152,6 +155,11 @@ export function getStaticPaths() {
     },
   }))
 
+  const compoundInterestPaths = compoundInterestEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'compoundInterest' as const, age: null, fraction: null, decimal: null, compoundInterest: entry },
+  }))
+
   return [
     ...agePaths,
     ...fractionPaths,
@@ -164,6 +172,7 @@ export function getStaticPaths() {
     ...weeksFromTodayPaths,
     ...monthsFromTodayPaths,
     ...daysAgoPaths,
+    ...compoundInterestPaths,
   ]
 }
 
@@ -177,6 +186,8 @@ if (props.type === 'age') {
   meta = getFractionMeta(f1.n, f1.d, op, opSymbols[op], f2.n, f2.d, result.n, result.d)
 } else if (props.type === 'dateCalc') {
   meta = getDateCalcMeta(props.dateCalcSlug, props.dateCalcHeading, props.dateCalcDescription)
+} else if (props.type === 'compoundInterest') {
+  meta = getCompoundInterestMeta(props.compoundInterest.principal, props.compoundInterest.rate, props.compoundInterest.years, props.compoundInterest.result)
 } else {
   meta = getDecimalToFractionMeta(props.decimal.decimal, props.decimal.fraction.n, props.decimal.fraction.d)
 }
@@ -187,4 +198,5 @@ if (props.type === 'age') {
   {props.type === 'fraction' && <FractionCalculationPage entry={props.fraction} />}
   {props.type === 'decimalToFraction' && <DecimalToFractionPage entry={props.decimal} />}
   {props.type === 'dateCalc' && <DateCalcPage type={props.dateCalcType as any} {...props.dateCalcProps as any} />}
+  {props.type === 'compoundInterest' && <CompoundInterestPage entry={props.compoundInterest} />}
 </BaseLayout>

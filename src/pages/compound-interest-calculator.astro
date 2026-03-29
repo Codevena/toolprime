@@ -1,0 +1,23 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { CompoundInterestCalculator } from '@/components/tools/CompoundInterestCalculator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('compound-interest-calculator')
+if (!tool) throw new Error('Tool not found: compound-interest-calculator')
+---
+
+<ToolLayout tool={tool}>
+  <CompoundInterestCalculator client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use</h2>
+    <ol class="step-list" role="list">
+      <li>Enter your <strong>initial investment</strong> (principal amount)</li>
+      <li>Set the <strong>annual interest rate</strong> as a percentage</li>
+      <li>Choose the <strong>investment period</strong> in years</li>
+      <li>Select the <strong>compounding frequency</strong> (annually, monthly, quarterly, or daily)</li>
+      <li>View your projected growth, total interest earned, and year-by-year breakdown</li>
+    </ol>
+  </section>
+</ToolLayout>
