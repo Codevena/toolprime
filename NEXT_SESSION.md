@@ -90,59 +90,91 @@
 - **3076 pages total, 0 errors, 0 TypeScript errors, ~6s build**
 - **Deployed to production**
 
+**Session 7 (2026-03-29):**
+- **Priority 1: Post-Deploy SEO**: Sitemap cache purged (3075 URLs live), GSC resubmitted
+- **Phase 4: 11 New Tools** (7 parallel agents):
+  - Markdown Editor, Markdown to PDF, JSON to CSV, Image to Base64
+  - Meta Tag Generator, robots.txt Generator, Cron Expression Generator
+  - Color Palette Generator, Mortgage Calculator, BMI Calculator, Tip Calculator
+  - ~500 programmatic SEO pages (palettes, meta-tags, robots.txt, cron, BMI, mortgage, tip)
+  - New deps: marked, highlight.js, html2pdf.js, papaparse, cronstrue, marked-highlight, dompurify
+- **Content Expansion** (3 parallel agents):
+  - Blog: 10 handwritten articles + 40 programmatic how-to posts + 58 tag pages
+  - Cooking conversions: 7 → 35 pairs (+56 pages)
+  - Hash words: 100 → 250 words (+600 hash pages)
+- **Monetization Prep**:
+  - ads.txt placeholder for AdSense
+  - AdSlot component (env-gated, renders nothing until enabled)
+  - Directory submission texts for Product Hunt, AlternativeTo, SaaSHub, etc.
+- **3 rounds of 4-agent code review (12 reviews)**, all findings fixed
+- **4320 pages total, 31 tools, 0 errors, 0 TypeScript errors, ~15s build**
+- **Deployed to production**
+
 ## Current state
 
 - **Design C UI** — step-cards, grid cards, custom tables, privacy banner
-- **3076 pages** building in ~6 seconds
-- **20 tools** across 6 categories (text, developer, image, math, design, business)
-- **155 unit conversions** across 12 categories (incl. Cooking & Kitchen)
+- **4320 pages** building in ~15 seconds
+- **31 tools** across 6 categories (text, developer, image, math, design, business)
+- **183 unit conversions** across 12 categories (incl. 35 Cooking & Kitchen)
 - **~2340 percentage pages** (forward + reverse + index)
-- **400 hash lookup pages** (4 algorithms × 100 words)
+- **1000 hash lookup pages** (4 algorithms × 250 words)
 - **40 regex pattern pages** with live tester
 - **50 gradient preset pages** with interactive editor
-- **65 "Convert X to Y" landing pages** with HowTo schema
-- **20 dynamic OG images** (Branded Card design, Satori + Sharp)
-- **500+ word SEO content** on all 20 tool pages
+- **66 "Convert X to Y" landing pages** with HowTo schema
+- **43 cron expression pages** with code examples
+- **50 color palette pages** with CSS/Tailwind export
+- **20 meta tag template pages**
+- **15 robots.txt template pages**
+- **182 BMI preset pages**
+- **154 mortgage calculator pages**
+- **28 tip calculator pages**
+- **Blog**: 10 articles + 40 how-to posts + 58 tag pages
+- **31 dynamic OG images** (Branded Card design, Satori + Sharp)
+- **500+ word SEO content** on all 31 tool pages
+- **AdSlot component** ready (env-gated, needs PUBLIC_ENABLE_ADS=true)
+- **ads.txt** placeholder ready (needs publisher ID)
 - **0 errors, 0 TypeScript errors**
 - **LIVE** at https://toolprime.dev (Cloudflare Pages)
-- **Google Search Console**: Verified, sitemap submitted
+- **Google Search Console**: Verified, sitemap resubmitted (4320 pages)
 - **Bing Webmaster Tools**: Active
 - Analytics: Umami at analytics.codevena.dev
 - Branch: `main`
 
-## What to do next (Session 7)
+## What to do next (Session 8)
 
-### Priority 1: Post-Deploy SEO
-1. **Resubmit sitemap** in Google Search Console (3076 pages now)
-2. **Request indexing** for key new pages (convert pages, new regex patterns, new gradients)
-3. **Monitor** coverage report in GSC for crawl errors
+### Priority 1: Impressum Address
+- Add full postal address (TMG §5 requirement) — needs real address or Impressumsservice (~10/mo)
 
-### Priority 2: Impressum Address
-- Add full postal address (TMG §5 requirement) — needs real address or Impressumsservice
+### Priority 2: AdSense Application
+- Wait for 1-2 weeks of traffic data
+- Apply at https://adsense.google.com
+- Once approved: set `PUBLIC_ENABLE_ADS=true`, `PUBLIC_ADSENSE_CLIENT=ca-pub-XXX`, `PUBLIC_ADSENSE_SLOT=XXX` in Cloudflare env vars
+- Update ads.txt with actual publisher ID
 
-### Priority 3: Phase 4 Tools
-Potential tools for Phase 4 (after traffic validates model):
-- Markdown Editor/Preview
-- JSON to CSV Converter
-- Image to Base64
-- Color Palette Generator
-- Meta Tag Generator
-- robots.txt Generator
-- Cron Expression Generator
-- Mortgage Calculator
-- BMI Calculator
-- Tip Calculator
+### Priority 3: Directory Submissions
+- See `docs/directory-submissions.md` for pre-written copy
+- Submit to: Product Hunt, AlternativeTo, SaaSHub, Indie Hackers, HN, BetaList, Reddit, Twitter/X
+- Track submissions in the checklist
 
-### Priority 4: Content Expansion
-- Blog section for "how to" articles
-- Expand cooking conversions (currently 7, could be 30+)
-- More hash words (tech terms, common names)
-- i18n (German version for DACH market)
+### Priority 4: Phase 5 Tools
+Potential new tools:
+- Markdown Table Generator
+- HTML to Markdown
+- Lorem Picsum (placeholder images)
+- Pomodoro Timer
+- Kanban Board (local storage)
+- Screen Resolution Checker
+- Aspect Ratio Calculator
 
-### Priority 5: Monetization
-- **AdSense** — apply once site has some traffic (1-2 weeks live)
-- **Impressumsservice** — get proper business address (~10/mo)
-- **Submit to directories** — Product Hunt, AlternativeTo, SaaSHub, etc.
+### Priority 5: i18n (German)
+- German version for DACH market
+- Separate /de/ routes or language toggle
+- Biggest SEO impact: German programmatic pages (percentage, BMI, mortgage)
+
+### Priority 6: Performance & UX
+- Lighthouse audit and optimize Core Web Vitals
+- Add search functionality to blog
+- PWA support (offline tool access)
 
 ## Revenue Milestones
 
@@ -154,25 +186,26 @@ Potential tools for Phase 4 (after traffic validates model):
 | Raptive tier | 500K+ sessions/mo | €15-30K/mo | Month 12-18 |
 
 ## Tech stack
-Astro 6, React 19, TypeScript 5.9, Tailwind CSS 4, Geist + Geist Mono, Lucide React, Satori + Sharp (OG images), Cloudflare Pages
+Astro 6, React 19, TypeScript 5.9, Tailwind CSS 4, Geist + Geist Mono, Lucide React, Satori + Sharp (OG images), DOMPurify, marked + marked-highlight + highlight.js, html2pdf.js, papaparse, cronstrue, Cloudflare Pages
 
 ## Key files
-- **Tools:** `src/components/tools/*.tsx` (20 tools)
+- **Tools:** `src/components/tools/*.tsx` (31 tools)
 - **Pages:** `src/pages/*.astro`
-- **Data:** `src/data/tools.ts`, `src/data/tool-content.ts`, `src/data/faqs.ts`, `src/data/conversions.ts`, `src/data/percentages.ts`, `src/data/hashes.ts`, `src/data/regexPatterns.ts`, `src/data/gradients.ts`, `src/data/formatConversions.ts`
+- **Blog:** `src/content/blog/*.md`, `src/data/blogTemplates.ts`, `src/layouts/BlogLayout.astro`
+- **Data:** `src/data/tools.ts`, `src/data/tool-content.ts`, `src/data/faqs.ts`, `src/data/conversions.ts`, `src/data/percentages.ts`, `src/data/hashes.ts`, `src/data/regexPatterns.ts`, `src/data/gradients.ts`, `src/data/formatConversions.ts`, `src/data/cronExpressions.ts`, `src/data/bmiData.ts`, `src/data/mortgageData.ts`, `src/data/tipData.ts`, `src/data/metaTagTemplates.ts`, `src/data/colorPalettes.ts`, `src/data/robotsTxtTemplates.ts`
 - **SEO:** `src/lib/seo.ts`, `src/lib/schema.ts`
 - **OG Images:** `src/lib/og-image.ts`, `src/pages/og/[id].png.ts`
-- **Layouts:** `src/layouts/BaseLayout.astro`, `src/layouts/ToolLayout.astro`
+- **Layouts:** `src/layouts/BaseLayout.astro`, `src/layouts/ToolLayout.astro`, `src/layouts/BlogLayout.astro`
+- **Ads:** `src/components/ads/AdSlot.astro`, `public/ads.txt`
 - **UI Components:** `src/components/MobileNav.tsx`, `src/components/StickySearch.tsx`, `src/components/ui/GradientIcon.tsx`
 - **Styles:** `src/styles/global.css`
-- **Docs:** `docs/seo-launch-guide.md`
+- **Docs:** `docs/seo-launch-guide.md`, `docs/directory-submissions.md`
 - **Specs:** `docs/superpowers/specs/`
-- **Plans:** `docs/superpowers/plans/`
 - **Reviews:** `docs/reviews/`
 
 ## Quick commands
 ```bash
 pnpm dev      # Dev server at localhost:4321
-pnpm build    # Build all 3076 pages
+pnpm build    # Build all 4320 pages
 pnpm preview  # Preview production build
 ```
