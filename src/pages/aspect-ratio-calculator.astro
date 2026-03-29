@@ -1,0 +1,22 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { AspectRatioCalculator } from '@/components/tools/AspectRatioCalculator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('aspect-ratio-calculator')
+if (!tool) throw new Error('Tool not found: aspect-ratio-calculator')
+---
+
+<ToolLayout tool={tool}>
+  <AspectRatioCalculator client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use</h2>
+    <ol class="step-list" role="list">
+      <li>Enter <strong>width</strong> and <strong>height</strong> to calculate the aspect ratio</li>
+      <li>Or switch to <strong>Resize</strong> mode to scale proportionally</li>
+      <li>Use <strong>quick-select buttons</strong> for common ratios (16:9, 4:3, 1:1)</li>
+      <li>View the <strong>visual preview</strong> of the aspect ratio</li>
+    </ol>
+  </section>
+</ToolLayout>

@@ -1,0 +1,171 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { AspectRatioCalculator } from '@/components/tools/AspectRatioCalculator'
+import { getRelatedAspectEntries, deviceEntries, videoFormatEntries } from '@/data/aspectRatioData'
+
+interface Props {
+  type: 'resolution' | 'device' | 'videoFormat'
+  width: number
+  height: number
+  ratio: string
+  slug: string
+  deviceName?: string
+  ppi?: number
+  category?: string
+  videoName?: string
+  platform?: string
+}
+
+const { type, width, height, ratio, slug, deviceName, ppi, category, videoName, platform } = Astro.props
+
+const megapixels = ((width * height) / 1_000_000).toFixed(2)
+const decimal = (width / height).toFixed(4)
+
+const relatedResolutions = type === 'resolution' ? getRelatedAspectEntries(slug, ratio) : []
+
+// Build heading
+let heading: string
+let description: string
+let breadcrumbLabel: string
+
+if (type === 'device') {
+  heading = `${deviceName} Screen Resolution — ${width}x${height}`
+  description = `${deviceName} has a screen resolution of ${width}x${height} pixels with an aspect ratio of ${ratio}.${ppi ? ` Pixel density: ${ppi} PPI.` : ''} Category: ${category}.`
+  breadcrumbLabel = deviceName!
+} else if (type === 'videoFormat') {
+  heading = `${videoName} Resolution — ${width}x${height}`
+  description = `The recommended resolution for ${videoName} (${platform}) is ${width}x${height} with an aspect ratio of ${ratio}.`
+  breadcrumbLabel = videoName!
+} else {
+  heading = `${width}x${height} Aspect Ratio — ${ratio}`
+  description = `${width}x${height} has an aspect ratio of ${ratio} (decimal: ${decimal}). Total pixels: ${megapixels} megapixels.`
+  breadcrumbLabel = `${width}x${height}`
+}
+
+// Related devices with same ratio
+const relatedDevices = type !== 'device'
+  ? deviceEntries.filter((d) => d.ratio === ratio).slice(0, 6)
+  : deviceEntries.filter((d) => d.slug !== slug && d.category === category).slice(0, 6)
+
+// Related video formats with same ratio
+const relatedVideoFormats = type !== 'videoFormat'
+  ? videoFormatEntries.filter((v) => v.ratio === ratio).slice(0, 6)
+  : videoFormatEntries.filter((v) => v.slug !== slug && v.platform === platform).slice(0, 6)
+---
+
+<Breadcrumbs items={[
+  { name: 'Aspect Ratio Calculator', url: 'https://toolprime.dev/aspect-ratio-calculator' },
+  { name: breadcrumbLabel, url: `https://toolprime.dev/calculate/${slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">{heading}</h1>
+
+<p class="text-[var(--color-text-muted)] mb-6">{description}</p>
+
+<AdSlot position="top" />
+
+<!-- Key stats -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+    <div class="text-xs text-[var(--color-text-muted)] mb-1">Resolution</div>
+    <div class="text-lg font-bold text-[var(--color-text)]">{width}x{height}</div>
+  </div>
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+    <div class="text-xs text-[var(--color-text-muted)] mb-1">Aspect Ratio</div>
+    <div class="text-lg font-bold text-[var(--color-text)]">{ratio}</div>
+  </div>
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+    <div class="text-xs text-[var(--color-text-muted)] mb-1">Megapixels</div>
+    <div class="text-lg font-bold text-[var(--color-text)]">{megapixels} MP</div>
+  </div>
+  {type === 'device' && ppi ? (
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+      <div class="text-xs text-[var(--color-text-muted)] mb-1">PPI</div>
+      <div class="text-lg font-bold text-[var(--color-text)]">{ppi}</div>
+    </div>
+  ) : (
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+      <div class="text-xs text-[var(--color-text-muted)] mb-1">Decimal</div>
+      <div class="text-lg font-bold text-[var(--color-text)]">{decimal}</div>
+    </div>
+  )}
+</div>
+
+<!-- Interactive calculator -->
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try Different Values</h2>
+  <AspectRatioCalculator client:load defaultWidth={width} defaultHeight={height} />
+</div>
+
+{type === 'device' && category && (
+  <section class="mb-8" aria-labelledby="device-info">
+    <h2 id="device-info" class="text-xl font-bold mb-3">About {deviceName}</h2>
+    <p class="text-[var(--color-text-muted)]">
+      The {deviceName} features a {width}x{height} pixel display with an aspect ratio of {ratio}.
+      {ppi ? ` At ${ppi} PPI, it delivers sharp visuals for its ${category.toLowerCase()} form factor.` : ''}
+      {' '}The total pixel count is {megapixels} megapixels.
+    </p>
+  </section>
+)}
+
+{type === 'videoFormat' && platform && (
+  <section class="mb-8" aria-labelledby="format-info">
+    <h2 id="format-info" class="text-xl font-bold mb-3">{videoName} Sizing Guide</h2>
+    <p class="text-[var(--color-text-muted)]">
+      {platform} recommends a resolution of {width}x{height} pixels ({ratio} aspect ratio) for {videoName?.toLowerCase()}.
+      Using the correct dimensions ensures your content displays without cropping or letterboxing.
+    </p>
+  </section>
+)}
+
+<AdSlot position="bottom" />
+
+{relatedResolutions.length > 0 && (
+  <section class="mb-8" aria-labelledby="related-res">
+    <h2 id="related-res" class="text-xl font-bold mb-4">Other {ratio} Resolutions</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      {relatedResolutions.map((r) => (
+        <li>
+          <a href={`/calculate/${r.slug}`} class="text-[var(--color-primary)] hover:underline">
+            {r.width}x{r.height}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+{relatedDevices.length > 0 && (
+  <section class="mb-8" aria-labelledby="related-devices">
+    <h2 id="related-devices" class="text-xl font-bold mb-4">
+      {type === 'device' ? `Other ${category} Resolutions` : `Devices with ${ratio} Ratio`}
+    </h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      {relatedDevices.map((d) => (
+        <li>
+          <a href={`/calculate/${d.slug}`} class="text-[var(--color-primary)] hover:underline">
+            {d.name} — {d.width}x{d.height}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+{relatedVideoFormats.length > 0 && (
+  <section aria-labelledby="related-video">
+    <h2 id="related-video" class="text-xl font-bold mb-4">
+      {type === 'videoFormat' ? `Other ${platform} Formats` : `Video Formats with ${ratio} Ratio`}
+    </h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      {relatedVideoFormats.map((v) => (
+        <li>
+          <a href={`/calculate/${v.slug}`} class="text-[var(--color-primary)] hover:underline">
+            {v.name} — {v.width}x{v.height}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

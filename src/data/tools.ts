@@ -94,6 +94,7 @@ export const toolAudienceMap: Record<string, ToolAudience> = {
   'favicon-generator': 'design',
   'color-palette-generator': 'design',
   'color-picker': 'design',
+  'aspect-ratio-calculator': 'design',
   // Everyday (additional)
   'lorem-ipsum-generator': 'everyday',
   'timezone-converter': 'everyday',
@@ -520,6 +521,17 @@ export const tools: Tool[] = [
     icon: 'TrendingUp',
     keywords: ['compound interest', 'investment calculator', 'interest rate', 'savings growth'],
     relatedTools: ['mortgage-calculator', 'percentage-calculator', 'loan-calculator'],
+  },
+  {
+    id: 'aspect-ratio-calculator',
+    name: 'Aspect Ratio Calculator',
+    description: 'Calculate aspect ratios, resize proportionally, and find device screen resolutions.',
+    longDescription: 'Calculate the aspect ratio of any resolution, resize images proportionally, and look up screen resolutions for popular devices. Includes social media and video format guides.',
+    category: 'design',
+    path: '/aspect-ratio-calculator',
+    icon: 'Monitor',
+    keywords: ['aspect ratio', 'resolution', 'screen size', 'resize', 'proportion', 'device resolution'],
+    relatedTools: ['image-compressor', 'css-gradient-generator', 'favicon-generator'],
   },
   {
     id: 'loan-calculator',

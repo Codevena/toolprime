@@ -214,6 +214,11 @@ export const faqs: Record<string, Faq[]> = {
     { question: 'What is an amortization schedule?', answer: 'An amortization schedule shows how each monthly payment is split between principal and interest over the life of the loan. Early payments go mostly to interest, while later payments go mostly to principal.' },
     { question: 'Is my financial data safe?', answer: 'Yes. All calculations happen locally in your browser. No financial information is sent to any server or stored anywhere.' },
   ],
+  'aspect-ratio-calculator': [
+    { question: 'What is an aspect ratio?', answer: 'An aspect ratio describes the proportional relationship between width and height. For example, 16:9 means for every 16 units of width, there are 9 units of height. This ratio stays constant when you scale an image up or down proportionally.' },
+    { question: 'What aspect ratio is 1920x1080?', answer: '1920x1080 has an aspect ratio of 16:9, the most common widescreen ratio used for monitors, TVs, and video content including YouTube and streaming services.' },
+    { question: 'Is my data safe?', answer: 'Yes. All calculations happen locally in your browser. No data is sent to any server.' },
+  ],
   'timezone-converter': [
     { question: 'How does the time zone converter work?', answer: 'The converter uses the built-in Intl API and the IANA timezone database to calculate exact time differences between cities. It accounts for daylight saving time changes automatically.' },
     { question: 'Does it handle daylight saving time?', answer: 'Yes. The converter uses real timezone rules from the IANA database, which includes all historical and current DST transitions. The hour difference may change when a region enters or exits DST.' },

@@ -498,6 +498,39 @@ export function getLoanCalcMeta(amount: number, rate: number, years: number, mon
   }
 }
 
+export function getAspectRatioMeta(width: number, height: number, ratio: string): MetaTags {
+  return {
+    title: `${width}x${height} Aspect Ratio — ${ratio} | ${SITE_NAME}`,
+    description: `${width}x${height} has an aspect ratio of ${ratio}. Calculate aspect ratios, resize proportionally, and find equivalent resolutions.`,
+    canonical: `${SITE_URL}/calculate/aspect-ratio-${width}x${height}`,
+    ogTitle: `${width}x${height} Aspect Ratio — ${ratio}`,
+    ogDescription: `Aspect ratio: ${ratio}. Free calculator.`,
+    ogType: 'website',
+  }
+}
+
+export function getDeviceResolutionMeta(name: string, slug: string, width: number, height: number): MetaTags {
+  return {
+    title: `${name} Screen Resolution — ${width}x${height} | ${SITE_NAME}`,
+    description: `${name} screen resolution is ${width}x${height} pixels. See aspect ratio, PPI, and compare with other devices.`,
+    canonical: `${SITE_URL}/calculate/${slug}`,
+    ogTitle: `${name} Screen Resolution`,
+    ogDescription: `${width}x${height} pixels. Free resolution calculator.`,
+    ogType: 'website',
+  }
+}
+
+export function getVideoFormatMeta(name: string, slug: string, width: number, height: number, platform: string): MetaTags {
+  return {
+    title: `${name} Resolution — ${width}x${height} | ${SITE_NAME}`,
+    description: `${name} recommended resolution is ${width}x${height} (${platform}). See aspect ratio and sizing guide.`,
+    canonical: `${SITE_URL}/calculate/${slug}`,
+    ogTitle: `${name} Resolution — ${width}x${height}`,
+    ogDescription: `${platform} optimal size: ${width}x${height}.`,
+    ogType: 'website',
+  }
+}
+
 // Hub pages
 export function getHubMeta(title: string, description: string, path: string): MetaTags {
   return {

@@ -6,6 +6,7 @@ import DecimalToFractionPage from '@/components/pseo/DecimalToFractionPage.astro
 import DateCalcPage from '@/components/pseo/DateCalcPage.astro'
 import CompoundInterestPage from '@/components/pseo/CompoundInterestPage.astro'
 import LoanCalcPage from '@/components/pseo/LoanCalcPage.astro'
+import AspectRatioPage from '@/components/pseo/AspectRatioPage.astro'
 import { ageEntries, type AgeEntry } from '@/data/ageData'
 import {
   fractionEntries,
@@ -27,7 +28,8 @@ import {
 } from '@/data/dateCalcData'
 import { compoundInterestEntries, type CompoundInterestEntry } from '@/data/compoundInterestData'
 import { loanEntries, type LoanEntry } from '@/data/loanCalcData'
-import { getAgeMeta, getFractionMeta, getDecimalToFractionMeta, getDateCalcMeta, getCompoundInterestMeta, getLoanCalcMeta } from '@/lib/seo'
+import { allAspectRatioEntries, deviceEntries, videoFormatEntries, type AspectRatioEntry, type DeviceEntry, type VideoFormatEntry } from '@/data/aspectRatioData'
+import { getAgeMeta, getFractionMeta, getDecimalToFractionMeta, getDateCalcMeta, getCompoundInterestMeta, getLoanCalcMeta, getAspectRatioMeta, getDeviceResolutionMeta, getVideoFormatMeta } from '@/lib/seo'
 import type { MetaTags } from '@/lib/seo'
 
 type PageProps =
@@ -37,6 +39,9 @@ type PageProps =
   | { type: 'dateCalc'; age: null; fraction: null; decimal: null; dateCalcType: string; dateCalcProps: Record<string, unknown>; dateCalcSlug: string; dateCalcHeading: string; dateCalcDescription: string; compoundInterest?: undefined }
   | { type: 'compoundInterest'; age: null; fraction: null; decimal: null; compoundInterest: CompoundInterestEntry }
   | { type: 'loan'; age: null; fraction: null; decimal: null; loan: LoanEntry }
+  | { type: 'aspectRatio'; age: null; fraction: null; decimal: null; aspectRatio: AspectRatioEntry }
+  | { type: 'deviceResolution'; age: null; fraction: null; decimal: null; device: DeviceEntry }
+  | { type: 'videoFormat'; age: null; fraction: null; decimal: null; videoFormat: VideoFormatEntry }
 
 export function getStaticPaths() {
   const agePaths = ageEntries.map((entry) => ({
@@ -168,6 +173,21 @@ export function getStaticPaths() {
     props: { type: 'loan' as const, age: null, fraction: null, decimal: null, loan: entry },
   }))
 
+  const aspectRatioPaths = allAspectRatioEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'aspectRatio' as const, age: null, fraction: null, decimal: null, aspectRatio: entry },
+  }))
+
+  const devicePaths = deviceEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'deviceResolution' as const, age: null, fraction: null, decimal: null, device: entry },
+  }))
+
+  const videoFormatPaths = videoFormatEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'videoFormat' as const, age: null, fraction: null, decimal: null, videoFormat: entry },
+  }))
+
   return [
     ...agePaths,
     ...fractionPaths,
@@ -182,6 +202,9 @@ export function getStaticPaths() {
     ...daysAgoPaths,
     ...compoundInterestPaths,
     ...loanPaths,
+    ...aspectRatioPaths,
+    ...devicePaths,
+    ...videoFormatPaths,
   ]
 }
 
@@ -199,6 +222,12 @@ if (props.type === 'age') {
   meta = getCompoundInterestMeta(props.compoundInterest.principal, props.compoundInterest.rate, props.compoundInterest.years, props.compoundInterest.result)
 } else if (props.type === 'loan') {
   meta = getLoanCalcMeta(props.loan.amount, props.loan.rate, props.loan.years, props.loan.monthlyPayment)
+} else if (props.type === 'aspectRatio') {
+  meta = getAspectRatioMeta(props.aspectRatio.width, props.aspectRatio.height, props.aspectRatio.ratio)
+} else if (props.type === 'deviceResolution') {
+  meta = getDeviceResolutionMeta(props.device.name, props.device.slug, props.device.width, props.device.height)
+} else if (props.type === 'videoFormat') {
+  meta = getVideoFormatMeta(props.videoFormat.name, props.videoFormat.slug, props.videoFormat.width, props.videoFormat.height, props.videoFormat.platform)
 } else {
   meta = getDecimalToFractionMeta(props.decimal.decimal, props.decimal.fraction.n, props.decimal.fraction.d)
 }
@@ -211,4 +240,7 @@ if (props.type === 'age') {
   {props.type === 'dateCalc' && <DateCalcPage type={props.dateCalcType as any} {...props.dateCalcProps as any} />}
   {props.type === 'compoundInterest' && <CompoundInterestPage entry={props.compoundInterest} />}
   {props.type === 'loan' && <LoanCalcPage entry={props.loan} />}
+  {props.type === 'aspectRatio' && <AspectRatioPage type="resolution" width={props.aspectRatio.width} height={props.aspectRatio.height} ratio={props.aspectRatio.ratio} slug={props.aspectRatio.slug} />}
+  {props.type === 'deviceResolution' && <AspectRatioPage type="device" width={props.device.width} height={props.device.height} ratio={props.device.ratio} slug={props.device.slug} deviceName={props.device.name} ppi={props.device.ppi} category={props.device.category} />}
+  {props.type === 'videoFormat' && <AspectRatioPage type="videoFormat" width={props.videoFormat.width} height={props.videoFormat.height} ratio={props.videoFormat.ratio} slug={props.videoFormat.slug} videoName={props.videoFormat.name} platform={props.videoFormat.platform} />}
 </BaseLayout>

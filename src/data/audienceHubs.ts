@@ -78,6 +78,10 @@ export const audienceHubs: AudienceHub[] = [
         name: 'Images',
         toolIds: ['image-compressor', 'favicon-generator', 'image-to-base64'],
       },
+      {
+        name: 'Layout',
+        toolIds: ['aspect-ratio-calculator'],
+      },
     ],
   },
 ]
