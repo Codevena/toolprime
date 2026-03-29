@@ -223,11 +223,11 @@ export function currencyFaqSchema(
   return faqPageSchema([
     {
       question: `How much is ${amount} ${fromCode} in ${toCode}?`,
-      answer: `${amount} ${fromCode} equals approximately ${result.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${toCode} at the current exchange rate of 1 ${fromCode} = ${rate} ${toCode}.`,
+      answer: `${amount} ${fromCode} equals approximately ${result.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${toCode} at the current exchange rate of 1 ${fromCode} = ${rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })} ${toCode}.`,
     },
     {
       question: `What is the ${fromCode} to ${toCode} exchange rate?`,
-      answer: `The current exchange rate is 1 ${fromCode} = ${rate} ${toCode}. Rates are updated daily.`,
+      answer: `The current exchange rate is 1 ${fromCode} = ${rate.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })} ${toCode}. Rates are updated daily.`,
     },
     {
       question: `Is this currency converter free?`,
@@ -274,7 +274,7 @@ export function fractionFaqSchema(
   return faqPageSchema([
     {
       question: `What is ${n1}/${d1} ${opSymbol} ${n2}/${d2}?`,
-      answer: `${n1}/${d1} ${opSymbol} ${n2}/${d2} = ${resultN}/${resultD}.`,
+      answer: `${n1}/${d1} ${opSymbol} ${n2}/${d2} = ${resultN === 0 ? '0' : `${resultN}/${resultD}`}.`,
     },
     {
       question: `How do you ${opSymbol === '+' ? 'add' : opSymbol === '\u2212' ? 'subtract' : opSymbol === '\u00D7' ? 'multiply' : 'divide'} fractions?`,
