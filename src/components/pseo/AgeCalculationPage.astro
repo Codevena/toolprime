@@ -1,0 +1,103 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { AgeCalculator } from '@/components/tools/AgeCalculator'
+import { calculateAge, getGeneration, getRelatedAgeEntries, type AgeEntry } from '@/data/ageData'
+import { ageFaqSchema } from '@/lib/schema'
+
+interface Props {
+  entry: AgeEntry
+}
+
+const { entry } = Astro.props
+const age = calculateAge(entry.birthYear, entry.birthMonthNum)
+const generation = getGeneration(entry.birthYear)
+const monthPart = entry.birthMonth ? ` ${entry.birthMonth}` : ''
+const related = getRelatedAgeEntries(entry.birthYear, entry.slug)
+const totalHours = age.totalDays * 24
+---
+
+<SchemaMarkup json={ageFaqSchema(entry.birthYear, age.years, entry.birthMonth)} />
+
+<Breadcrumbs items={[
+  { name: 'Age Calculator', url: 'https://toolprime.dev/age-calculator' },
+  { name: `Born${monthPart} ${entry.birthYear}`, url: `https://toolprime.dev/calculate/${entry.slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">How Old Am I If Born in{monthPart} {entry.birthYear}?</h1>
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+  <p class="text-lg text-[var(--color-text-muted)] mb-1">Your Approximate Age</p>
+  <p class="text-4xl font-bold text-[var(--color-primary-text)]">
+    {age.years} years, {age.months} months, {age.days} days
+  </p>
+  <p class="text-sm text-[var(--color-text-muted)] mt-2">
+    If you were born in{monthPart} {entry.birthYear}, you have lived approximately {age.totalDays.toLocaleString('en-US')} days.
+  </p>
+</div>
+
+<AdSlot position="top" />
+
+{/* Stats grid */}
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+    <div class="text-xs text-[var(--color-text-muted)]">Total Days</div>
+    <div class="text-lg font-semibold text-[var(--color-text)]">{age.totalDays.toLocaleString('en-US')}</div>
+  </div>
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+    <div class="text-xs text-[var(--color-text-muted)]">Total Hours</div>
+    <div class="text-lg font-semibold text-[var(--color-text)]">{totalHours.toLocaleString('en-US')}</div>
+  </div>
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+    <div class="text-xs text-[var(--color-text-muted)]">Generation</div>
+    <div class="text-lg font-semibold text-[var(--color-text)]">{generation?.name ?? 'Earlier'}</div>
+  </div>
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+    <div class="text-xs text-[var(--color-text-muted)]">Birth Year</div>
+    <div class="text-lg font-semibold text-[var(--color-text)]">{entry.birthYear}</div>
+  </div>
+</div>
+
+{/* Interactive calculator */}
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try a Different Date</h2>
+  <AgeCalculator
+    client:load
+    defaultYear={entry.birthYear}
+    defaultMonth={entry.birthMonthNum}
+    defaultDay={1}
+  />
+</div>
+
+{/* Explanation */}
+<div class="prose prose-slate max-w-none mb-8">
+  <h2>About Being Born in{monthPart} {entry.birthYear}</h2>
+  <p>
+    Someone born in{monthPart} {entry.birthYear} is approximately <strong>{age.years} years old</strong> as of {new Date().getFullYear()}.
+    {generation ? ` They belong to the ${generation.name} (${generation.startYear}–${generation.endYear}).` : ''}
+  </p>
+  <p>
+    That means they have been alive for approximately <strong>{age.totalDays.toLocaleString('en-US')} days</strong> or
+    about <strong>{totalHours.toLocaleString('en-US')} hours</strong>. Use the calculator above to find your exact age
+    down to the day.
+  </p>
+</div>
+
+{/* Related age entries */}
+{related.length > 0 && (
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Nearby Birth Years</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+      {related.map((e) => (
+        <a href={`/calculate/${e.slug}`}
+          class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+          <span class="text-sm font-medium">Born {e.birthYear}</span>
+          <span class="block text-xs text-[var(--color-text-muted)]">~{new Date().getFullYear() - e.birthYear} years</span>
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+
+<AdSlot position="bottom" />

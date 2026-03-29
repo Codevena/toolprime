@@ -1,0 +1,30 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { AgeCalculator } from '@/components/tools/AgeCalculator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('age-calculator')
+if (!tool) throw new Error('Tool not found: age-calculator')
+---
+
+<ToolLayout tool={tool}>
+  <AgeCalculator client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Age Calculator</h2>
+    <ol class="step-list" role="list">
+      <li>Select your <strong>birth year</strong> from the dropdown</li>
+      <li>Select your <strong>birth month</strong></li>
+      <li>Select your <strong>birth day</strong></li>
+      <li>Click <strong>Calculate Age</strong> to see your exact age</li>
+      <li>View your <strong>total days lived</strong>, generation name, zodiac sign, and days until your next birthday</li>
+    </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="age-pages">
+    <h2 id="age-pages" class="text-xl font-bold text-[var(--color-text)] mb-3">Pre-Calculated Age Pages</h2>
+    <p class="text-[var(--color-text-muted)]">
+      Browse our <a href="/calculate/age-born-1990" class="text-[var(--color-primary)] underline hover:no-underline">pre-calculated age pages</a> for instant results across 1,200+ birth year and month combinations with generation info and fun facts.
+    </p>
+  </section>
+</ToolLayout>

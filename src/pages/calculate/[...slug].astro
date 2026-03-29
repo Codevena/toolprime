@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import AgeCalculationPage from '@/components/pseo/AgeCalculationPage.astro'
+import { ageEntries, type AgeEntry } from '@/data/ageData'
+import { getAgeMeta } from '@/lib/seo'
+
+type PageType = 'age' // will become 'age' | 'fraction' later
+
+export function getStaticPaths() {
+  const agePaths = ageEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'age' as const, age: entry },
+  }))
+  return [...agePaths]
+}
+
+const { type, age } = Astro.props as { type: PageType; age: AgeEntry }
+
+const meta = getAgeMeta(age.birthYear, age.birthMonth)
+---
+
+<BaseLayout {...meta}>
+  {type === 'age' && <AgeCalculationPage entry={age} />}
+</BaseLayout>
