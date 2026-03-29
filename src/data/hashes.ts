@@ -32,6 +32,32 @@ export const words = [
   'flutter', 'django', 'flask', 'express', 'fastapi', 'graphql', 'rest',
   'oauth', 'jwt', 'ssl', 'https', 'http', 'tcp', 'dns', 'ssh', 'git',
   'json', 'xml', 'yaml', 'csv',
+  // Common names
+  'john', 'maria', 'david', 'sarah', 'james', 'emma', 'anna', 'robert',
+  'lisa', 'william', 'laura', 'daniel', 'jessica', 'andrew', 'sophia',
+  'matthew', 'olivia', 'chris', 'alex', 'max', 'julia', 'mark', 'peter',
+  'paul', 'sam', 'kate', 'ryan', 'rachel', 'kevin', 'amanda',
+  // Common passwords / security
+  'password123', 'admin123', 'root123', 'qwerty123', 'welcome1', 'monkey123',
+  'football', 'baseball', 'access', 'passw0rd', 'changeme', 'default',
+  'guest', 'temp', 'backup', 'pass123', 'secret123', 'hello123', 'test123',
+  'super', 'manager', 'staff', 'system', 'public', 'private',
+  // Everyday words
+  'goodbye', 'please', 'thanks', 'love', 'peace', 'happy', 'freedom',
+  'music', 'coffee', 'pizza', 'ocean', 'mountain', 'sunset', 'summer',
+  'winter', 'spring', 'garden', 'forest', 'river', 'bridge', 'castle',
+  'knight', 'magic', 'silver', 'golden', 'crystal', 'diamond', 'thunder',
+  'lightning', 'storm', 'rainbow', 'phoenix', 'falcon', 'eagle', 'tiger',
+  'wolf', 'bear', 'lion', 'panther', 'cobra', 'viper', 'hawk', 'raven',
+  'fire', 'water', 'earth', 'wind', 'star', 'moon', 'sun',
+  // Tech terms
+  'kubernetes', 'terraform', 'ansible', 'jenkins', 'devops', 'microservice',
+  'serverless', 'lambda', 'cloud', 'vercel', 'netlify', 'heroku', 'supabase',
+  'prisma', 'nextjs', 'nuxt', 'gatsby', 'remix', 'astro', 'deno', 'bun',
+  'cypress', 'jest', 'playwright', 'storybook', 'figma', 'sketch', 'zod',
+  'trpc', 'drizzle', 'turbo', 'esbuild', 'rollup', 'babel', 'eslint',
+  'prettier', 'github-actions', 'gitlab', 'bitbucket', 'jira', 'confluence',
+  'slack', 'notion', 'obsidian', 'neovim',
 ]
 
 function computeHash(algorithm: 'md5' | 'sha1' | 'sha256' | 'sha512', word: string): string {
