@@ -215,6 +215,40 @@ export const conversions: Conversion[] = [
   { from: 'stick of butter', fromAbbr: 'stick', to: 'tablespoon', toAbbr: 'tbsp', factor: 8, category: 'cooking' },
   { from: 'cup', fromAbbr: 'cup', to: 'tablespoon', toAbbr: 'tbsp', factor: 16, category: 'cooking' },
 
+  // Cooking — Volume
+  { from: 'cup', fromAbbr: 'c', to: 'milliliter', toAbbr: 'mL', factor: 236.588, category: 'cooking' },
+  { from: 'cup', fromAbbr: 'c', to: 'fluid ounce', toAbbr: 'fl oz', factor: 8, category: 'cooking' },
+  { from: 'tablespoon', fromAbbr: 'Tbsp', to: 'teaspoon', toAbbr: 'tspn', factor: 3, category: 'cooking' },
+  { from: 'tablespoon', fromAbbr: 'Tbsp', to: 'milliliter', toAbbr: 'mls', factor: 14.787, category: 'cooking' },
+  { from: 'teaspoon', fromAbbr: 'tspn', to: 'milliliter', toAbbr: 'mL', factor: 4.929, category: 'cooking' },
+  { from: 'pint', fromAbbr: 'pt', to: 'milliliter', toAbbr: 'mL', factor: 473.176, category: 'cooking' },
+  { from: 'quart', fromAbbr: 'quart', to: 'liter', toAbbr: 'L', factor: 0.946353, category: 'cooking' },
+  { from: 'quart', fromAbbr: 'quart', to: 'cup', toAbbr: 'cup', factor: 4, category: 'cooking' },
+  { from: 'gallon', fromAbbr: 'gallon', to: 'liter', toAbbr: 'L', factor: 3.78541, category: 'cooking' },
+  { from: 'liter', fromAbbr: 'L', to: 'cup', toAbbr: 'cup', factor: 4.22675, category: 'cooking' },
+  { from: 'milliliter', fromAbbr: 'mL', to: 'teaspoon', toAbbr: 'tsp', factor: 0.202884, category: 'cooking' },
+  { from: 'milliliter', fromAbbr: 'mL', to: 'tablespoon', toAbbr: 'tbsp', factor: 0.067628, category: 'cooking' },
+  { from: 'gallon', fromAbbr: 'gallon', to: 'cup', toAbbr: 'cup', factor: 16, category: 'cooking' },
+
+  // Cooking — Weight (ingredient-specific)
+  { from: 'cup of flour', fromAbbr: 'cup flour', to: 'gram', toAbbr: 'g', factor: 120, category: 'cooking' },
+  { from: 'cup of sugar', fromAbbr: 'cup sugar', to: 'gram', toAbbr: 'g', factor: 200, category: 'cooking' },
+  { from: 'cup of butter', fromAbbr: 'cup butter', to: 'gram', toAbbr: 'g', factor: 227, category: 'cooking' },
+  { from: 'cup of rice', fromAbbr: 'cup rice', to: 'gram', toAbbr: 'g', factor: 185, category: 'cooking' },
+  { from: 'ounce', fromAbbr: 'oz wt', to: 'gram', toAbbr: 'g', factor: 28.3495, category: 'cooking' },
+  { from: 'gram', fromAbbr: 'g wt', to: 'ounce', toAbbr: 'oz', factor: 0.035274, category: 'cooking' },
+  { from: 'cup of oats', fromAbbr: 'cup oats', to: 'gram', toAbbr: 'g', factor: 90, category: 'cooking' },
+  { from: 'cup of honey', fromAbbr: 'cup honey', to: 'gram', toAbbr: 'g', factor: 340, category: 'cooking' },
+  { from: 'cup of milk', fromAbbr: 'cup milk', to: 'milliliter', toAbbr: 'mL', factor: 240, category: 'cooking' },
+  { from: 'cup of oil', fromAbbr: 'cup oil', to: 'milliliter', toAbbr: 'mL', factor: 218, category: 'cooking' },
+
+  // Cooking — Baking specific
+  { from: 'teaspoon of baking powder', fromAbbr: 'tsp BP', to: 'gram', toAbbr: 'g', factor: 4.6, category: 'cooking' },
+  { from: 'teaspoon of salt', fromAbbr: 'tsp salt', to: 'gram', toAbbr: 'g', factor: 6, category: 'cooking' },
+  { from: 'tablespoon of butter', fromAbbr: 'tbsp butter', to: 'gram', toAbbr: 'g', factor: 14.2, category: 'cooking' },
+  { from: 'cup of brown sugar', fromAbbr: 'cup br sugar', to: 'gram', toAbbr: 'g', factor: 220, category: 'cooking' },
+  { from: 'cup of cocoa powder', fromAbbr: 'cup cocoa', to: 'gram', toAbbr: 'g', factor: 86, category: 'cooking' },
+
   // Additional Length (new pairs)
   { from: 'nautical mile', fromAbbr: 'nmi', to: 'mile', toAbbr: 'mi', factor: 1.15078, category: 'length' },
   { from: 'furlong', fromAbbr: 'fur', to: 'meter', toAbbr: 'm', factor: 201.168, category: 'length' },
