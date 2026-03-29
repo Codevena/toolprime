@@ -396,7 +396,7 @@ export function getDecimalToFractionMeta(decimal: number, n: number, d: number):
 // Number base conversion pSEO pages
 export function getNumberBaseMeta(
   value: number,
-  fromBase: string,
+  _fromBase: string,
   toBase: string,
   result: string,
 ): MetaTags {
@@ -442,7 +442,7 @@ export function getHubMeta(title: string, description: string, path: string): Me
     title,
     description,
     canonical: `${SITE_URL}${path}`,
-    ogTitle: title.split('|')[0].trim(),
+    ogTitle: (title.split('|')[0] ?? title).trim(),
     ogDescription: description,
     ogType: 'website',
   }

@@ -110,7 +110,7 @@ function generateEntries(): AgeEntry[] {
   // Month+year entries: 1930-2025 x 12 months
   for (let y = START_YEAR; y <= END_YEAR; y++) {
     for (let m = 0; m < 12; m++) {
-      const monthName = MONTHS[m]
+      const monthName = MONTHS[m]!
       entries.push({
         slug: `age-born-${monthName.toLowerCase()}-${y}`,
         birthYear: y,
