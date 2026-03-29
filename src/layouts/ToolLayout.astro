@@ -3,6 +3,7 @@ import BaseLayout from './BaseLayout.astro'
 import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
 import RelatedTools from '@/components/seo/RelatedTools.astro'
 import FaqSection from '@/components/seo/FaqSection.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
 import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
 import { GradientIcon } from '@/components/ui/GradientIcon'
 import { webApplicationSchema } from '@/lib/schema'
@@ -35,6 +36,8 @@ const categoryLabel = categoryLabels[tool.category]
       <p class="text-sm text-[var(--color-text-muted)]">{tool.longDescription}</p>
     </div>
   </div>
+
+  <AdSlot position="top" />
 
   <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6">
     <slot />
@@ -117,5 +120,6 @@ const categoryLabel = categoryLabels[tool.category]
   </aside>
 
   <FaqSection faqs={toolFaqs} />
+  <AdSlot position="bottom" />
   <RelatedTools toolId={tool.id} />
 </BaseLayout>

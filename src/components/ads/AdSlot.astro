@@ -1,0 +1,43 @@
+---
+/**
+ * AdSlot — placeholder for Google AdSense display ads.
+ *
+ * Set ENABLE_ADS=true in environment and fill in your ad-client / ad-slot
+ * values once AdSense is approved. Until then, this component renders nothing.
+ *
+ * Usage:
+ *   <AdSlot position="top" />      — above the tool
+ *   <AdSlot position="bottom" />   — below the tool content
+ *   <AdSlot position="sidebar" />  — in a sidebar (if applicable)
+ */
+
+interface Props {
+  position: 'top' | 'bottom' | 'sidebar'
+}
+
+const { position } = Astro.props
+
+const enabled = import.meta.env.PUBLIC_ENABLE_ADS === 'true'
+const adClient = import.meta.env.PUBLIC_ADSENSE_CLIENT ?? ''
+const adSlot = import.meta.env.PUBLIC_ADSENSE_SLOT ?? ''
+
+const positionClass: Record<string, string> = {
+  top: 'mb-6',
+  bottom: 'mt-8',
+  sidebar: 'my-4',
+}
+---
+
+{enabled && adClient && adSlot && (
+  <div class={`ad-container ${positionClass[position] ?? ''}`} aria-hidden="true">
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client={adClient}
+      data-ad-slot={adSlot}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    />
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+)}

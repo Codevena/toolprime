@@ -41,6 +41,9 @@ const { title, description, canonical, ogTitle, ogDescription, ogType = 'website
     {ogImage && <meta name="twitter:image:alt" content={ogTitle ?? title} />}
     <slot name="head" />
     <script defer src="https://analytics.codevena.dev/script.js" data-website-id="4406b0f7-1365-4155-b69c-e783a4a3021b"></script>
+    {import.meta.env.PUBLIC_ENABLE_ADS === 'true' && import.meta.env.PUBLIC_ADSENSE_CLIENT && (
+      <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${import.meta.env.PUBLIC_ADSENSE_CLIENT}`} crossorigin="anonymous"></script>
+    )}
   </head>
   <body class="min-h-screen flex flex-col">
     <StickySearch client:load />
