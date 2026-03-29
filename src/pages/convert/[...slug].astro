@@ -6,9 +6,11 @@ import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
 import { GradientIcon } from '@/components/ui/GradientIcon'
 import { formatConversions, type FormatConversion } from '@/data/formatConversions'
 import { getToolById, getRelatedTools } from '@/data/tools'
-import { getFormatConversionMeta, getCurrencyConversionMeta } from '@/lib/seo'
+import { getFormatConversionMeta, getCurrencyConversionMeta, getNumberBaseMeta, getHexToDecimalMeta, getAsciiMeta } from '@/lib/seo'
 import { formatConversionHowToSchema } from '@/lib/schema'
 import CurrencyConversionPage from '@/components/pseo/CurrencyConversionPage.astro'
+import NumberBaseConversionPage from '@/components/pseo/NumberBaseConversionPage.astro'
+import AsciiPage from '@/components/pseo/AsciiPage.astro'
 import {
   currencyEntries,
   fetchRates,
@@ -17,26 +19,52 @@ import {
   type CurrencyEntry,
   type RateMap,
 } from '@/data/currencyData'
+import {
+  numberBaseEntries,
+  hexToDecimalEntries,
+  asciiEntries,
+  type NumberBaseEntry,
+  type HexToDecimalEntry,
+  type AsciiEntry,
+} from '@/data/numberBaseData'
 import type { MetaTags } from '@/lib/seo'
 
 type PageProps =
-  | { type: 'format'; conv: FormatConversion; currency: null; rates: null }
-  | { type: 'currency'; conv: null; currency: CurrencyEntry; rates: RateMap }
+  | { type: 'format'; conv: FormatConversion; currency: null; rates: null; numberBase: null; hexToDec: null; ascii: null }
+  | { type: 'currency'; conv: null; currency: CurrencyEntry; rates: RateMap; numberBase: null; hexToDec: null; ascii: null }
+  | { type: 'numberBase'; conv: null; currency: null; rates: null; numberBase: NumberBaseEntry; hexToDec: null; ascii: null }
+  | { type: 'hexToDec'; conv: null; currency: null; rates: null; numberBase: null; hexToDec: HexToDecimalEntry; ascii: null }
+  | { type: 'ascii'; conv: null; currency: null; rates: null; numberBase: null; hexToDec: null; ascii: AsciiEntry }
 
 export async function getStaticPaths() {
   const formatPaths = formatConversions.map((conv) => ({
     params: { slug: conv.slug },
-    props: { type: 'format' as const, conv, currency: null, rates: null },
+    props: { type: 'format' as const, conv, currency: null, rates: null, numberBase: null, hexToDec: null, ascii: null },
   }))
 
   const rates = await fetchRates()
 
   const currencyPaths = currencyEntries.map((entry) => ({
     params: { slug: entry.slug },
-    props: { type: 'currency' as const, conv: null, currency: entry, rates },
+    props: { type: 'currency' as const, conv: null, currency: entry, rates, numberBase: null, hexToDec: null, ascii: null },
   }))
 
-  return [...formatPaths, ...currencyPaths]
+  const numberBasePaths = numberBaseEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'numberBase' as const, conv: null, currency: null, rates: null, numberBase: entry, hexToDec: null, ascii: null },
+  }))
+
+  const hexToDecPaths = hexToDecimalEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'hexToDec' as const, conv: null, currency: null, rates: null, numberBase: null, hexToDec: entry, ascii: null },
+  }))
+
+  const asciiPaths = asciiEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'ascii' as const, conv: null, currency: null, rates: null, numberBase: null, hexToDec: null, ascii: entry },
+  }))
+
+  return [...formatPaths, ...currencyPaths, ...numberBasePaths, ...hexToDecPaths, ...asciiPaths]
 }
 
 const props = Astro.props as PageProps
@@ -44,12 +72,18 @@ const props = Astro.props as PageProps
 let meta: MetaTags
 if (props.type === 'format') {
   meta = getFormatConversionMeta(props.conv)
-} else {
+} else if (props.type === 'currency') {
   const { amount, fromCode, toCode } = props.currency
   const from = getCurrencyByCode(fromCode)!
   const to = getCurrencyByCode(toCode)!
   const result = convertCurrency(amount, fromCode, toCode, props.rates)
   meta = getCurrencyConversionMeta(amount, fromCode, from.name, toCode, to.name, result)
+} else if (props.type === 'numberBase') {
+  meta = getNumberBaseMeta(props.numberBase.value, 'decimal', props.numberBase.toBase, props.numberBase.result)
+} else if (props.type === 'hexToDec') {
+  meta = getHexToDecimalMeta(props.hexToDec.hex, props.hexToDec.decimal)
+} else {
+  meta = getAsciiMeta(props.ascii.code, props.ascii.char)
 }
 ---
 
@@ -139,5 +173,25 @@ if (props.type === 'format') {
       toCode={props.currency.toCode}
       rates={props.rates}
     />
+  )}
+
+  {props.type === 'numberBase' && (
+    <NumberBaseConversionPage entry={props.numberBase} />
+  )}
+
+  {props.type === 'hexToDec' && (() => {
+    const entry = props.hexToDec
+    // Render hex-to-decimal as a number base page with a synthetic entry
+    const syntheticEntry = {
+      slug: entry.slug,
+      value: entry.decimal,
+      toBase: 'hexadecimal',
+      result: entry.hex,
+    }
+    return <NumberBaseConversionPage entry={syntheticEntry} />
+  })()}
+
+  {props.type === 'ascii' && (
+    <AsciiPage entry={props.ascii} />
   )}
 </BaseLayout>

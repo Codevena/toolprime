@@ -1,0 +1,114 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { NumberBaseConverter } from '@/components/tools/NumberBaseConverter'
+import { convertBase, getRelatedNumberBaseEntries, type NumberBaseEntry } from '@/data/numberBaseData'
+import { numberBaseFaqSchema } from '@/lib/schema'
+
+interface Props {
+  entry: NumberBaseEntry
+}
+
+const { entry } = Astro.props
+const { value, toBase, result } = entry
+
+const baseLabel = toBase.charAt(0).toUpperCase() + toBase.slice(1)
+
+// All-bases grid
+const allBases = [
+  { label: 'Decimal', value: String(value) },
+  { label: 'Binary', value: convertBase(value, 'binary') },
+  { label: 'Octal', value: convertBase(value, 'octal') },
+  { label: 'Hexadecimal', value: convertBase(value, 'hexadecimal') },
+]
+
+const related = getRelatedNumberBaseEntries(entry.slug, value)
+---
+
+<SchemaMarkup json={numberBaseFaqSchema(value, toBase, result)} slot="head" />
+
+<Breadcrumbs items={[
+  { name: 'Number Base Converter', url: 'https://toolprime.dev/number-base-converter' },
+  { name: `${value} in ${baseLabel}`, url: `https://toolprime.dev/convert/${entry.slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">{value} in {baseLabel} = {result}</h1>
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+  <p class="text-lg text-[var(--color-text-muted)] mb-1">{baseLabel} Representation</p>
+  <p class="text-4xl font-bold font-mono text-[var(--color-primary-text)]">
+    {result}
+  </p>
+  <p class="text-sm text-[var(--color-text-muted)] mt-2">
+    Decimal {value} = {result} ({toBase})
+  </p>
+</div>
+
+<AdSlot position="top" />
+
+{/* All bases grid */}
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">{value} in All Number Bases</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+    {allBases.map((b) => (
+      <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+        <div class="text-xs text-[var(--color-text-muted)] mb-1">{b.label}</div>
+        <div class="text-lg font-mono font-bold text-[var(--color-text)] break-all">{b.value}</div>
+      </div>
+    ))}
+  </div>
+</div>
+
+{/* How to convert */}
+<div class="prose prose-slate max-w-none mb-8">
+  <h2>How to Convert {value} to {baseLabel}</h2>
+  {toBase === 'binary' && (
+    <ol>
+      <li>Divide {value} by 2, record the remainder</li>
+      <li>Continue dividing the quotient by 2</li>
+      <li>Read the remainders from bottom to top</li>
+      <li>Result: <strong>{result}</strong></li>
+    </ol>
+  )}
+  {toBase === 'octal' && (
+    <ol>
+      <li>Divide {value} by 8, record the remainder</li>
+      <li>Continue dividing the quotient by 8</li>
+      <li>Read the remainders from bottom to top</li>
+      <li>Result: <strong>{result}</strong></li>
+    </ol>
+  )}
+  {toBase === 'hexadecimal' && (
+    <ol>
+      <li>Divide {value} by 16, record the remainder</li>
+      <li>Use A-F for remainders 10-15</li>
+      <li>Read the remainders from bottom to top</li>
+      <li>Result: <strong>{result}</strong></li>
+    </ol>
+  )}
+</div>
+
+{/* Interactive converter */}
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try the Number Base Converter</h2>
+  <NumberBaseConverter client:load defaultValue={String(value)} defaultBase="decimal" />
+</div>
+
+{/* Related conversions */}
+{related.length > 0 && (
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Related Conversions</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+      {related.map((e) => (
+        <a href={`/convert/${e.slug}`}
+          class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+          <span class="text-sm font-medium">{e.value} to {e.toBase}</span>
+          <span class="block text-xs text-[var(--color-text-muted)]">= {e.result}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+
+<AdSlot position="bottom" />

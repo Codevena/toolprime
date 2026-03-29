@@ -1,0 +1,127 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { NumberBaseConverter } from '@/components/tools/NumberBaseConverter'
+import { asciiEntries, type AsciiEntry } from '@/data/numberBaseData'
+import { faqPageSchema } from '@/lib/schema'
+
+interface Props {
+  entry: AsciiEntry
+}
+
+const { entry } = Astro.props
+const { code, char, description } = entry
+
+const isControl = code <= 31 || code === 127
+const displayChar = isControl ? char : `"${char}"`
+
+// Numeric representations
+const decimal = String(code)
+const binary = code.toString(2).padStart(8, '0')
+const octal = code.toString(8)
+const hex = code.toString(16).toUpperCase()
+
+// Nearby ASCII entries (±5)
+const nearbyStart = Math.max(0, code - 5)
+const nearbyEnd = Math.min(127, code + 5)
+const nearby = asciiEntries.filter((e) => e.code >= nearbyStart && e.code <= nearbyEnd && e.code !== code)
+
+const faqJson = faqPageSchema([
+  {
+    question: `What is ASCII ${code}?`,
+    answer: `ASCII code ${code} represents ${description}. In binary it is ${binary}, in hexadecimal it is ${hex}, and in octal it is ${octal}.`,
+  },
+  {
+    question: `What character does ASCII ${code} represent?`,
+    answer: isControl
+      ? `ASCII ${code} is the ${char} control character (${description}).`
+      : `ASCII ${code} represents the character ${displayChar}.`,
+  },
+])
+---
+
+<SchemaMarkup json={faqJson} slot="head" />
+
+<Breadcrumbs items={[
+  { name: 'Number Base Converter', url: 'https://toolprime.dev/number-base-converter' },
+  { name: `ASCII ${code}`, url: `https://toolprime.dev/convert/ascii-${code}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">ASCII {code} = {isControl ? char : displayChar}</h1>
+<p class="text-[var(--color-text-muted)] mb-6">{description}</p>
+
+{/* Main info card */}
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+  <div class="text-center">
+    <div class="text-6xl font-mono font-bold text-[var(--color-primary-text)] mb-2">
+      {isControl ? char : char}
+    </div>
+    <p class="text-sm text-[var(--color-text-muted)]">{description}</p>
+  </div>
+</div>
+
+<AdSlot position="top" />
+
+{/* Numeric representations */}
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">ASCII {code} in All Bases</h2>
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+      <div class="text-xs text-[var(--color-text-muted)] mb-1">Decimal</div>
+      <div class="text-lg font-mono font-bold text-[var(--color-text)]">{decimal}</div>
+    </div>
+    <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+      <div class="text-xs text-[var(--color-text-muted)] mb-1">Binary</div>
+      <div class="text-lg font-mono font-bold text-[var(--color-text)]">{binary}</div>
+    </div>
+    <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+      <div class="text-xs text-[var(--color-text-muted)] mb-1">Octal</div>
+      <div class="text-lg font-mono font-bold text-[var(--color-text)]">{octal}</div>
+    </div>
+    <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+      <div class="text-xs text-[var(--color-text-muted)] mb-1">Hexadecimal</div>
+      <div class="text-lg font-mono font-bold text-[var(--color-text)]">{hex}</div>
+    </div>
+  </div>
+</div>
+
+{/* Interactive converter */}
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try the Number Base Converter</h2>
+  <NumberBaseConverter client:load defaultValue={decimal} defaultBase="decimal" />
+</div>
+
+{/* Nearby ASCII table */}
+{nearby.length > 0 && (
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Nearby ASCII Characters</h2>
+    <div class="rounded-xl border border-[var(--color-border)] overflow-hidden">
+      <table class="w-full text-sm">
+        <caption class="sr-only">ASCII characters near code {code}</caption>
+        <thead>
+          <tr class="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+            <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">Code</th>
+            <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">Char</th>
+            <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">Hex</th>
+            <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {nearby.map((e) => (
+            <tr class="border-b border-[var(--color-border)] last:border-b-0">
+              <td class="px-4 py-2">
+                <a href={`/convert/${e.slug}`} class="text-[var(--color-primary)] font-mono hover:underline">{e.code}</a>
+              </td>
+              <td class="px-4 py-2 font-mono font-bold">{e.code >= 32 && e.code < 127 ? String.fromCharCode(e.code) : e.char}</td>
+              <td class="px-4 py-2 font-mono text-[var(--color-text-muted)]">{e.code.toString(16).toUpperCase()}</td>
+              <td class="px-4 py-2 text-[var(--color-text-muted)]">{e.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
+
+<AdSlot position="bottom" />

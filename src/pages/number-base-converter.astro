@@ -1,0 +1,76 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { NumberBaseConverter } from '@/components/tools/NumberBaseConverter'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('number-base-converter')
+if (!tool) throw new Error('Tool not found: number-base-converter')
+---
+
+<ToolLayout tool={tool}>
+  <NumberBaseConverter client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Number Base Converter</h2>
+    <ol class="step-list" role="list">
+      <li>Enter a <strong>number</strong> in any supported base</li>
+      <li>Select the <strong>input base</strong> (binary, octal, decimal, or hexadecimal)</li>
+      <li>See the number converted to <strong>all bases simultaneously</strong></li>
+      <li>View the <strong>binary bit visualization</strong> for a visual breakdown</li>
+      <li>Check the <strong>ASCII character</strong> if the value is 0-127</li>
+    </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="popular-conversions">
+    <h2 id="popular-conversions" class="text-xl font-bold text-[var(--color-text)] mb-3">Popular Conversions</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+      <a href="/convert/255-to-binary" class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+        <span class="text-sm font-medium">255 to Binary</span>
+      </a>
+      <a href="/convert/255-to-hexadecimal" class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+        <span class="text-sm font-medium">255 to Hex</span>
+      </a>
+      <a href="/convert/1024-to-binary" class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+        <span class="text-sm font-medium">1024 to Binary</span>
+      </a>
+      <a href="/convert/65535-to-hexadecimal" class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+        <span class="text-sm font-medium">65535 to Hex</span>
+      </a>
+      <a href="/convert/42-to-binary" class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+        <span class="text-sm font-medium">42 to Binary</span>
+      </a>
+      <a href="/convert/ff-hex-to-decimal" class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+        <span class="text-sm font-medium">FF Hex to Decimal</span>
+      </a>
+      <a href="/convert/dead-hex-to-decimal" class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+        <span class="text-sm font-medium">DEAD Hex to Decimal</span>
+      </a>
+      <a href="/convert/ascii-65" class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+        <span class="text-sm font-medium">ASCII 65 (A)</span>
+      </a>
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="ascii-table">
+    <h2 id="ascii-table" class="text-xl font-bold text-[var(--color-text)] mb-3">ASCII Table</h2>
+    <p class="text-[var(--color-text-muted)] mb-3">
+      Browse all 128 ASCII character codes with decimal, binary, octal, and hexadecimal values.
+    </p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
+      {Array.from({ length: 12 }, (_, i) => {
+        const code = 32 + i
+        const char = String.fromCharCode(code)
+        const label = code === 32 ? 'Space' : char
+        return (
+          <a href={`/convert/ascii-${code}`} class="p-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+            <span class="text-lg font-mono font-bold">{label}</span>
+            <span class="block text-xs text-[var(--color-text-muted)]">ASCII {code}</span>
+          </a>
+        )
+      })}
+    </div>
+    <p class="text-sm text-[var(--color-text-muted)] mt-3">
+      <a href="/convert/ascii-0" class="text-[var(--color-primary)] underline hover:no-underline">View all ASCII codes (0-127) &rarr;</a>
+    </p>
+  </section>
+</ToolLayout>
