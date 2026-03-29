@@ -118,6 +118,24 @@ export function MobileNav() {
                 </div>
               </div>
               <div className="mb-4">
+                <div className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-3">Browse by Audience</div>
+                <ul className="space-y-1 mb-4">
+                  {[
+                    { href: '/everyday', label: 'Everyday Tools' },
+                    { href: '/developer', label: 'Developer Tools' },
+                    { href: '/design', label: 'Design Tools' },
+                  ].map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        onClick={close}
+                        className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-surface)] transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
                 <div className="text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-3">Categories</div>
                 <ul className="space-y-1">
                   {categories.map(([category, label]) => {
