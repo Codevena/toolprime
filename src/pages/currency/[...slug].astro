@@ -1,0 +1,21 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import CurrencyHubPage from '@/components/pseo/CurrencyHubPage.astro'
+import { currencies, fetchRates, type Currency } from '@/data/currencyData'
+import { getCurrencyHubMeta } from '@/lib/seo'
+
+export async function getStaticPaths() {
+  return currencies.map((c) => ({
+    params: { slug: c.code.toLowerCase() },
+    props: { currency: c },
+  }))
+}
+
+const { currency } = Astro.props as { currency: Currency }
+const rates = await fetchRates()
+const meta = getCurrencyHubMeta(currency.code, currency.name)
+---
+
+<BaseLayout {...meta}>
+  <CurrencyHubPage currency={currency} rates={rates} />
+</BaseLayout>

@@ -1,0 +1,69 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { CurrencyConverter } from '@/components/tools/CurrencyConverter'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('currency-converter')
+if (!tool) throw new Error('Tool not found: currency-converter')
+---
+
+<ToolLayout tool={tool}>
+  <CurrencyConverter client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Currency Converter</h2>
+    <ol class="step-list" role="list">
+      <li>Enter the <strong>amount</strong> you want to convert</li>
+      <li>Select the <strong>source currency</strong> from the dropdown</li>
+      <li>Select the <strong>target currency</strong> from the dropdown</li>
+      <li>View the <strong>converted amount</strong> instantly with live rates</li>
+      <li>Use the <strong>swap button</strong> to reverse the conversion</li>
+    </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="popular-conversions">
+    <h2 id="popular-conversions" class="text-xl font-bold text-[var(--color-text)] mb-3">Popular Currency Conversions</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+      {[
+        { slug: '100-usd-to-eur', label: '100 USD to EUR' },
+        { slug: '100-eur-to-usd', label: '100 EUR to USD' },
+        { slug: '100-usd-to-gbp', label: '100 USD to GBP' },
+        { slug: '100-gbp-to-usd', label: '100 GBP to USD' },
+        { slug: '100-usd-to-jpy', label: '100 USD to JPY' },
+        { slug: '100-eur-to-gbp', label: '100 EUR to GBP' },
+        { slug: '1-btc-to-usd', label: '1 BTC to USD' },
+        { slug: '1-eth-to-usd', label: '1 ETH to USD' },
+      ].map((link) => (
+        <a href={`/convert/${link.slug}`}
+          class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+          <span class="text-sm font-medium">{link.label}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="currency-pages">
+    <h2 id="currency-pages" class="text-xl font-bold text-[var(--color-text)] mb-3">Browse by Currency</h2>
+    <div class="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 gap-2">
+      {[
+        { code: 'usd', label: 'USD' },
+        { code: 'eur', label: 'EUR' },
+        { code: 'gbp', label: 'GBP' },
+        { code: 'jpy', label: 'JPY' },
+        { code: 'chf', label: 'CHF' },
+        { code: 'cad', label: 'CAD' },
+        { code: 'aud', label: 'AUD' },
+        { code: 'cny', label: 'CNY' },
+        { code: 'inr', label: 'INR' },
+        { code: 'krw', label: 'KRW' },
+        { code: 'btc', label: 'BTC' },
+        { code: 'eth', label: 'ETH' },
+      ].map((c) => (
+        <a href={`/currency/${c.code}`}
+          class="p-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+          <span class="text-sm font-medium">{c.label}</span>
+        </a>
+      ))}
+    </div>
+  </section>
+</ToolLayout>

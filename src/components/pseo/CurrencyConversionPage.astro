@@ -1,0 +1,123 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { CurrencyConverter } from '@/components/tools/CurrencyConverter'
+import {
+  convertCurrency,
+  getCurrencyByCode,
+  getRelatedCurrencyEntries,
+  type RateMap,
+} from '@/data/currencyData'
+import { currencyFaqSchema } from '@/lib/schema'
+
+interface Props {
+  amount: number
+  fromCode: string
+  toCode: string
+  rates: RateMap
+}
+
+const { amount, fromCode, toCode, rates } = Astro.props
+const from = getCurrencyByCode(fromCode)!
+const to = getCurrencyByCode(toCode)!
+const result = convertCurrency(amount, fromCode, toCode, rates)
+const rate = convertCurrency(1, fromCode, toCode, rates)
+const reverseRate = convertCurrency(1, toCode, fromCode, rates)
+const related = getRelatedCurrencyEntries(fromCode, toCode, amount).slice(0, 8)
+
+const tableAmounts = [1, 5, 10, 25, 50, 100, 500, 1000]
+
+function fmt(v: number): string {
+  if (v === 0) return '0'
+  if (Math.abs(v) < 0.01) return v.toPrecision(4)
+  if (Math.abs(v) >= 1_000_000) return v.toLocaleString('en-US', { maximumFractionDigits: 0 })
+  return v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
+---
+
+<SchemaMarkup json={currencyFaqSchema(amount, fromCode, toCode, result, rate)} />
+
+<Breadcrumbs items={[
+  { name: 'Currency Converter', url: 'https://toolprime.dev/currency-converter' },
+  { name: `${amount} ${fromCode} to ${toCode}`, url: `https://toolprime.dev/convert/${amount}-${fromCode.toLowerCase()}-to-${toCode.toLowerCase()}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">
+  {amount.toLocaleString('en-US')} {from.flag} {fromCode} = {fmt(result)} {to.flag} {toCode}
+</h1>
+
+<div class="text-[var(--color-text-muted)] mb-6 space-y-1">
+  <p>1 {fromCode} = {fmt(rate)} {toCode}</p>
+  <p>1 {toCode} = {fmt(reverseRate)} {fromCode}</p>
+</div>
+
+<AdSlot position="top" />
+
+{/* Interactive converter */}
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try a Different Amount</h2>
+  <CurrencyConverter
+    client:load
+    defaultFrom={fromCode}
+    defaultTo={toCode}
+    defaultAmount={amount}
+  />
+</div>
+
+{/* Conversion table */}
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">{fromCode} to {toCode} Conversion Table</h2>
+  <div class="rounded-xl border border-[var(--color-border)] overflow-hidden">
+    <table class="w-full text-sm">
+      <caption class="sr-only">{fromCode} to {toCode} conversion table</caption>
+      <thead>
+        <tr class="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+          <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">{from.flag} {fromCode}</th>
+          <th scope="col" class="px-4 py-2.5 text-right text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">{to.flag} {toCode}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {tableAmounts.map((ta) => (
+          <tr class="border-b border-[var(--color-border)] last:border-b-0">
+            <td class="px-4 py-2.5 text-sm text-[var(--color-text)]">{ta.toLocaleString('en-US')} {fromCode}</td>
+            <td class="px-4 py-2.5 text-sm text-right text-[var(--color-text-muted)]">{fmt(convertCurrency(ta, fromCode, toCode, rates))} {toCode}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{/* Related conversions */}
+{related.length > 0 && (
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Other {fromCode} to {toCode} Amounts</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+      {related.map((e) => (
+        <a href={`/convert/${e.slug}`}
+          class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+          <span class="text-sm font-medium">{e.amount.toLocaleString('en-US')} {e.fromCode}</span>
+          <span class="block text-xs text-[var(--color-text-muted)]">to {e.toCode}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+
+{/* Currency hub links */}
+<div class="mb-8">
+  <h2 class="text-xl font-semibold mb-4">Currency Pages</h2>
+  <div class="flex gap-3">
+    <a href={`/currency/${fromCode.toLowerCase()}`}
+      class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
+      <span class="text-sm font-medium">{from.flag} {from.name} ({fromCode})</span>
+    </a>
+    <a href={`/currency/${toCode.toLowerCase()}`}
+      class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
+      <span class="text-sm font-medium">{to.flag} {to.name} ({toCode})</span>
+    </a>
+  </div>
+</div>
+
+<AdSlot position="bottom" />

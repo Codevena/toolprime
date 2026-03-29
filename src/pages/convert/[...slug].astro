@@ -6,86 +6,138 @@ import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
 import { GradientIcon } from '@/components/ui/GradientIcon'
 import { formatConversions, type FormatConversion } from '@/data/formatConversions'
 import { getToolById, getRelatedTools } from '@/data/tools'
-import { getFormatConversionMeta } from '@/lib/seo'
+import { getFormatConversionMeta, getCurrencyConversionMeta } from '@/lib/seo'
 import { formatConversionHowToSchema } from '@/lib/schema'
+import CurrencyConversionPage from '@/components/pseo/CurrencyConversionPage.astro'
+import {
+  currencyEntries,
+  fetchRates,
+  convertCurrency,
+  getCurrencyByCode,
+  type CurrencyEntry,
+  type RateMap,
+} from '@/data/currencyData'
+import type { MetaTags } from '@/lib/seo'
 
-export function getStaticPaths() {
-  return formatConversions.map((conv) => ({
+type PageProps =
+  | { type: 'format'; conv: FormatConversion; currency: null; rates: null }
+  | { type: 'currency'; conv: null; currency: CurrencyEntry; rates: RateMap }
+
+export async function getStaticPaths() {
+  const formatPaths = formatConversions.map((conv) => ({
     params: { slug: conv.slug },
-    props: { conv },
+    props: { type: 'format' as const, conv, currency: null, rates: null },
   }))
+
+  const rates = await fetchRates()
+
+  const currencyPaths = currencyEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'currency' as const, conv: null, currency: entry, rates },
+  }))
+
+  return [...formatPaths, ...currencyPaths]
 }
 
-const { conv } = Astro.props as { conv: FormatConversion }
-const meta = getFormatConversionMeta(conv)
-const tool = getToolById(conv.toolId)
-const relatedTools = tool ? getRelatedTools(tool.id) : []
-const relatedConversions = conv.relatedConversions
-  .map((slug) => formatConversions.find((c) => c.slug === slug))
-  .filter((c): c is FormatConversion => c !== undefined)
+const props = Astro.props as PageProps
+
+let meta: MetaTags
+if (props.type === 'format') {
+  meta = getFormatConversionMeta(props.conv)
+} else {
+  const { amount, fromCode, toCode } = props.currency
+  const from = getCurrencyByCode(fromCode)!
+  const to = getCurrencyByCode(toCode)!
+  const result = convertCurrency(amount, fromCode, toCode, props.rates)
+  meta = getCurrencyConversionMeta(amount, fromCode, from.name, toCode, to.name, result)
+}
 ---
 
 <BaseLayout {...meta}>
-  <SchemaMarkup json={formatConversionHowToSchema(conv.title, conv.steps)} slot="head" />
+  {props.type === 'format' && (
+    <>
+      <SchemaMarkup json={formatConversionHowToSchema(props.conv.title, props.conv.steps)} slot="head" />
 
-  <Breadcrumbs items={[
-    { name: 'Convert', url: 'https://toolprime.dev/convert' },
-    { name: conv.title, url: meta.canonical },
-  ]} />
+      <Breadcrumbs items={[
+        { name: 'Convert', url: 'https://toolprime.dev/convert' },
+        { name: props.conv.title, url: meta.canonical },
+      ]} />
 
-  <h1 class="text-3xl font-bold mb-2">{conv.title}</h1>
-  <p class="text-[var(--color-text-muted)] mb-6">{conv.intro}</p>
+      <h1 class="text-3xl font-bold mb-2">{props.conv.title}</h1>
+      <p class="text-[var(--color-text-muted)] mb-6">{props.conv.intro}</p>
 
-  {tool && (
-    <a href={tool.path} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors mb-8" style="background: linear-gradient(135deg, #818cf8, #6366f1);">
-      <GradientIcon icon={tool.icon} category={tool.category} size={20} />
-      Open {tool.name} &rarr;
-    </a>
+      {(() => {
+        const tool = getToolById(props.conv.toolId)
+        const relatedTools = tool ? getRelatedTools(tool.id) : []
+        const relatedConversions = props.conv.relatedConversions
+          .map((slug: string) => formatConversions.find((c) => c.slug === slug))
+          .filter((c: FormatConversion | undefined): c is FormatConversion => c !== undefined)
+        return (
+          <>
+            {tool && (
+              <a href={tool.path} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-colors mb-8" style="background: linear-gradient(135deg, #818cf8, #6366f1);">
+                <GradientIcon icon={tool.icon} category={tool.category} size={20} />
+                Open {tool.name} &rarr;
+              </a>
+            )}
+
+            <div class="prose prose-slate max-w-none dark:prose-invert">
+              <h2>How to {props.conv.title}</h2>
+              <ol>
+                {props.conv.steps.map((step: string) => <li>{step}</li>)}
+              </ol>
+
+              <h2>Common Use Cases</h2>
+              <ul>
+                {props.conv.useCases.map((uc: string) => <li>{uc}</li>)}
+              </ul>
+            </div>
+
+            <FaqSection faqs={props.conv.faqs} />
+
+            {relatedConversions.length > 0 && (
+              <div class="mt-8">
+                <h2 class="text-xl font-semibold mb-4">Related Conversions</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {relatedConversions.map((rc: FormatConversion) => (
+                    <a href={`/convert/${rc.slug}`}
+                      class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
+                      <span class="text-sm font-medium">{rc.title}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {tool && (
+              <div class="mt-8">
+                <h2 class="text-lg font-bold mb-4">Related Tools</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  <a href={tool.path} class="rounded-lg border border-[var(--color-border)] p-3 hover:border-[var(--color-primary)] transition-colors flex items-center gap-2">
+                    <GradientIcon icon={tool.icon} category={tool.category} size={20} />
+                    <span class="text-sm font-medium text-[var(--color-text)]">{tool.name}</span>
+                  </a>
+                  {relatedTools.map((rt) => (
+                    <a href={rt.path} class="rounded-lg border border-[var(--color-border)] p-3 hover:border-[var(--color-primary)] transition-colors flex items-center gap-2">
+                      <GradientIcon icon={rt.icon} category={rt.category} size={20} />
+                      <span class="text-sm font-medium text-[var(--color-text)]">{rt.name}</span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </>
+        )
+      })()}
+    </>
   )}
 
-  <div class="prose prose-slate max-w-none dark:prose-invert">
-    <h2>How to {conv.title}</h2>
-    <ol>
-      {conv.steps.map((step: string) => <li>{step}</li>)}
-    </ol>
-
-    <h2>Common Use Cases</h2>
-    <ul>
-      {conv.useCases.map((uc: string) => <li>{uc}</li>)}
-    </ul>
-  </div>
-
-  <FaqSection faqs={conv.faqs} />
-
-  {relatedConversions.length > 0 && (
-    <div class="mt-8">
-      <h2 class="text-xl font-semibold mb-4">Related Conversions</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {relatedConversions.map((rc: FormatConversion) => (
-          <a href={`/convert/${rc.slug}`}
-            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
-            <span class="text-sm font-medium">{rc.title}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  )}
-
-  {tool && (
-    <div class="mt-8">
-      <h2 class="text-lg font-bold mb-4">Related Tools</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <a href={tool.path} class="rounded-lg border border-[var(--color-border)] p-3 hover:border-[var(--color-primary)] transition-colors flex items-center gap-2">
-          <GradientIcon icon={tool.icon} category={tool.category} size={20} />
-          <span class="text-sm font-medium text-[var(--color-text)]">{tool.name}</span>
-        </a>
-        {relatedTools.map((rt) => (
-          <a href={rt.path} class="rounded-lg border border-[var(--color-border)] p-3 hover:border-[var(--color-primary)] transition-colors flex items-center gap-2">
-            <GradientIcon icon={rt.icon} category={rt.category} size={20} />
-            <span class="text-sm font-medium text-[var(--color-text)]">{rt.name}</span>
-          </a>
-        ))}
-      </div>
-    </div>
+  {props.type === 'currency' && (
+    <CurrencyConversionPage
+      amount={props.currency.amount}
+      fromCode={props.currency.fromCode}
+      toCode={props.currency.toCode}
+      rates={props.rates}
+    />
   )}
 </BaseLayout>
