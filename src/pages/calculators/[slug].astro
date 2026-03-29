@@ -1,0 +1,164 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import FaqSection from '@/components/seo/FaqSection.astro'
+import { bmiPresets, getBmiPresetsForHeight, getCategoryColor, getBmiPresetBySlug } from '@/data/bmiData'
+import { getBmiMeta } from '@/lib/seo'
+import { bmiFaqSchema } from '@/lib/schema'
+import type { BmiPreset } from '@/data/bmiData'
+
+export function getStaticPaths() {
+  return bmiPresets.map((preset) => ({
+    params: { slug: preset.slug },
+    props: { preset },
+  }))
+}
+
+interface Props {
+  preset: BmiPreset
+}
+
+const { preset } = Astro.props
+const meta = getBmiMeta(preset.heightCm, preset.weightKg, preset.bmi, preset.category)
+const sameHeightEntries = getBmiPresetsForHeight(preset.heightCm, preset.slug)
+const relatedPresets = preset.relatedBmi
+  .map((slug) => getBmiPresetBySlug(slug))
+  .filter((p): p is BmiPreset => p !== undefined)
+  .slice(0, 8)
+
+const heightM = (preset.heightCm / 100).toFixed(2)
+const categoryColor = getCategoryColor(preset.category)
+const barPosition = Math.max(0, Math.min(100, ((preset.bmi - 10) / 30) * 100))
+
+const categories = [
+  { label: 'Underweight', min: 0, max: 18.5, color: '#38bdf8' },
+  { label: 'Normal', min: 18.5, max: 25, color: '#22c55e' },
+  { label: 'Overweight', min: 25, max: 30, color: '#f59e0b' },
+  { label: 'Obese', min: 30, max: 40, color: '#ef4444' },
+]
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={bmiFaqSchema(preset.faqs)} />
+
+  <Breadcrumbs items={[
+    { name: 'BMI Calculator', url: 'https://toolprime.dev/bmi-calculator' },
+    { name: 'Pre-Calculated BMI', url: 'https://toolprime.dev/calculators/bmi' },
+    { name: `${preset.heightCm} cm / ${preset.weightKg} kg`, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">BMI for {preset.heightCm} cm and {preset.weightKg} kg</h1>
+
+  <!-- Result card -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <p class="text-lg text-[var(--color-text-muted)] mb-1">Body Mass Index</p>
+    <p class="text-4xl font-bold" style={`color: ${categoryColor}`}>
+      {preset.bmi}
+    </p>
+    <p class="text-xl font-semibold" style={`color: ${categoryColor}`}>
+      {preset.category}
+    </p>
+  </div>
+
+  <!-- Color bar visualization -->
+  <div class="mb-8 px-1">
+    <div class="relative h-4 rounded-full overflow-hidden flex">
+      {categories.map((cat) => {
+        const width = ((cat.max - Math.max(cat.min, 10)) / 30) * 100
+        return (
+          <div style={`width: ${width}%; background-color: ${cat.color}`} class="h-full" />
+        )
+      })}
+      <div class="absolute top-0 h-full w-0.5 bg-[var(--color-text)]" style={`left: ${barPosition}%`}>
+        <div class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs font-bold text-[var(--color-text)] whitespace-nowrap">
+          {preset.bmi}
+        </div>
+      </div>
+    </div>
+    <div class="flex text-xs text-[var(--color-text-muted)] mt-1">
+      <span style={`width: ${((18.5 - 10) / 30) * 100}%`} class="text-center">Underweight</span>
+      <span style={`width: ${((25 - 18.5) / 30) * 100}%`} class="text-center">Normal</span>
+      <span style={`width: ${((30 - 25) / 30) * 100}%`} class="text-center">Overweight</span>
+      <span style={`width: ${((40 - 30) / 30) * 100}%`} class="text-center">Obese</span>
+    </div>
+  </div>
+
+  <!-- Explanation -->
+  <div class="prose prose-slate max-w-none mb-8">
+    <h2>How Is This BMI Calculated?</h2>
+    <p>
+      BMI is calculated by dividing weight in kilograms by height in meters squared:
+    </p>
+    <p class="font-mono bg-[var(--color-surface-alt)] p-3 rounded-lg">
+      BMI = {preset.weightKg} &divide; ({heightM} &times; {heightM}) = {preset.bmi}
+    </p>
+    <p>
+      A BMI of <strong>{preset.bmi}</strong> falls in the <strong>{preset.category}</strong> category
+      according to the World Health Organization (WHO) classification.
+    </p>
+  </div>
+
+  <!-- Healthy weight range -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-2">Healthy Weight Range for {preset.heightCm} cm</h2>
+    <p class="text-2xl font-bold text-[var(--color-primary-text)]">
+      {preset.healthyWeightRange.min} – {preset.healthyWeightRange.max} kg
+    </p>
+    <p class="text-sm text-[var(--color-text-muted)] mt-1">
+      Based on a BMI range of 18.5–25.0 (Normal weight)
+    </p>
+  </div>
+
+  <!-- Other weights at same height -->
+  {sameHeightEntries.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Other Weights at {preset.heightCm} cm</h2>
+      <div class="overflow-x-auto rounded-xl border border-[var(--color-border)]">
+        <table class="w-full text-sm">
+          <caption class="sr-only">BMI for different weights at {preset.heightCm} cm height</caption>
+          <thead>
+            <tr class="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+              <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">Weight</th>
+              <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">BMI</th>
+              <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase tracking-wider">Category</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sameHeightEntries.map((e) => (
+              <tr class="border-b border-[var(--color-border)] last:border-0">
+                <td class="px-4 py-2.5">
+                  <a href={`/calculators/bmi/${e.slug}`} class="text-[var(--color-primary)] underline hover:no-underline font-medium">
+                    {e.weightKg} kg
+                  </a>
+                </td>
+                <td class="px-4 py-2.5 font-mono">{e.bmi}</td>
+                <td class="px-4 py-2.5 font-medium" style={`color: ${getCategoryColor(e.category)}`}>{e.category}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )}
+
+  <!-- Cross-links -->
+  {relatedPresets.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Related BMI Calculations</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {relatedPresets.map((e) => (
+          <a href={`/calculators/bmi/${e.slug}`}
+            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+            <span class="text-sm font-medium">{e.heightCm} cm / {e.weightKg} kg</span>
+            <span class="block text-xs font-bold" style={`color: ${getCategoryColor(e.category)}`}>
+              {e.bmi} — {e.category}
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <FaqSection faqs={preset.faqs} />
+</BaseLayout>

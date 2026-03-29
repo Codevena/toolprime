@@ -1,0 +1,33 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import { robotsTxtTemplates } from '@/data/robotsTxtTemplates'
+import { getRobotsTxtIndexMeta } from '@/lib/seo'
+
+const meta = getRobotsTxtIndexMeta()
+---
+
+<BaseLayout {...meta}>
+  <Breadcrumbs items={[
+    { name: 'robots.txt Generator', url: 'https://toolprime.dev/robots-txt-generator' },
+    { name: 'Templates', url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">robots.txt Templates</h1>
+  <p class="text-[var(--color-text-muted)] mb-8">Production-ready robots.txt templates for popular frameworks and platforms. Copy the template, customize it for your site, and upload to your server root.</p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {robotsTxtTemplates.map((t) => (
+      <a href={`/robots-txt/${t.slug}`}
+        class="group p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-primary)] transition-colors">
+        <h2 class="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary-text)] transition-colors">{t.framework}</h2>
+        <p class="text-sm text-[var(--color-text-muted)] mt-1 line-clamp-2">{t.description}</p>
+      </a>
+    ))}
+  </div>
+
+  <div class="mt-10 p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+    <h2 class="text-xl font-semibold mb-2">Need a custom robots.txt?</h2>
+    <p class="text-[var(--color-text-muted)] mb-3">Use our free <a href="/robots-txt-generator" class="text-[var(--color-primary-text)] hover:underline font-medium">robots.txt Generator</a> to build custom rules with a visual editor.</p>
+  </div>
+</BaseLayout>

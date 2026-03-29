@@ -1,0 +1,23 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { JsonToCsv } from '@/components/tools/JsonToCsv'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('json-to-csv')
+if (!tool) throw new Error('Tool not found: json-to-csv')
+---
+
+<ToolLayout tool={tool}>
+  <JsonToCsv client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the JSON to CSV Converter</h2>
+    <ol class="step-list" role="list">
+      <li>Choose your conversion direction: <strong>JSON &rarr; CSV</strong> or <strong>CSV &rarr; JSON</strong></li>
+      <li><strong>Paste</strong> your data into the input field</li>
+      <li>Click <strong>Convert</strong> to transform the data</li>
+      <li><strong>Copy</strong> the result or <strong>download</strong> as a file</li>
+      <li>Nested JSON objects are flattened with <strong>dot notation</strong> headers</li>
+    </ol>
+  </section>
+</ToolLayout>

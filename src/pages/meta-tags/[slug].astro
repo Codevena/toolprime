@@ -1,0 +1,99 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import FaqSection from '@/components/seo/FaqSection.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { metaTagTemplates, getRelatedMetaTagTemplates } from '@/data/metaTagTemplates'
+import { getMetaTagTemplateMeta } from '@/lib/seo'
+import { faqPageSchema } from '@/lib/schema'
+
+export function getStaticPaths() {
+  return metaTagTemplates.map(t => ({ params: { slug: t.slug }, props: { template: t } }))
+}
+
+const { template } = Astro.props
+const meta = getMetaTagTemplateMeta(template.name, template.slug)
+const related = getRelatedMetaTagTemplates(template.slug)
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={faqPageSchema(template.faqs)} />
+  <Breadcrumbs items={[
+    { name: 'Meta Tag Generator', url: 'https://toolprime.dev/meta-tag-generator' },
+    { name: 'Templates', url: 'https://toolprime.dev/meta-tags' },
+    { name: template.name, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">{template.title}</h1>
+  <p class="text-[var(--color-text-muted)] mb-8">{template.description}</p>
+
+  <!-- Template Preview -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Template</h2>
+    <div class="space-y-3">
+      <div>
+        <p class="text-xs text-[var(--color-text-muted)] uppercase tracking-wide mb-1">Title</p>
+        <code class="block bg-[var(--color-surface-alt)] p-2 rounded-lg text-sm font-mono">{template.template.title}</code>
+      </div>
+      <div>
+        <p class="text-xs text-[var(--color-text-muted)] uppercase tracking-wide mb-1">Description</p>
+        <code class="block bg-[var(--color-surface-alt)] p-2 rounded-lg text-sm font-mono">{template.template.description}</code>
+      </div>
+      <div>
+        <p class="text-xs text-[var(--color-text-muted)] uppercase tracking-wide mb-1">Keywords</p>
+        <code class="block bg-[var(--color-surface-alt)] p-2 rounded-lg text-sm font-mono">{template.template.keywords}</code>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <p class="text-xs text-[var(--color-text-muted)] uppercase tracking-wide mb-1">og:type</p>
+          <code class="block bg-[var(--color-surface-alt)] p-2 rounded-lg text-sm font-mono">{template.template.ogType}</code>
+        </div>
+        <div>
+          <p class="text-xs text-[var(--color-text-muted)] uppercase tracking-wide mb-1">twitter:card</p>
+          <code class="block bg-[var(--color-surface-alt)] p-2 rounded-lg text-sm font-mono">{template.template.twitterCard}</code>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">SEO Tips for {template.name} Pages</h2>
+    <ul class="space-y-2">
+      {template.tips.map((tip) => (
+        <li class="flex gap-2 text-sm">
+          <span class="text-[var(--color-primary-text)] shrink-0">&#x2713;</span>
+          <span class="text-[var(--color-text-muted)]">{tip}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- CTA -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6 mb-8 text-center">
+    <p class="text-[var(--color-text)] font-medium mb-2">Generate custom meta tags for your {template.name.toLowerCase()} page</p>
+    <a href="/meta-tag-generator"
+      class="inline-block px-5 py-2.5 rounded-lg bg-[var(--color-primary)] text-white font-medium text-sm hover:opacity-90 transition-opacity">
+      Open Meta Tag Generator
+    </a>
+  </div>
+
+  <!-- FAQs -->
+  <FaqSection faqs={template.faqs} />
+
+  <!-- Related Templates -->
+  {related.length > 0 && (
+    <div class="mt-8">
+      <h2 class="text-xl font-semibold mb-4">Related Templates</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {related.map((r) => (
+          <a href={`/meta-tags/${r.slug}`}
+            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
+            <span class="text-sm font-medium">{r.name}</span>
+            <span class="block text-xs text-[var(--color-text-muted)] mt-0.5 truncate">{r.description}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+</BaseLayout>

@@ -156,3 +156,36 @@ export function gradientFaqSchema(name: string, cssCode: string): string {
     ],
   })
 }
+
+export function cronFaqSchema(faqs: Array<{ question: string; answer: string }>): string {
+  return faqPageSchema(faqs)
+}
+
+export function cronHowToSchema(name: string, expression: string): string {
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: `How to use the cron expression for ${name}`,
+    step: [
+      { '@type': 'HowToStep', position: 1, text: `Open your crontab with crontab -e or your scheduler configuration` },
+      { '@type': 'HowToStep', position: 2, text: `Add the expression: ${expression} /path/to/your/command` },
+      { '@type': 'HowToStep', position: 3, text: `Save and verify the schedule with crontab -l` },
+    ],
+  })
+}
+
+export function paletteFaqSchema(faqs: Array<{ question: string; answer: string }>): string {
+  return faqPageSchema(faqs)
+}
+
+export function mortgageFaqSchema(faqs: Array<{ question: string; answer: string }>): string {
+  return faqPageSchema(faqs)
+}
+
+export function tipFaqSchema(faqs: Array<{ question: string; answer: string }>): string {
+  return faqPageSchema(faqs)
+}
+
+export function bmiFaqSchema(faqs: Array<{ question: string; answer: string }>): string {
+  return faqPageSchema(faqs)
+}

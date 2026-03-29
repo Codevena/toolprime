@@ -1,0 +1,30 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { TipCalculator } from '@/components/tools/TipCalculator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('tip-calculator')
+if (!tool) throw new Error('Tool not found: tip-calculator')
+---
+
+<ToolLayout tool={tool}>
+  <TipCalculator client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Tip Calculator</h2>
+    <ol class="step-list" role="list">
+      <li>Enter the <strong>bill amount</strong> (pre-tax subtotal recommended)</li>
+      <li>Select a <strong>tip percentage</strong> from presets or use the custom slider</li>
+      <li>Set the number of <strong>people</strong> to split the bill between</li>
+      <li>See the <strong>tip amount</strong>, total with tip, and per-person cost</li>
+      <li>Compare tips at different percentages in the <strong>comparison table</strong></li>
+    </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="related-content">
+    <h2 id="related-content" class="text-xl font-bold text-[var(--color-text)] mb-3">Pre-Calculated Tip Amounts</h2>
+    <p class="text-[var(--color-text-muted)]">
+      Browse our <a href="/calculators" class="text-[var(--color-primary)] underline hover:no-underline">pre-calculated tip pages</a> for instant answers to common questions like "tip on a $50 bill" or "tip on a $100 bill". About 30 bill amounts are available with tips at every standard percentage.
+    </p>
+  </section>
+</ToolLayout>

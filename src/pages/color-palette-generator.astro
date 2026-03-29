@@ -1,0 +1,23 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { ColorPaletteGenerator } from '@/components/tools/ColorPaletteGenerator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('color-palette-generator')
+if (!tool) throw new Error('Tool not found: color-palette-generator')
+---
+
+<ToolLayout tool={tool}>
+  <ColorPaletteGenerator client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Color Palette Generator</h2>
+    <ol class="step-list" role="list">
+      <li>Enter a <strong>base color</strong> using the color picker or type a hex code</li>
+      <li>Choose a <strong>harmony type</strong>: complementary, analogous, triadic, or more</li>
+      <li>See the generated <strong>color palette</strong> with all color values</li>
+      <li><strong>Copy</strong> individual colors or the entire palette as CSS variables</li>
+      <li>Export as a <strong>Tailwind CSS</strong> config snippet for your project</li>
+    </ol>
+  </section>
+</ToolLayout>

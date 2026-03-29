@@ -1,0 +1,23 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { ImageToBase64 } from '@/components/tools/ImageToBase64'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('image-to-base64')
+if (!tool) throw new Error('Tool not found: image-to-base64')
+---
+
+<ToolLayout tool={tool}>
+  <ImageToBase64 client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Image to Base64 Encoder</h2>
+    <ol class="step-list" role="list">
+      <li><strong>Upload</strong> an image by clicking the drop zone or dragging a file onto it</li>
+      <li>The tool reads your image and generates the <strong>Base64 encoding</strong> instantly</li>
+      <li>View the <strong>image preview</strong> and file details (name, type, size)</li>
+      <li>Copy the <strong>Data URI</strong> to use directly in HTML <code>&lt;img&gt;</code> tags or CSS</li>
+      <li>Copy the <strong>raw Base64 string</strong> for API payloads or database storage</li>
+    </ol>
+  </section>
+</ToolLayout>

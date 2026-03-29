@@ -1,0 +1,166 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { mortgagePresets } from '@/data/mortgageData'
+import type { MortgagePreset } from '@/data/mortgageData'
+import { getMortgageMeta } from '@/lib/seo'
+import { mortgageFaqSchema } from '@/lib/schema'
+
+export function getStaticPaths() {
+  return mortgagePresets.map((preset) => ({
+    params: { slug: preset.slug.replace('mortgage-', '') },
+    props: { preset },
+  }))
+}
+
+interface Props {
+  preset: MortgagePreset
+}
+
+const { preset } = Astro.props
+const meta = getMortgageMeta(preset)
+
+function formatCurrency(n: number): string {
+  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
+}
+
+function formatCurrencyCents(n: number): string {
+  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
+
+// Compute amortization schedule for the table
+const monthlyRate = preset.rate / 100 / 12
+const numPayments = preset.term * 12
+const schedule: Array<{ year: number; principalPaid: number; interestPaid: number; balance: number }> = []
+let balance = preset.amount
+for (let year = 1; year <= preset.term; year++) {
+  let yearPrincipal = 0
+  let yearInterest = 0
+  for (let m = 0; m < 12; m++) {
+    const intPayment = balance * monthlyRate
+    const princPayment = preset.monthlyPayment - intPayment
+    yearInterest += intPayment
+    yearPrincipal += princPayment
+    balance -= princPayment
+  }
+  schedule.push({
+    year,
+    principalPaid: Math.round(yearPrincipal),
+    interestPaid: Math.round(yearInterest),
+    balance: Math.max(0, Math.round(balance)),
+  })
+}
+
+const related = preset.relatedMortgages
+  .map((slug) => mortgagePresets.find((p) => p.slug === slug))
+  .filter((p): p is MortgagePreset => p !== undefined)
+  .slice(0, 8)
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={mortgageFaqSchema(preset.faqs)} />
+  <Breadcrumbs items={[
+    { name: 'Mortgage Calculator', url: 'https://toolprime.dev/mortgage-calculator' },
+    { name: `${formatCurrency(preset.amount)} at ${preset.rate}%`, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">{formatCurrency(preset.amount)} Mortgage at {preset.rate}%</h1>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <p class="text-lg text-[var(--color-text-muted)] mb-1">Monthly Payment</p>
+    <p class="text-4xl font-bold text-[var(--color-primary-text)]">
+      {formatCurrencyCents(preset.monthlyPayment)}
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+      <div class="text-sm text-[var(--color-text-muted)]">Loan Amount</div>
+      <div class="text-xl font-bold">{formatCurrency(preset.amount)}</div>
+    </div>
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+      <div class="text-sm text-[var(--color-text-muted)]">Total Interest</div>
+      <div class="text-xl font-bold">{formatCurrency(preset.totalInterest)}</div>
+    </div>
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 text-center">
+      <div class="text-sm text-[var(--color-text-muted)]">Total Cost</div>
+      <div class="text-xl font-bold">{formatCurrency(preset.totalCost)}</div>
+    </div>
+  </div>
+
+  <div class="prose prose-slate max-w-none mb-8">
+    <h2>How Is This Calculated?</h2>
+    <p>
+      A {formatCurrency(preset.amount)} mortgage at {preset.rate}% annual interest for {preset.term} years
+      uses the standard amortization formula. The monthly interest rate is {preset.rate}% &divide; 12 = {(preset.rate / 12).toFixed(4)}%.
+      With {numPayments} total payments, the fixed monthly payment works out to <strong>{formatCurrencyCents(preset.monthlyPayment)}</strong>.
+    </p>
+    <p>
+      Over {preset.term} years, you will pay <strong>{formatCurrency(preset.totalInterest)}</strong> in interest
+      on top of the original {formatCurrency(preset.amount)} principal, for a total cost of <strong>{formatCurrency(preset.totalCost)}</strong>.
+    </p>
+  </div>
+
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Amortization Schedule (First 10 Years)</h2>
+    <div class="overflow-x-auto rounded-xl border border-[var(--color-border)]">
+      <table class="w-full text-sm">
+        <caption class="sr-only">Yearly amortization schedule for {formatCurrency(preset.amount)} at {preset.rate}%</caption>
+        <thead>
+          <tr class="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+            <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase">Year</th>
+            <th scope="col" class="px-4 py-2.5 text-right text-xs font-semibold text-[var(--color-text-muted)] uppercase">Principal</th>
+            <th scope="col" class="px-4 py-2.5 text-right text-xs font-semibold text-[var(--color-text-muted)] uppercase">Interest</th>
+            <th scope="col" class="px-4 py-2.5 text-right text-xs font-semibold text-[var(--color-text-muted)] uppercase">Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {schedule.slice(0, 10).map((row) => (
+            <tr class="border-b border-[var(--color-border)] last:border-0">
+              <td class="px-4 py-2.5 font-medium">{row.year}</td>
+              <td class="px-4 py-2.5 text-right font-mono">{formatCurrency(row.principalPaid)}</td>
+              <td class="px-4 py-2.5 text-right font-mono">{formatCurrency(row.interestPaid)}</td>
+              <td class="px-4 py-2.5 text-right font-mono">{formatCurrency(row.balance)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {preset.faqs.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {preset.faqs.map((faq) => (
+          <details class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+            <summary class="cursor-pointer px-4 py-3 font-medium">{faq.question}</summary>
+            <p class="px-4 pb-3 text-sm text-[var(--color-text-muted)]">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {related.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Related Mortgage Calculations</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {related.map((p) => (
+          <a href={`/calculators/${p.slug}`}
+            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+            <span class="text-sm font-medium">{formatCurrency(p.amount)} at {p.rate}%</span>
+            <span class="block text-xs text-[var(--color-text-muted)]">{formatCurrencyCents(p.monthlyPayment)}/mo</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <div class="text-center mt-8">
+    <a href="/mortgage-calculator" class="text-[var(--color-primary)] underline hover:no-underline text-sm">
+      Try the full Mortgage Calculator with custom inputs &rarr;
+    </a>
+  </div>
+</BaseLayout>

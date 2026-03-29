@@ -1,0 +1,106 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import FaqSection from '@/components/seo/FaqSection.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { robotsTxtTemplates, getRelatedRobotsTxtTemplates } from '@/data/robotsTxtTemplates'
+import { getRobotsTxtTemplateMeta } from '@/lib/seo'
+import { faqPageSchema } from '@/lib/schema'
+
+export function getStaticPaths() {
+  return robotsTxtTemplates.map(t => ({ params: { slug: t.slug }, props: { template: t } }))
+}
+
+const { template } = Astro.props
+const meta = getRobotsTxtTemplateMeta(template.framework, template.slug)
+const related = getRelatedRobotsTxtTemplates(template.slug)
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={faqPageSchema(template.faqs)} />
+  <Breadcrumbs items={[
+    { name: 'robots.txt Generator', url: 'https://toolprime.dev/robots-txt-generator' },
+    { name: 'Templates', url: 'https://toolprime.dev/robots-txt' },
+    { name: template.framework, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">{template.title}</h1>
+  <p class="text-[var(--color-text-muted)] mb-8">{template.description}</p>
+
+  <!-- Template Code -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-semibold">robots.txt</h2>
+      <button type="button" id="copy-template" class="px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors">
+        Copy
+      </button>
+    </div>
+    <pre id="template-content" class="bg-[var(--color-surface-alt)] p-4 rounded-lg text-sm font-mono overflow-x-auto whitespace-pre-wrap">{template.content}</pre>
+  </div>
+
+  <script>
+    document.getElementById('copy-template')?.addEventListener('click', function() {
+      const content = document.getElementById('template-content')?.textContent ?? ''
+      navigator.clipboard.writeText(content)
+      this.textContent = 'Copied!'
+      setTimeout(() => { this.textContent = 'Copy' }, 2000)
+    })
+  </script>
+
+  <!-- Line-by-Line Explanation -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Line-by-Line Explanation</h2>
+    <div class="space-y-2">
+      {template.explanation.map((line) => {
+        const parts = line.split(' — ')
+        return (
+          <p class="text-sm">
+            <code class="bg-[var(--color-surface-alt)] px-1.5 py-0.5 rounded font-mono">{parts[0]}</code>
+            {parts[1] && <span class="text-[var(--color-text-muted)]"> — {parts[1]}</span>}
+          </p>
+        )
+      })}
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Best Practices for {template.framework}</h2>
+    <ul class="space-y-2">
+      {template.tips.map((tip) => (
+        <li class="flex gap-2 text-sm">
+          <span class="text-[var(--color-primary-text)] shrink-0">&#x2713;</span>
+          <span class="text-[var(--color-text-muted)]">{tip}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- CTA -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6 mb-8 text-center">
+    <p class="text-[var(--color-text)] font-medium mb-2">Build a custom robots.txt for your {template.framework} site</p>
+    <a href="/robots-txt-generator"
+      class="inline-block px-5 py-2.5 rounded-lg bg-[var(--color-primary)] text-white font-medium text-sm hover:opacity-90 transition-opacity">
+      Open robots.txt Generator
+    </a>
+  </div>
+
+  <!-- FAQs -->
+  <FaqSection faqs={template.faqs} />
+
+  <!-- Related Templates -->
+  {related.length > 0 && (
+    <div class="mt-8">
+      <h2 class="text-xl font-semibold mb-4">Related Templates</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {related.map((r) => (
+          <a href={`/robots-txt/${r.slug}`}
+            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
+            <span class="text-sm font-medium">{r.framework}</span>
+            <span class="block text-xs text-[var(--color-text-muted)] mt-0.5 truncate">{r.description}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+</BaseLayout>

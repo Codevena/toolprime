@@ -1,0 +1,158 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { cronExpressions, getRelatedCronExpressions } from '@/data/cronExpressions'
+import type { CronExpression } from '@/data/cronExpressions'
+import { getCronMeta } from '@/lib/seo'
+import { cronFaqSchema, cronHowToSchema } from '@/lib/schema'
+
+export function getStaticPaths() {
+  return cronExpressions.map((expr) => ({
+    params: { slug: expr.slug },
+    props: { expr },
+  }))
+}
+
+interface Props {
+  expr: CronExpression
+}
+
+const { expr } = Astro.props
+const meta = getCronMeta(expr.name, expr.slug, expr.expression)
+const related = getRelatedCronExpressions(expr.slug)
+
+// Generate code examples
+const crontabExample = `# ${expr.humanReadable}\n${expr.expression} /path/to/your/script.sh`
+const githubActionsExample = `name: Scheduled Job\non:\n  schedule:\n    - cron: '${expr.expression}'\njobs:\n  run:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - run: echo "Running ${expr.name}"`
+const systemdExample = `[Unit]\nDescription=${expr.name} timer\n\n[Timer]\nOnCalendar=*-*-* *:*:00\nPersistent=true\n\n[Install]\nWantedBy=timers.target`
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={cronFaqSchema(expr.faqs)} />
+  <SchemaMarkup json={cronHowToSchema(expr.name, expr.expression)} />
+  <Breadcrumbs items={[
+    { name: 'Cron Expression Generator', url: 'https://toolprime.dev/cron-expression-generator' },
+    { name: 'Common Expressions', url: 'https://toolprime.dev/cron' },
+    { name: expr.name, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">{expr.title}</h1>
+  <p class="text-[var(--color-text-muted)] mb-6">{expr.description}</p>
+
+  <!-- Expression display -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <p class="text-sm text-[var(--color-text-muted)] mb-1">Expression</p>
+    <div class="flex items-center gap-3">
+      <code id="cron-value" class="flex-1 text-2xl font-mono font-bold text-[var(--color-primary-text)]">{expr.expression}</code>
+      <button type="button" id="copy-cron" class="shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors">
+        Copy
+      </button>
+    </div>
+    <p class="mt-2 text-sm text-[var(--color-text-muted)]">{expr.humanReadable}</p>
+  </div>
+
+  <script define:vars={{ cronExpression: expr.expression }}>
+    document.getElementById('copy-cron')?.addEventListener('click', function() {
+      navigator.clipboard.writeText(cronExpression)
+      this.textContent = 'Copied!'
+      setTimeout(() => { this.textContent = 'Copy' }, 2000)
+    })
+    document.querySelectorAll('.snippet-copy').forEach((btn) => {
+      btn.addEventListener('click', function() {
+        navigator.clipboard.writeText(this.dataset.code ?? '')
+        this.textContent = 'Copied!'
+        setTimeout(() => { this.textContent = 'Copy' }, 2000)
+      })
+    })
+  </script>
+
+  <!-- Use cases -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Use Cases</h2>
+    <ul class="space-y-2">
+      {expr.useCases.map((uc) => (
+        <li class="flex items-start gap-2 text-sm">
+          <span class="w-5 h-5 rounded-full bg-[var(--color-surface-alt)] flex items-center justify-center text-xs flex-shrink-0 mt-0.5">&#x2022;</span>
+          <span>{uc}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Code examples -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Code Examples</h2>
+    <div class="space-y-4">
+      <div>
+        <h3 class="text-sm font-semibold mb-2">Crontab</h3>
+        <div class="flex items-start gap-2">
+          <pre class="flex-1 bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{crontabExample}</code></pre>
+          <button type="button" class="snippet-copy shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors" data-code={crontabExample}>
+            Copy
+          </button>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold mb-2">GitHub Actions</h3>
+        <div class="flex items-start gap-2">
+          <pre class="flex-1 bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{githubActionsExample}</code></pre>
+          <button type="button" class="snippet-copy shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors" data-code={githubActionsExample}>
+            Copy
+          </button>
+        </div>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold mb-2">systemd Timer</h3>
+        <div class="flex items-start gap-2">
+          <pre class="flex-1 bg-[var(--color-surface-alt)] p-3 rounded-lg text-sm font-mono overflow-x-auto"><code>{systemdExample}</code></pre>
+          <button type="button" class="snippet-copy shrink-0 px-3 py-1.5 text-sm rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-surface-alt)] transition-colors" data-code={systemdExample}>
+            Copy
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Tips</h2>
+    <ul class="space-y-2">
+      {expr.tips.map((tip) => (
+        <li class="flex items-start gap-2 text-sm">
+          <span class="w-5 h-5 rounded-full bg-[var(--color-surface-alt)] flex items-center justify-center text-xs flex-shrink-0 mt-0.5">&#x2713;</span>
+          <span>{tip}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- FAQs -->
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <h2 class="text-lg font-semibold mb-4">Frequently Asked Questions</h2>
+    <div class="space-y-4">
+      {expr.faqs.map((faq) => (
+        <div>
+          <h3 class="text-sm font-semibold mb-1">{faq.question}</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">{faq.answer}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Related expressions -->
+  {related.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Related Cron Expressions</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+        {related.map((r) => (
+          <a href={`/cron/${r.slug}`}
+            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors">
+            <span class="text-sm font-medium">{r.name}</span>
+            <span class="block text-xs text-[var(--color-text-muted)] font-mono">{r.expression}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+</BaseLayout>

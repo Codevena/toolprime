@@ -1,0 +1,23 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { CronExpressionGenerator } from '@/components/tools/CronExpressionGenerator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('cron-expression-generator')
+if (!tool) throw new Error('Tool not found: cron-expression-generator')
+---
+
+<ToolLayout tool={tool}>
+  <CronExpressionGenerator client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Cron Expression Generator</h2>
+    <ol class="step-list" role="list">
+      <li>Select a <strong>preset</strong> or build your own schedule using the dropdowns</li>
+      <li>Choose values for <strong>minute, hour, day, month,</strong> and <strong>weekday</strong></li>
+      <li>See the <strong>human-readable</strong> explanation update in real time</li>
+      <li>Check the <strong>next 5 run times</strong> to verify the schedule</li>
+      <li><strong>Copy</strong> the cron expression for use in crontab, GitHub Actions, or CI/CD</li>
+    </ol>
+  </section>
+</ToolLayout>

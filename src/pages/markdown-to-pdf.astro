@@ -1,0 +1,23 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { MarkdownToPdf } from '@/components/tools/MarkdownToPdf'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('markdown-to-pdf')
+if (!tool) throw new Error('Tool not found: markdown-to-pdf')
+---
+
+<ToolLayout tool={tool}>
+  <MarkdownToPdf client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Convert Markdown to PDF</h2>
+    <ol class="step-list" role="list">
+      <li><strong>Type or paste</strong> your Markdown into the editor on the left</li>
+      <li>See the <strong>formatted preview</strong> update in real time on the right</li>
+      <li>Click <strong>Download PDF</strong> to generate and save the file</li>
+      <li>The PDF uses clean formatting with <strong>A4 page size</strong></li>
+      <li>Everything runs <strong>in your browser</strong> — no data is uploaded</li>
+    </ol>
+  </section>
+</ToolLayout>

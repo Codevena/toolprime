@@ -24,13 +24,13 @@ export const formatConversions: FormatConversion[] = [
     intro:
       'Converting JSON to CSV is essential when you need to open structured data in spreadsheet applications like Excel or Google Sheets. This tool flattens JSON arrays of objects into clean, comma-separated rows and columns, preserving all your data fields.',
     steps: [
-      'Open the JSON Formatter tool on ToolPrime',
+      'Open the JSON to CSV Converter on ToolPrime',
+      'Select the "JSON to CSV" tab',
       'Paste your JSON array into the input field',
-      'Select "CSV" as the output format',
       'Click Convert to generate the CSV output',
       'Copy the result or download it as a .csv file',
     ],
-    toolId: 'json-formatter',
+    toolId: 'json-to-csv',
     useCases: [
       'Export API response data into Excel for reporting',
       'Prepare JSON datasets for import into database tools',
@@ -145,13 +145,13 @@ export const formatConversions: FormatConversion[] = [
     intro:
       'When working with APIs, databases, or JavaScript applications, JSON is the standard data format. This tool converts CSV data — whether pasted from a spreadsheet or a raw file — into a properly structured JSON array of objects, using the header row as keys.',
     steps: [
-      'Open the JSON Formatter tool on ToolPrime',
+      'Open the JSON to CSV Converter on ToolPrime',
+      'Select the "CSV to JSON" tab',
       'Paste your CSV data (with headers in the first row)',
-      'Select "CSV to JSON" as the conversion mode',
       'Click Convert to generate the JSON array',
       'Copy the output to use in your application',
     ],
-    toolId: 'json-formatter',
+    toolId: 'json-to-csv',
     useCases: [
       'Import spreadsheet exports into a Node.js application',
       'Prepare CSV datasets for API bulk-upload endpoints',
@@ -412,12 +412,13 @@ export const formatConversions: FormatConversion[] = [
     intro:
       'Base64-encoded images can be embedded directly into HTML, CSS, or JSON without needing a separate file request. This is useful for small icons, email templates, and single-file HTML documents where reducing HTTP requests matters.',
     steps: [
-      'Open the Base64 Encode/Decode tool on ToolPrime',
-      'Click the file upload button or drag an image onto the page',
+      'Open the Image to Base64 Encoder on ToolPrime',
+      'Click the upload area or drag an image onto the page',
       'The tool generates a complete data URI with the correct MIME type',
       'Copy the data URI to use in an img src attribute or CSS background',
+      'Or copy the raw Base64 string for API payloads and database storage',
     ],
-    toolId: 'base64-encode-decode',
+    toolId: 'image-to-base64',
     useCases: [
       'Embed small icons in HTML email templates',
       'Include logos in CSS without extra HTTP requests',
@@ -2458,6 +2459,50 @@ export const formatConversions: FormatConversion[] = [
       },
     ],
     relatedConversions: ['unix-to-date', 'date-to-unix', 'timestamp-to-iso'],
+  },
+
+  // ─── Markdown to PDF (1 entry) ──────────────────────────────────────────────
+  {
+    slug: 'markdown-to-pdf',
+    from: 'Markdown',
+    to: 'PDF',
+    title: 'Convert Markdown to PDF',
+    description:
+      'Convert Markdown files to downloadable PDF documents instantly in your browser. Free online converter with live preview.',
+    intro:
+      'Markdown is the go-to format for writing documentation, README files, and technical notes, but it is not ideal for sharing with people who expect polished, paginated documents. This tool converts your Markdown to a clean PDF with proper headings, lists, tables, and code block formatting — all without uploading anything to a server.',
+    steps: [
+      'Open the Markdown to PDF tool on ToolPrime',
+      'Type or paste your Markdown content into the editor',
+      'Verify the live preview on the right shows correct formatting',
+      'Click the Download PDF button to generate the file',
+      'Save the PDF to your device for sharing or printing',
+    ],
+    toolId: 'markdown-to-pdf',
+    useCases: [
+      'Export project documentation as PDF for stakeholders',
+      'Create print-ready resumes maintained in Markdown',
+      'Share formatted meeting notes as PDF attachments',
+      'Submit student assignments written in Markdown',
+    ],
+    faqs: [
+      {
+        question: 'Does the Markdown to PDF converter support tables?',
+        answer:
+          'Yes. Standard Markdown tables with pipe syntax are fully rendered in the PDF output with proper column alignment and borders.',
+      },
+      {
+        question: 'Is my content uploaded to a server during conversion?',
+        answer:
+          'No. The entire Markdown-to-PDF pipeline runs locally in your browser. Your text never leaves your device.',
+      },
+      {
+        question: 'What page format does the PDF use?',
+        answer:
+          'The output PDF uses A4 page size in portrait orientation with comfortable margins, suitable for most professional and academic purposes.',
+      },
+    ],
+    relatedConversions: [],
   },
 ]
 

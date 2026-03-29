@@ -1,0 +1,147 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import { tipPresets } from '@/data/tipData'
+import type { TipPreset } from '@/data/tipData'
+import { getTipMeta } from '@/lib/seo'
+import { tipFaqSchema } from '@/lib/schema'
+
+export function getStaticPaths() {
+  return tipPresets.map((preset) => ({
+    params: { slug: String(preset.amount) },
+    props: { preset },
+  }))
+}
+
+interface Props {
+  preset: TipPreset
+}
+
+const { preset } = Astro.props
+const meta = getTipMeta(preset)
+
+function formatCurrency(n: number): string {
+  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+}
+
+const related = preset.relatedTips
+  .map((slug) => tipPresets.find((p) => p.slug === slug))
+  .filter((p): p is TipPreset => p !== undefined)
+  .slice(0, 8)
+---
+
+<BaseLayout {...meta}>
+  <SchemaMarkup json={tipFaqSchema(preset.faqs)} />
+  <Breadcrumbs items={[
+    { name: 'Tip Calculator', url: 'https://toolprime.dev/tip-calculator' },
+    { name: `Tip on ${formatCurrency(preset.amount)}`, url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">Tip on a {formatCurrency(preset.amount)} Bill</h1>
+
+  <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+    <p class="text-lg text-[var(--color-text-muted)] mb-1">20% Tip</p>
+    <p class="text-4xl font-bold text-[var(--color-primary-text)]">
+      {formatCurrency(preset.tips[3].tipAmount)} tip &mdash; {formatCurrency(preset.tips[3].total)} total
+    </p>
+  </div>
+
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Tip Amounts at Every Percentage</h2>
+    <div class="overflow-x-auto rounded-xl border border-[var(--color-border)]">
+      <table class="w-full text-sm">
+        <caption class="sr-only">Tip amounts for a {formatCurrency(preset.amount)} bill</caption>
+        <thead>
+          <tr class="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+            <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase">Tip %</th>
+            <th scope="col" class="px-4 py-2.5 text-right text-xs font-semibold text-[var(--color-text-muted)] uppercase">Tip Amount</th>
+            <th scope="col" class="px-4 py-2.5 text-right text-xs font-semibold text-[var(--color-text-muted)] uppercase">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {preset.tips.map((t) => (
+            <tr class={`border-b border-[var(--color-border)] last:border-0 ${t.percent === 20 ? 'bg-[var(--color-surface-alt)]' : ''}`}>
+              <td class={`px-4 py-2.5 font-medium ${t.percent === 20 ? 'text-[var(--color-primary)]' : ''}`}>{t.percent}%</td>
+              <td class="px-4 py-2.5 text-right font-mono">{formatCurrency(t.tipAmount)}</td>
+              <td class="px-4 py-2.5 text-right font-mono">{formatCurrency(t.total)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="prose prose-slate max-w-none mb-8">
+    <h2>How to Calculate the Tip on {formatCurrency(preset.amount)}</h2>
+    <p>
+      To calculate a tip, multiply the bill amount by the tip percentage and divide by 100.
+      For example, a 20% tip on {formatCurrency(preset.amount)}:
+    </p>
+    <p class="font-mono bg-[var(--color-surface-alt)] p-3 rounded-lg">
+      {formatCurrency(preset.amount)} &times; 20 &divide; 100 = {formatCurrency(preset.tips[3].tipAmount)}
+    </p>
+    <p>
+      Add the tip to the bill for the total: {formatCurrency(preset.amount)} + {formatCurrency(preset.tips[3].tipAmount)} = <strong>{formatCurrency(preset.tips[3].total)}</strong>.
+    </p>
+  </div>
+
+  {/* Split table */}
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Bill Split (at 20% tip)</h2>
+    <div class="overflow-x-auto rounded-xl border border-[var(--color-border)]">
+      <table class="w-full text-sm">
+        <caption class="sr-only">Bill split for {formatCurrency(preset.amount)} with 20% tip</caption>
+        <thead>
+          <tr class="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+            <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase">People</th>
+            <th scope="col" class="px-4 py-2.5 text-right text-xs font-semibold text-[var(--color-text-muted)] uppercase">Per Person</th>
+          </tr>
+        </thead>
+        <tbody>
+          {[2, 3, 4, 5, 6].map((n) => (
+            <tr class="border-b border-[var(--color-border)] last:border-0">
+              <td class="px-4 py-2.5 font-medium">{n} people</td>
+              <td class="px-4 py-2.5 text-right font-mono">{formatCurrency(Math.round(preset.tips[3].total / n * 100) / 100)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {preset.faqs.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Frequently Asked Questions</h2>
+      <div class="space-y-4">
+        {preset.faqs.map((faq) => (
+          <details class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+            <summary class="cursor-pointer px-4 py-3 font-medium">{faq.question}</summary>
+            <p class="px-4 pb-3 text-sm text-[var(--color-text-muted)]">{faq.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {related.length > 0 && (
+    <div class="mb-8">
+      <h2 class="text-xl font-semibold mb-4">Tips on Other Bill Amounts</h2>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {related.map((p) => (
+          <a href={`/calculators/${p.slug}`}
+            class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+            <span class="text-sm font-medium">Tip on {formatCurrency(p.amount)}</span>
+            <span class="block text-xs text-[var(--color-text-muted)]">20%: {formatCurrency(p.tips[3].tipAmount)}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <div class="text-center mt-8">
+    <a href="/tip-calculator" class="text-[var(--color-primary)] underline hover:no-underline text-sm">
+      Try the full Tip Calculator with custom inputs &rarr;
+    </a>
+  </div>
+</BaseLayout>

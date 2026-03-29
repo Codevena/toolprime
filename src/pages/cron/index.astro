@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import { cronExpressions } from '@/data/cronExpressions'
+import { getCronIndexMeta } from '@/lib/seo'
+
+const meta = getCronIndexMeta()
+---
+
+<BaseLayout {...meta}>
+  <Breadcrumbs items={[
+    { name: 'Cron Expression Generator', url: 'https://toolprime.dev/cron-expression-generator' },
+    { name: 'Common Cron Expressions', url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">Common Cron Expressions</h1>
+  <p class="text-[var(--color-text-muted)] mb-8 max-w-2xl">Browse {cronExpressions.length} common cron schedules with human-readable explanations, next run times, and ready-to-use code examples.</p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    {cronExpressions.map((expr) => (
+      <a href={`/cron/${expr.slug}`}
+        class="p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-primary)] transition-colors group">
+        <code class="text-sm font-mono font-bold text-[var(--color-primary-text)] group-hover:text-[var(--color-primary)]">{expr.expression}</code>
+        <p class="text-sm font-medium mt-1">{expr.name}</p>
+        <p class="text-xs text-[var(--color-text-muted)] mt-0.5">{expr.humanReadable}</p>
+      </a>
+    ))}
+  </div>
+
+  <div class="mt-12 p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
+    <h2 class="text-xl font-bold mb-3">Cron Syntax Quick Reference</h2>
+    <p class="text-sm text-[var(--color-text-muted)] mb-4">A cron expression has five fields separated by spaces:</p>
+    <pre class="bg-[var(--color-surface-alt)] p-4 rounded-lg text-sm font-mono overflow-x-auto">┌───────────── minute (0-59)
+│ ┌───────────── hour (0-23)
+│ │ ┌───────────── day of month (1-31)
+│ │ │ ┌───────────── month (1-12)
+│ │ │ │ ┌───────────── day of week (0-6, Sun=0)
+│ │ │ │ │
+* * * * *</pre>
+    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+      <div><code class="bg-[var(--color-surface-alt)] px-1.5 py-0.5 rounded font-mono">*</code> <span class="text-[var(--color-text-muted)]">every value</span></div>
+      <div><code class="bg-[var(--color-surface-alt)] px-1.5 py-0.5 rounded font-mono">*/n</code> <span class="text-[var(--color-text-muted)]">every n-th value</span></div>
+      <div><code class="bg-[var(--color-surface-alt)] px-1.5 py-0.5 rounded font-mono">a-b</code> <span class="text-[var(--color-text-muted)]">range from a to b</span></div>
+      <div><code class="bg-[var(--color-surface-alt)] px-1.5 py-0.5 rounded font-mono">a,b,c</code> <span class="text-[var(--color-text-muted)]">specific values</span></div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { BmiCalculator } from '@/components/tools/BmiCalculator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('bmi-calculator')
+if (!tool) throw new Error('Tool not found: bmi-calculator')
+---
+
+<ToolLayout tool={tool}>
+  <BmiCalculator client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the BMI Calculator</h2>
+    <ol class="step-list" role="list">
+      <li>Enter your <strong>height</strong> in centimeters or feet and inches</li>
+      <li>Enter your <strong>weight</strong> in kilograms or pounds</li>
+      <li>Click <strong>Calculate</strong> to see your BMI</li>
+      <li>View your <strong>BMI category</strong> with a color-coded indicator</li>
+      <li>Check the <strong>healthy weight range</strong> for your height</li>
+    </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="bmi-pages">
+    <h2 id="bmi-pages" class="text-xl font-bold text-[var(--color-text)] mb-3">Pre-Calculated BMI Pages</h2>
+    <p class="text-[var(--color-text-muted)]">
+      Browse our <a href="/calculators/bmi" class="text-[var(--color-primary)] underline hover:no-underline">pre-calculated BMI pages</a> for instant results across 200+ height and weight combinations with detailed explanations and healthy weight ranges.
+    </p>
+  </section>
+</ToolLayout>

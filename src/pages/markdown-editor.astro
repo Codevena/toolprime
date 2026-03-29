@@ -1,0 +1,23 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { MarkdownEditor } from '@/components/tools/MarkdownEditor'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('markdown-editor')
+if (!tool) throw new Error('Tool not found: markdown-editor')
+---
+
+<ToolLayout tool={tool}>
+  <MarkdownEditor client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Markdown Editor</h2>
+    <ol class="step-list" role="list">
+      <li><strong>Type or paste</strong> your Markdown into the left panel</li>
+      <li>See the <strong>rendered preview</strong> update in real time on the right</li>
+      <li>Code blocks get <strong>syntax highlighting</strong> automatically</li>
+      <li>Click <strong>Copy HTML</strong> to get the rendered HTML output</li>
+      <li>Use on mobile — panels <strong>stack vertically</strong> for easy editing</li>
+    </ol>
+  </section>
+</ToolLayout>

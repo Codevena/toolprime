@@ -1,0 +1,33 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import { metaTagTemplates } from '@/data/metaTagTemplates'
+import { getMetaTagIndexMeta } from '@/lib/seo'
+
+const meta = getMetaTagIndexMeta()
+---
+
+<BaseLayout {...meta}>
+  <Breadcrumbs items={[
+    { name: 'Meta Tag Generator', url: 'https://toolprime.dev/meta-tag-generator' },
+    { name: 'Templates', url: meta.canonical },
+  ]} />
+
+  <h1 class="text-3xl font-bold mb-2">Meta Tag Templates</h1>
+  <p class="text-[var(--color-text-muted)] mb-8">Optimized meta tag templates for every type of web page. Pick a template, customize it, and paste the HTML into your page's &lt;head&gt;.</p>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {metaTagTemplates.map((t) => (
+      <a href={`/meta-tags/${t.slug}`}
+        class="group p-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-primary)] transition-colors">
+        <h2 class="text-base font-semibold text-[var(--color-text)] group-hover:text-[var(--color-primary-text)] transition-colors">{t.name}</h2>
+        <p class="text-sm text-[var(--color-text-muted)] mt-1 line-clamp-2">{t.description}</p>
+      </a>
+    ))}
+  </div>
+
+  <div class="mt-10 p-6 rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)]">
+    <h2 class="text-xl font-semibold mb-2">Need custom meta tags?</h2>
+    <p class="text-[var(--color-text-muted)] mb-3">Use our free <a href="/meta-tag-generator" class="text-[var(--color-primary-text)] hover:underline font-medium">Meta Tag Generator</a> to create custom meta tags with a live Google SERP preview.</p>
+  </div>
+</BaseLayout>

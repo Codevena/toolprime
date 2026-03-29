@@ -1,0 +1,23 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { RobotsTxtGenerator } from '@/components/tools/RobotsTxtGenerator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('robots-txt-generator')
+if (!tool) throw new Error('Tool not found: robots-txt-generator')
+---
+
+<ToolLayout tool={tool}>
+  <RobotsTxtGenerator client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the robots.txt Generator</h2>
+    <ol class="step-list" role="list">
+      <li>Select a <strong>user-agent</strong> (use * for all bots, or pick specific crawlers)</li>
+      <li>Choose paths to <strong>disallow</strong> by clicking the path buttons or adding custom paths</li>
+      <li>Optionally add <strong>allow</strong> exceptions for disallowed directories</li>
+      <li>Enter your <strong>sitemap URL</strong> so search engines can discover your pages</li>
+      <li><strong>Copy</strong> or <strong>download</strong> the generated robots.txt file</li>
+    </ol>
+  </section>
+</ToolLayout>
