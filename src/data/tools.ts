@@ -42,6 +42,59 @@ export const categoryColors: Record<ToolCategory, string> = {
   business: '#c084fc',
 }
 
+export type ToolAudience = 'everyday' | 'developer' | 'design'
+
+export const audienceLabels: Record<ToolAudience, string> = {
+  everyday: 'Everyday Tools',
+  developer: 'Developer Tools',
+  design: 'Design Tools',
+}
+
+export const audienceGradients: Record<ToolAudience, string> = {
+  everyday: 'linear-gradient(135deg, #34d399, #06b6d4)',
+  developer: 'linear-gradient(135deg, #818cf8, #6366f1)',
+  design: 'linear-gradient(135deg, #fb923c, #f97316)',
+}
+
+export const toolAudienceMap: Record<string, ToolAudience> = {
+  // Everyday Tools
+  'word-counter': 'everyday',
+  'case-converter': 'everyday',
+  'unit-converter': 'everyday',
+  'percentage-calculator': 'everyday',
+  'qr-code-generator': 'everyday',
+  'bmi-calculator': 'everyday',
+  'tip-calculator': 'everyday',
+  'mortgage-calculator': 'everyday',
+  'invoice-generator': 'everyday',
+  'currency-converter': 'everyday',
+  'age-calculator': 'everyday',
+  'fraction-calculator': 'everyday',
+  // Developer Tools
+  'json-formatter': 'developer',
+  'base64-encode-decode': 'developer',
+  'url-encode-decode': 'developer',
+  'password-generator': 'developer',
+  'hash-generator': 'developer',
+  'timestamp-converter': 'developer',
+  'regex-tester': 'developer',
+  'sql-formatter': 'developer',
+  'diff-checker': 'developer',
+  'markdown-editor': 'developer',
+  'markdown-to-pdf': 'developer',
+  'json-to-csv': 'developer',
+  'image-to-base64': 'developer',
+  'meta-tag-generator': 'developer',
+  'robots-txt-generator': 'developer',
+  'cron-expression-generator': 'developer',
+  'number-base-converter': 'developer',
+  // Design Tools
+  'image-compressor': 'design',
+  'css-gradient-generator': 'design',
+  'favicon-generator': 'design',
+  'color-palette-generator': 'design',
+}
+
 export const tools: Tool[] = [
   {
     id: 'word-counter',
@@ -384,6 +437,50 @@ export const tools: Tool[] = [
     keywords: ['tip calculator', 'gratuity calculator', 'tip calculator with split', 'restaurant tip calculator', 'how much to tip'],
     relatedTools: ['percentage-calculator', 'mortgage-calculator', 'unit-converter'],
   },
+  {
+    id: 'currency-converter',
+    name: 'Currency Converter',
+    description: 'Convert between 50+ world currencies and crypto with live exchange rates. Free, instant, no signup.',
+    longDescription: 'Convert any amount between 50+ fiat currencies and popular cryptocurrencies. See exchange rates, conversion tables, and historical context.',
+    category: 'math',
+    path: '/currency-converter',
+    icon: 'DollarSign',
+    keywords: ['currency', 'exchange rate', 'usd', 'eur', 'bitcoin', 'crypto', 'forex', 'money'],
+    relatedTools: ['unit-converter', 'percentage-calculator', 'tip-calculator'],
+  },
+  {
+    id: 'age-calculator',
+    name: 'Age Calculator',
+    description: 'Calculate your exact age in years, months, and days from any birth date. Free online age calculator.',
+    longDescription: 'Enter your date of birth to instantly see your exact age broken down into years, months, days, hours, and minutes. Includes zodiac sign and generation info.',
+    category: 'math',
+    path: '/age-calculator',
+    icon: 'Calendar',
+    keywords: ['age', 'birthday', 'birth date', 'how old', 'years old', 'date of birth'],
+    relatedTools: ['percentage-calculator', 'bmi-calculator', 'fraction-calculator'],
+  },
+  {
+    id: 'fraction-calculator',
+    name: 'Fraction Calculator',
+    description: 'Add, subtract, multiply, and divide fractions. Convert decimals to fractions and vice versa.',
+    longDescription: 'Perform arithmetic operations on fractions with step-by-step solutions. Convert between fractions, decimals, and percentages instantly.',
+    category: 'math',
+    path: '/fraction-calculator',
+    icon: 'Divide',
+    keywords: ['fraction', 'numerator', 'denominator', 'simplify', 'mixed number', 'decimal to fraction'],
+    relatedTools: ['percentage-calculator', 'number-base-converter', 'age-calculator'],
+  },
+  {
+    id: 'number-base-converter',
+    name: 'Number Base Converter',
+    description: 'Convert numbers between binary, octal, decimal, and hexadecimal. Includes ASCII table lookup.',
+    longDescription: 'Convert numbers between base 2 (binary), base 8 (octal), base 10 (decimal), base 16 (hexadecimal), and base 32. Includes an interactive ASCII reference table.',
+    category: 'developer',
+    path: '/number-base-converter',
+    icon: 'Binary',
+    keywords: ['binary', 'hexadecimal', 'octal', 'decimal', 'base converter', 'ascii', 'hex'],
+    relatedTools: ['hash-generator', 'base64-encode-decode', 'json-formatter'],
+  },
 ]
 
 // Attach content data to tools
@@ -406,4 +503,8 @@ export function getRelatedTools(toolId: string): Tool[] {
   const tool = getToolById(toolId)
   if (!tool) return []
   return tool.relatedTools.map(id => getToolById(id)).filter((t): t is Tool => t !== undefined)
+}
+
+export function getToolsByAudience(audience: ToolAudience): Tool[] {
+  return tools.filter((t) => toolAudienceMap[t.id] === audience)
 }
