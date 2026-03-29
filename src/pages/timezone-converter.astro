@@ -1,0 +1,22 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { TimezoneConverter } from '@/components/tools/TimezoneConverter'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('timezone-converter')
+if (!tool) throw new Error('Tool not found: timezone-converter')
+---
+
+<ToolLayout tool={tool}>
+  <TimezoneConverter client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Time Zone Converter</h2>
+    <ol class="step-list" role="list">
+      <li>Select the city or timezone you want to convert from</li>
+      <li>Select the destination city or timezone</li>
+      <li>View the live clock comparison and hour-by-hour table</li>
+      <li>Use the swap button to reverse the conversion</li>
+    </ol>
+  </section>
+</ToolLayout>

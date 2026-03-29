@@ -28,7 +28,7 @@ export const audienceHubs: AudienceHub[] = [
       },
       {
         name: 'Converters',
-        toolIds: ['currency-converter', 'unit-converter'],
+        toolIds: ['currency-converter', 'unit-converter', 'timezone-converter'],
       },
       {
         name: 'Text Tools',

@@ -96,6 +96,7 @@ export const toolAudienceMap: Record<string, ToolAudience> = {
   'color-picker': 'design',
   // Everyday (additional)
   'lorem-ipsum-generator': 'everyday',
+  'timezone-converter': 'everyday',
 }
 
 export const tools: Tool[] = [
@@ -483,6 +484,17 @@ export const tools: Tool[] = [
     icon: 'Binary',
     keywords: ['binary', 'hexadecimal', 'octal', 'decimal', 'base converter', 'ascii', 'hex'],
     relatedTools: ['hash-generator', 'base64-encode-decode', 'json-formatter'],
+  },
+  {
+    id: 'timezone-converter',
+    name: 'Time Zone Converter',
+    description: 'Convert time between cities and time zones worldwide. Live clocks, hour-by-hour comparison table.',
+    longDescription: 'Convert time between 100+ cities across all time zones. See live clocks, UTC offsets, and a full hour-by-hour comparison table. Uses the Intl API — no external dependencies.',
+    category: 'math',
+    path: '/timezone-converter',
+    icon: 'Globe',
+    keywords: ['timezone', 'time zone', 'world clock', 'time converter', 'city time'],
+    relatedTools: ['date-calculator', 'currency-converter', 'unit-converter'],
   },
 ]
 
