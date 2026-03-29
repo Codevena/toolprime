@@ -1,0 +1,74 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { FractionCalculator } from '@/components/tools/FractionCalculator'
+import { formatFraction, decimalEntries, type DecimalToFractionEntry } from '@/data/fractionData'
+
+interface Props {
+  entry: DecimalToFractionEntry
+}
+
+const { entry } = Astro.props
+const { decimal, fraction } = entry
+const fractionStr = formatFraction(fraction)
+
+// Get related decimal entries (exclude current)
+const related = decimalEntries.filter((e) => e.slug !== entry.slug).slice(0, 8)
+---
+
+<Breadcrumbs items={[
+  { name: 'Fraction Calculator', url: 'https://toolprime.dev/fraction-calculator' },
+  { name: `${decimal} as a Fraction`, url: `https://toolprime.dev/calculate/${entry.slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">{decimal} as a Fraction = {fractionStr}</h1>
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+  <p class="text-lg text-[var(--color-text-muted)] mb-1">Fraction Equivalent</p>
+  <p class="text-4xl font-bold text-[var(--color-primary-text)]">
+    {fractionStr}
+  </p>
+  <p class="text-sm text-[var(--color-text-muted)] mt-2">
+    {decimal} = {fraction.n}/{fraction.d}
+  </p>
+</div>
+
+<AdSlot position="top" />
+
+<div class="prose prose-slate max-w-none mb-8">
+  <h2>How to Convert {decimal} to a Fraction</h2>
+  <ol>
+    <li>Write {decimal} as {decimal}/1</li>
+    <li>Multiply numerator and denominator to eliminate the decimal point</li>
+    <li>Simplify the resulting fraction to lowest terms</li>
+    <li>Result: <strong>{fractionStr}</strong></li>
+  </ol>
+  <p>
+    The decimal {decimal} is equivalent to the fraction <strong>{fraction.n}/{fraction.d}</strong>.
+    {fraction.d <= 10 && ` This is a common fraction you'll encounter in everyday math, cooking, and measurements.`}
+  </p>
+</div>
+
+{/* Interactive calculator */}
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try the Fraction Calculator</h2>
+  <FractionCalculator client:load />
+</div>
+
+{/* Related decimals */}
+{related.length > 0 && (
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Other Decimal to Fraction Conversions</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+      {related.map((e) => (
+        <a href={`/calculate/${e.slug}`}
+          class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+          <span class="text-sm font-medium">{e.decimal}</span>
+          <span class="block text-xs text-[var(--color-text-muted)]">= {formatFraction(e.fraction)}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+
+<AdSlot position="bottom" />

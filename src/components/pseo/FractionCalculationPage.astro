@@ -1,0 +1,118 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import SchemaMarkup from '@/components/seo/SchemaMarkup.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { FractionCalculator } from '@/components/tools/FractionCalculator'
+import {
+  formatFraction,
+  opSymbols,
+  opLabels,
+  lcm,
+  gcd,
+  getRelatedFractionEntries,
+  type FractionEntry,
+} from '@/data/fractionData'
+import { fractionFaqSchema } from '@/lib/schema'
+
+interface Props {
+  entry: FractionEntry
+}
+
+const { entry } = Astro.props
+const { f1, f2, op, result } = entry
+const sym = opSymbols[op]
+const expr = `${formatFraction(f1)} ${sym} ${formatFraction(f2)}`
+const resultStr = formatFraction(result)
+const decimal = result.d !== 0 ? result.n / result.d : 0
+const related = getRelatedFractionEntries(f1, op, entry.slug)
+
+// Build step-by-step explanation
+const steps: string[] = []
+if (op === 'plus' || op === 'minus') {
+  const lcd = lcm(f1.d, f2.d)
+  const m1 = lcd / f1.d
+  const m2 = lcd / f2.d
+  const cn1 = f1.n * m1
+  const cn2 = f2.n * m2
+  steps.push(`Find the least common denominator (LCD) of ${f1.d} and ${f2.d}: LCD = ${lcd}`)
+  if (f1.d !== lcd) steps.push(`Convert ${formatFraction(f1)}: multiply numerator and denominator by ${m1} to get ${cn1}/${lcd}`)
+  if (f2.d !== lcd) steps.push(`Convert ${formatFraction(f2)}: multiply numerator and denominator by ${m2} to get ${cn2}/${lcd}`)
+  const rawN = op === 'plus' ? cn1 + cn2 : cn1 - cn2
+  steps.push(`${op === 'plus' ? 'Add' : 'Subtract'} the numerators: ${cn1} ${sym} ${cn2} = ${rawN}`)
+  steps.push(`Result: ${rawN}/${lcd}`)
+  const g = gcd(Math.abs(rawN), lcd)
+  if (g > 1) steps.push(`Simplify by dividing both by ${g}: ${resultStr}`)
+} else if (op === 'times') {
+  steps.push(`Multiply the numerators: ${f1.n} \u00d7 ${f2.n} = ${f1.n * f2.n}`)
+  steps.push(`Multiply the denominators: ${f1.d} \u00d7 ${f2.d} = ${f1.d * f2.d}`)
+  steps.push(`Result: ${f1.n * f2.n}/${f1.d * f2.d}`)
+  const g = gcd(Math.abs(f1.n * f2.n), f1.d * f2.d)
+  if (g > 1) steps.push(`Simplify by dividing both by ${g}: ${resultStr}`)
+} else {
+  steps.push(`To divide fractions, multiply by the reciprocal of the second fraction`)
+  steps.push(`Flip ${formatFraction(f2)} to get ${f2.d}/${f2.n}`)
+  steps.push(`Multiply: ${f1.n}/${f1.d} \u00d7 ${f2.d}/${f2.n}`)
+  const rawN = f1.n * f2.d
+  const rawD = f1.d * f2.n
+  steps.push(`= ${rawN}/${rawD}`)
+  const g = gcd(Math.abs(rawN), Math.abs(rawD))
+  if (g > 1) steps.push(`Simplify by dividing both by ${g}: ${resultStr}`)
+}
+---
+
+<SchemaMarkup json={fractionFaqSchema(f1.n, f1.d, sym, f2.n, f2.d, result.n, result.d)} />
+
+<Breadcrumbs items={[
+  { name: 'Fraction Calculator', url: 'https://toolprime.dev/fraction-calculator' },
+  { name: `${expr} = ${resultStr}`, url: `https://toolprime.dev/calculate/${entry.slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">{expr} = {resultStr}</h1>
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
+  <p class="text-lg text-[var(--color-text-muted)] mb-1">Answer</p>
+  <p class="text-4xl font-bold text-[var(--color-primary-text)]">
+    {resultStr}
+  </p>
+  <p class="text-sm text-[var(--color-text-muted)] mt-2">
+    Decimal: {decimal.toFixed(4)} &middot; Percentage: {(decimal * 100).toFixed(2)}%
+  </p>
+</div>
+
+<AdSlot position="top" />
+
+{/* Step-by-step solution */}
+<div class="prose prose-slate max-w-none mb-8">
+  <h2>Step-by-Step Solution</h2>
+  <p>Here is how to {opLabels[op]} {formatFraction(f1)} and {formatFraction(f2)}:</p>
+  <ol>
+    {steps.map((step) => <li>{step}</li>)}
+  </ol>
+  <p>
+    <strong>Final answer: {expr} = {resultStr}</strong>
+  </p>
+</div>
+
+{/* Interactive calculator */}
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try a Different Calculation</h2>
+  <FractionCalculator client:load />
+</div>
+
+{/* Related calculations */}
+{related.length > 0 && (
+  <div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Related Calculations</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+      {related.map((e) => (
+        <a href={`/calculate/${e.slug}`}
+          class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
+          <span class="text-sm font-medium">{formatFraction(e.f1)} {opSymbols[e.op]} {formatFraction(e.f2)}</span>
+          <span class="block text-xs text-[var(--color-text-muted)]">= {formatFraction(e.result)}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+)}
+
+<AdSlot position="bottom" />

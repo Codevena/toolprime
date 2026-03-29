@@ -1,24 +1,60 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro'
 import AgeCalculationPage from '@/components/pseo/AgeCalculationPage.astro'
+import FractionCalculationPage from '@/components/pseo/FractionCalculationPage.astro'
+import DecimalToFractionPage from '@/components/pseo/DecimalToFractionPage.astro'
 import { ageEntries, type AgeEntry } from '@/data/ageData'
-import { getAgeMeta } from '@/lib/seo'
+import {
+  fractionEntries,
+  decimalEntries,
+  opSymbols,
+  type FractionEntry,
+  type DecimalToFractionEntry,
+} from '@/data/fractionData'
+import { getAgeMeta, getFractionMeta, getDecimalToFractionMeta } from '@/lib/seo'
+import type { MetaTags } from '@/lib/seo'
 
-type PageType = 'age' // will become 'age' | 'fraction' later
+type PageProps =
+  | { type: 'age'; age: AgeEntry; fraction: null; decimal: null }
+  | { type: 'fraction'; age: null; fraction: FractionEntry; decimal: null }
+  | { type: 'decimalToFraction'; age: null; fraction: null; decimal: DecimalToFractionEntry }
 
 export function getStaticPaths() {
   const agePaths = ageEntries.map((entry) => ({
     params: { slug: entry.slug },
-    props: { type: 'age' as const, age: entry },
+    props: { type: 'age' as const, age: entry, fraction: null, decimal: null },
   }))
-  return [...agePaths]
+
+  const fractionPaths = fractionEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'fraction' as const, age: null, fraction: entry, decimal: null },
+  }))
+
+  const decimalPaths = decimalEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { type: 'decimalToFraction' as const, age: null, fraction: null, decimal: entry },
+  }))
+
+  return [...agePaths, ...fractionPaths, ...decimalPaths]
 }
 
-const { type, age } = Astro.props as { type: PageType; age: AgeEntry }
+const props = Astro.props as PageProps
 
-const meta = getAgeMeta(age.birthYear, age.birthMonth)
+let meta: MetaTags
+if (props.type === 'age') {
+  meta = getAgeMeta(props.age.birthYear, props.age.birthMonth)
+} else if (props.type === 'fraction') {
+  const { f1, f2, op, result } = props.fraction
+  meta = getFractionMeta(f1.n, f1.d, op, opSymbols[op], f2.n, f2.d, result.n, result.d)
+} else {
+  const dm = getDecimalToFractionMeta(props.decimal.decimal, props.decimal.fraction.n, props.decimal.fraction.d)
+  // Override canonical to /calculate/ since these pages live under the calculate route
+  meta = { ...dm, canonical: `https://toolprime.dev/calculate/${props.decimal.slug}` }
+}
 ---
 
 <BaseLayout {...meta}>
-  {type === 'age' && <AgeCalculationPage entry={age} />}
+  {props.type === 'age' && <AgeCalculationPage entry={props.age} />}
+  {props.type === 'fraction' && <FractionCalculationPage entry={props.fraction} />}
+  {props.type === 'decimalToFraction' && <DecimalToFractionPage entry={props.decimal} />}
 </BaseLayout>
