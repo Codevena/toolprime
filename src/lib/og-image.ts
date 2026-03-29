@@ -67,6 +67,10 @@ const iconAbbreviations: Record<string, string> = {
   'css-gradient-generator': '\u25C6',
   'favicon-generator': 'ico',
   'invoice-generator': '$',
+  'currency-converter': '$\u20AC',
+  'age-calculator': 'Ag',
+  'fraction-calculator': '\u00BD',
+  'number-base-converter': '01',
 }
 
 function getIconText(toolId: string): string {

@@ -179,4 +179,24 @@ export const faqs: Record<string, Faq[]> = {
     { question: 'Does BMI differ by age?', answer: 'For adults aged 20 and older, BMI categories are the same regardless of age. For children and teens (ages 2–19), BMI is interpreted using age- and sex-specific percentiles rather than fixed thresholds, because body composition changes during growth.' },
     { question: 'How is BMI calculated?', answer: 'BMI is calculated by dividing your weight in kilograms by your height in meters squared. For example, a person who is 1.70 m tall and weighs 70 kg has a BMI of 70 ÷ (1.70 × 1.70) = 24.2. In imperial units, multiply weight in pounds by 703 and divide by height in inches squared.' },
   ],
+  'currency-converter': [
+    { question: 'How accurate are the exchange rates?', answer: 'Rates are fetched from the European Central Bank via the Frankfurter API and updated daily. For precise trading rates, consult your bank or broker.' },
+    { question: 'Does the converter support cryptocurrency?', answer: 'Yes, we support Bitcoin (BTC), Ethereum (ETH), Solana (SOL), and Dogecoin (DOGE) conversions against major fiat currencies.' },
+    { question: 'Is my conversion data saved?', answer: 'No. All conversions happen locally in your browser. No data is sent to any server.' },
+  ],
+  'age-calculator': [
+    { question: 'How does the age calculator work?', answer: 'Enter your date of birth and the calculator instantly computes your exact age in years, months, and days by comparing your birth date to today\'s date.' },
+    { question: 'Can I calculate age for a future date?', answer: 'The calculator is designed for past birth dates. For future date calculations, try subtracting dates manually.' },
+    { question: 'What generation am I?', answer: 'The calculator automatically shows your generation (Baby Boomer, Gen X, Millennial, Gen Z, or Gen Alpha) based on your birth year.' },
+  ],
+  'fraction-calculator': [
+    { question: 'How do I add fractions with different denominators?', answer: 'Find the least common denominator (LCD), convert both fractions to use it, then add the numerators. Our calculator does this automatically and shows each step.' },
+    { question: 'Can I convert decimals to fractions?', answer: 'Yes! Enter a decimal number in the conversion tab and the calculator will show the equivalent fraction in its simplest form.' },
+    { question: 'Does it simplify fractions automatically?', answer: 'Yes, all results are automatically reduced to their simplest form using the greatest common divisor (GCD).' },
+  ],
+  'number-base-converter': [
+    { question: 'What number bases are supported?', answer: 'The converter supports binary (base 2), octal (base 8), decimal (base 10), hexadecimal (base 16), and base 32.' },
+    { question: 'What is the ASCII table?', answer: 'ASCII (American Standard Code for Information Interchange) maps numbers 0-127 to characters. For example, ASCII 65 = A, ASCII 97 = a.' },
+    { question: 'How do I convert hex to decimal?', answer: 'Each hex digit represents a power of 16. For example, FF = 15×16 + 15 = 255. Our converter handles this instantly.' },
+  ],
 }

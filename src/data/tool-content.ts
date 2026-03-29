@@ -36,6 +36,7 @@ import { toolContent8 } from './tool-content-8'
 import { toolContent9 } from './tool-content-9'
 import { toolContent10 } from './tool-content-10'
 import { toolContent11 } from './tool-content-11'
+import { toolContent12 } from './tool-content-12'
 
 export const allToolContent: Record<string, ToolContent> = {
   ...toolContent1,
@@ -49,4 +50,5 @@ export const allToolContent: Record<string, ToolContent> = {
   ...toolContent9,
   ...toolContent10,
   ...toolContent11,
+  ...toolContent12,
 }
