@@ -179,7 +179,7 @@ export const tools: Tool[] = [
     path: '/image-compressor',
     icon: 'ImageDown',
     keywords: ['image compressor', 'compress image online', 'reduce image size', 'compress png', 'compress jpeg'],
-    relatedTools: ['qr-code-generator', 'color-picker', 'favicon-generator', 'image-to-base64'],
+    relatedTools: ['qr-code-generator', 'color-picker', 'favicon-generator', 'aspect-ratio-calculator'],
   },
   {
     id: 'lorem-ipsum-generator',
@@ -212,7 +212,7 @@ export const tools: Tool[] = [
     path: '/percentage-calculator',
     icon: 'Percent',
     keywords: ['percentage calculator', 'percent calculator', 'calculate percentage', 'what is percent of'],
-    relatedTools: ['unit-converter', 'mortgage-calculator', 'tip-calculator', 'bmi-calculator'],
+    relatedTools: ['unit-converter', 'mortgage-calculator', 'tip-calculator', 'compound-interest-calculator'],
   },
   {
     id: 'url-encode-decode',
@@ -421,7 +421,7 @@ export const tools: Tool[] = [
     path: '/mortgage-calculator',
     icon: 'Home',
     keywords: ['mortgage calculator', 'home loan calculator', 'mortgage payment calculator', 'house payment calculator', 'mortgage amortization'],
-    relatedTools: ['percentage-calculator', 'tip-calculator', 'unit-converter'],
+    relatedTools: ['percentage-calculator', 'loan-calculator', 'compound-interest-calculator'],
   },
   {
     id: 'bmi-calculator',
@@ -454,7 +454,7 @@ export const tools: Tool[] = [
     path: '/currency-converter',
     icon: 'DollarSign',
     keywords: ['currency', 'exchange rate', 'usd', 'eur', 'bitcoin', 'crypto', 'forex', 'money'],
-    relatedTools: ['unit-converter', 'percentage-calculator', 'tip-calculator'],
+    relatedTools: ['unit-converter', 'percentage-calculator', 'tip-calculator', 'timezone-converter'],
   },
   {
     id: 'age-calculator',
@@ -465,7 +465,7 @@ export const tools: Tool[] = [
     path: '/age-calculator',
     icon: 'Calendar',
     keywords: ['age', 'birthday', 'birth date', 'how old', 'years old', 'date of birth'],
-    relatedTools: ['percentage-calculator', 'bmi-calculator', 'fraction-calculator'],
+    relatedTools: ['percentage-calculator', 'bmi-calculator', 'fraction-calculator', 'date-calculator'],
   },
   {
     id: 'fraction-calculator',
