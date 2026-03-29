@@ -32,7 +32,7 @@ export const audienceHubs: AudienceHub[] = [
       },
       {
         name: 'Text Tools',
-        toolIds: ['word-counter', 'case-converter'],
+        toolIds: ['word-counter', 'case-converter', 'lorem-ipsum-generator'],
       },
       {
         name: 'File & Business Tools',
@@ -50,7 +50,7 @@ export const audienceHubs: AudienceHub[] = [
     subcategories: [
       {
         name: 'Formatters',
-        toolIds: ['json-formatter', 'sql-formatter', 'markdown-editor', 'markdown-to-pdf'],
+        toolIds: ['json-formatter', 'sql-formatter', 'markdown-editor', 'markdown-to-pdf', 'diff-checker'],
       },
       {
         name: 'Generators',
@@ -72,7 +72,7 @@ export const audienceHubs: AudienceHub[] = [
     subcategories: [
       {
         name: 'Colors',
-        toolIds: ['color-palette-generator', 'css-gradient-generator'],
+        toolIds: ['color-palette-generator', 'css-gradient-generator', 'color-picker'],
       },
       {
         name: 'Images',

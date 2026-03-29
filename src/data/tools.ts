@@ -93,6 +93,9 @@ export const toolAudienceMap: Record<string, ToolAudience> = {
   'css-gradient-generator': 'design',
   'favicon-generator': 'design',
   'color-palette-generator': 'design',
+  'color-picker': 'design',
+  // Everyday (additional)
+  'lorem-ipsum-generator': 'everyday',
 }
 
 export const tools: Tool[] = [
