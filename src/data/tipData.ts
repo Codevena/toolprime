@@ -45,20 +45,20 @@ export const tipPresets: TipPreset[] = billAmounts.map((amount) => {
     slug,
     amount,
     title: `Tip on ${amountLabel} Bill — How Much to Tip`,
-    description: `Calculate the tip on a ${amountLabel} bill. At 15% the tip is ${formatCurrency(tips[1].tipAmount)}, at 20% it's ${formatCurrency(tips[3].tipAmount)}. See all tip percentages.`,
+    description: `Calculate the tip on a ${amountLabel} bill. At 15% the tip is ${formatCurrency(tips[1]!.tipAmount)}, at 20% it's ${formatCurrency(tips[3]!.tipAmount)}. See all tip percentages.`,
     tips,
     faqs: [
       {
         question: `How much should I tip on a ${amountLabel} bill?`,
-        answer: `For a ${amountLabel} bill, a 15% tip is ${formatCurrency(tips[1].tipAmount)} (total ${formatCurrency(tips[1].total)}), an 18% tip is ${formatCurrency(tips[2].tipAmount)} (total ${formatCurrency(tips[2].total)}), and a 20% tip is ${formatCurrency(tips[3].tipAmount)} (total ${formatCurrency(tips[3].total)}).`,
+        answer: `For a ${amountLabel} bill, a 15% tip is ${formatCurrency(tips[1]!.tipAmount)} (total ${formatCurrency(tips[1]!.total)}), an 18% tip is ${formatCurrency(tips[2]!.tipAmount)} (total ${formatCurrency(tips[2]!.total)}), and a 20% tip is ${formatCurrency(tips[3]!.tipAmount)} (total ${formatCurrency(tips[3]!.total)}).`,
       },
       {
         question: `What is 20% of ${amountLabel}?`,
-        answer: `20% of ${amountLabel} is ${formatCurrency(tips[3].tipAmount)}. Adding this tip to the bill gives a total of ${formatCurrency(tips[3].total)}.`,
+        answer: `20% of ${amountLabel} is ${formatCurrency(tips[3]!.tipAmount)}. Adding this tip to the bill gives a total of ${formatCurrency(tips[3]!.total)}.`,
       },
       {
-        question: `Is ${formatCurrency(tips[1].tipAmount)} a good tip on ${amountLabel}?`,
-        answer: `${formatCurrency(tips[1].tipAmount)} on a ${amountLabel} bill is a 15% tip, which is the minimum standard for restaurant service in the US. For good service, consider tipping 18%–20% (${formatCurrency(tips[2].tipAmount)}–${formatCurrency(tips[3].tipAmount)}).`,
+        question: `Is ${formatCurrency(tips[1]!.tipAmount)} a good tip on ${amountLabel}?`,
+        answer: `${formatCurrency(tips[1]!.tipAmount)} on a ${amountLabel} bill is a 15% tip, which is the minimum standard for restaurant service in the US. For good service, consider tipping 18%–20% (${formatCurrency(tips[2]!.tipAmount)}–${formatCurrency(tips[3]!.tipAmount)}).`,
       },
     ],
     relatedTips: getRelated(amount),

@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
+import DOMPurify from 'dompurify'
 
 const DEFAULT_MARKDOWN = `# My Document
 
@@ -33,8 +34,8 @@ export function MarkdownToPdf() {
     if (!markedRef.current) {
       markedRef.current = await import('marked')
     }
-    const html = await markedRef.current.marked.parse(text)
-    setRenderedHtml(html)
+    const rawHtml = await markedRef.current.marked.parse(text)
+    setRenderedHtml(DOMPurify.sanitize(rawHtml))
     setLoading(false)
   }, [])
 
@@ -52,7 +53,7 @@ export function MarkdownToPdf() {
       const html2pdf = html2pdfModule.default
 
       const container = document.createElement('div')
-      container.innerHTML = renderedHtml
+      container.innerHTML = DOMPurify.sanitize(renderedHtml)
       container.style.padding = '20px'
       container.style.fontFamily = 'system-ui, -apple-system, sans-serif'
       container.style.fontSize = '14px'

@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
+import DOMPurify from 'dompurify'
 import { CopyButton } from '@/components/ui/CopyButton'
 
 const DEFAULT_MARKDOWN = `# Welcome to the Markdown Editor
@@ -36,25 +37,29 @@ export function MarkdownEditor() {
 
   const renderMarkdown = useCallback(async (text: string) => {
     if (!markedRef.current) {
-      const [markedMod, hljsMod] = await Promise.all([
+      const [markedMod, hljsMod, markedHighlightMod] = await Promise.all([
         import('marked'),
         import('highlight.js'),
+        import('marked-highlight'),
       ])
       markedRef.current = markedMod
       hljsRef.current = hljsMod
 
-      markedMod.marked.setOptions({
-        highlight(code: string, lang: string) {
-          if (lang && hljsMod.default.getLanguage(lang)) {
-            return hljsMod.default.highlight(code, { language: lang }).value
-          }
-          return hljsMod.default.highlightAuto(code).value
-        },
-      } as Record<string, unknown>)
+      markedMod.marked.use(
+        markedHighlightMod.markedHighlight({
+          langPrefix: 'hljs language-',
+          highlight(code: string, lang: string) {
+            if (lang && hljsMod.default.getLanguage(lang)) {
+              return hljsMod.default.highlight(code, { language: lang }).value
+            }
+            return hljsMod.default.highlightAuto(code).value
+          },
+        })
+      )
     }
 
-    const html = await markedRef.current.marked.parse(text)
-    setRenderedHtml(html)
+    const rawHtml = await markedRef.current.marked.parse(text)
+    setRenderedHtml(DOMPurify.sanitize(rawHtml))
     setLoading(false)
   }, [])
 

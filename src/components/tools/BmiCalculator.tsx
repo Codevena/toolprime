@@ -24,7 +24,8 @@ function calculateBmi(heightCm: number, weightKg: number): BmiResult | null {
   const bmi = weightKg / (heightM * heightM)
   if (!isFinite(bmi)) return null
 
-  const cat = BMI_CATEGORIES.find(c => bmi < c.max) ?? BMI_CATEGORIES[BMI_CATEGORIES.length - 1]
+  const lastCat = BMI_CATEGORIES[BMI_CATEGORIES.length - 1]!
+  const cat = BMI_CATEGORIES.find(c => bmi < c.max) ?? lastCat
   const healthyMin = Math.round(18.5 * heightM * heightM * 10) / 10
   const healthyMax = Math.round(25 * heightM * heightM * 10) / 10
 

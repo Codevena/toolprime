@@ -63,21 +63,24 @@ function parseCronField(field: string, min: number, max: number): number[] {
     if (trimmed === '*') {
       for (let i = min; i <= max; i++) results.push(i)
     } else if (trimmed.includes('/')) {
-      const [range, stepStr] = trimmed.split('/')
-      const step = parseInt(stepStr, 10)
+      const splitSlash = trimmed.split('/')
+      const range = splitSlash[0] ?? '*'
+      const step = parseInt(splitSlash[1] ?? '', 10)
       if (Number.isNaN(step) || step <= 0) continue
       let start = min
       let end = max
       if (range !== '*' && range.includes('-')) {
-        const [s, e] = range.split('-').map(Number)
-        start = s
-        end = e
+        const dashParts = range.split('-').map(Number)
+        start = dashParts[0] ?? min
+        end = dashParts[1] ?? max
       } else if (range !== '*') {
         start = parseInt(range, 10)
       }
       for (let i = start; i <= end; i += step) results.push(i)
     } else if (trimmed.includes('-')) {
-      const [s, e] = trimmed.split('-').map(Number)
+      const dashParts = trimmed.split('-').map(Number)
+      const s = dashParts[0] ?? min
+      const e = dashParts[1] ?? max
       for (let i = s; i <= e; i++) results.push(i)
     } else {
       const n = parseInt(trimmed, 10)
@@ -92,11 +95,11 @@ function getNextRunTimes(expression: string, count: number): Date[] {
   if (parts.length !== 5) return []
 
   try {
-    const minutes = parseCronField(parts[0], 0, 59)
-    const hours = parseCronField(parts[1], 0, 23)
-    const daysOfMonth = parseCronField(parts[2], 1, 31)
-    const months = parseCronField(parts[3], 1, 12)
-    const daysOfWeek = parseCronField(parts[4], 0, 6)
+    const minutes = parseCronField(parts[0] ?? '*', 0, 59)
+    const hours = parseCronField(parts[1] ?? '*', 0, 23)
+    const daysOfMonth = parseCronField(parts[2] ?? '*', 1, 31)
+    const months = parseCronField(parts[3] ?? '*', 1, 12)
+    const daysOfWeek = parseCronField(parts[4] ?? '*', 0, 6)
 
     if (!minutes.length || !hours.length || !months.length) return []
 
@@ -176,11 +179,11 @@ export function CronExpressionGenerator() {
   const applyPreset = useCallback((expr: string) => {
     const parts = expr.split(' ')
     if (parts.length === 5) {
-      setMinute(parts[0])
-      setHour(parts[1])
-      setDayOfMonth(parts[2])
-      setMonth(parts[3])
-      setDayOfWeek(parts[4])
+      setMinute(parts[0] ?? '*')
+      setHour(parts[1] ?? '*')
+      setDayOfMonth(parts[2] ?? '*')
+      setMonth(parts[3] ?? '*')
+      setDayOfWeek(parts[4] ?? '*')
     }
   }, [])
 
