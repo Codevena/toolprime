@@ -1,0 +1,92 @@
+---
+import Breadcrumbs from '@/components/seo/Breadcrumbs.astro'
+import AdSlot from '@/components/ads/AdSlot.astro'
+import { LoanCalculator } from '@/components/tools/LoanCalculator'
+import { formatMoney, generateAmortization, getRelatedLoanEntries, type LoanEntry } from '@/data/loanCalcData'
+
+interface Props {
+  entry: LoanEntry
+}
+
+const { entry } = Astro.props
+const { amount, rate, years, monthlyPayment, totalPaid, totalInterest, slug } = entry
+const related = getRelatedLoanEntries(slug, amount, rate)
+
+// Yearly amortization summary
+const amortization = generateAmortization(amount, rate, years)
+const yearlyRows: { year: number; totalPrincipal: number; totalInterest: number; endBalance: number }[] = []
+for (let y = 1; y <= years; y++) {
+  const yearMonths = amortization.filter((r) => Math.ceil(r.month / 12) === y)
+  const totalPrincipal = yearMonths.reduce((s, r) => s + r.principal, 0)
+  const totalInt = yearMonths.reduce((s, r) => s + r.interest, 0)
+  const endBalance = yearMonths[yearMonths.length - 1]?.balance ?? 0
+  yearlyRows.push({ year: y, totalPrincipal: totalPrincipal, totalInterest: totalInt, endBalance })
+}
+---
+
+<Breadcrumbs items={[
+  { name: 'Loan Calculator', url: 'https://toolprime.dev/loan-calculator' },
+  { name: `${formatMoney(amount)} at ${rate}%`, url: `https://toolprime.dev/calculate/${slug}` },
+]} />
+
+<h1 class="text-3xl font-bold mb-2">
+  {formatMoney(amount)} Loan at {rate}% for {years} Year{years !== 1 ? 's' : ''} — {formatMoney(monthlyPayment)}/mo
+</h1>
+
+<p class="text-[var(--color-text-muted)] mb-6">
+  A {formatMoney(amount)} loan at {rate}% interest for {years} years has a monthly payment of <strong>{formatMoney(monthlyPayment)}</strong>.
+  Total paid: {formatMoney(totalPaid)}. Total interest: {formatMoney(totalInterest)}.
+</p>
+
+<AdSlot position="top" />
+
+<div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 sm:p-6 mb-8">
+  <h2 class="text-lg font-semibold mb-4">Try Different Values</h2>
+  <LoanCalculator client:load defaultAmount={amount} defaultRate={rate} defaultYears={years} />
+</div>
+
+{yearlyRows.length > 1 && (
+  <section class="mb-8" aria-labelledby="amort-table">
+    <h2 id="amort-table" class="text-xl font-bold mb-4">Yearly Amortization Summary</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse text-sm">
+        <caption class="sr-only">Yearly loan amortization summary</caption>
+        <thead>
+          <tr class="border-b border-[var(--color-border)]">
+            <th scope="col" class="text-left py-2 px-3 font-medium">Year</th>
+            <th scope="col" class="text-right py-2 px-3 font-medium">Principal Paid</th>
+            <th scope="col" class="text-right py-2 px-3 font-medium">Interest Paid</th>
+            <th scope="col" class="text-right py-2 px-3 font-medium">Remaining Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {yearlyRows.map((row) => (
+            <tr class="border-b border-[var(--color-border)] last:border-0">
+              <td class="py-1.5 px-3">{row.year}</td>
+              <td class="py-1.5 px-3 text-right font-mono">{formatMoney(row.totalPrincipal)}</td>
+              <td class="py-1.5 px-3 text-right font-mono">{formatMoney(row.totalInterest)}</td>
+              <td class="py-1.5 px-3 text-right font-mono">{formatMoney(row.endBalance)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+)}
+
+<AdSlot position="bottom" />
+
+{related.length > 0 && (
+  <section aria-labelledby="related-loan">
+    <h2 id="related-loan" class="text-xl font-bold mb-4">Related Calculations</h2>
+    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      {related.map((r) => (
+        <li>
+          <a href={`/calculate/${r.slug}`} class="text-[var(--color-primary)] hover:underline">
+            {formatMoney(r.amount)} at {r.rate}% for {r.years} years
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

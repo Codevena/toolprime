@@ -1,0 +1,22 @@
+---
+import ToolLayout from '@/layouts/ToolLayout.astro'
+import { LoanCalculator } from '@/components/tools/LoanCalculator'
+import { getToolById } from '@/data/tools'
+
+const tool = getToolById('loan-calculator')
+if (!tool) throw new Error('Tool not found: loan-calculator')
+---
+
+<ToolLayout tool={tool}>
+  <LoanCalculator client:load />
+
+  <section slot="content" class="mt-8" aria-labelledby="how-to-use">
+    <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use</h2>
+    <ol class="step-list" role="list">
+      <li>Enter the <strong>loan amount</strong> you want to borrow</li>
+      <li>Set the <strong>annual interest rate</strong> as a percentage</li>
+      <li>Choose the <strong>loan term</strong> in years</li>
+      <li>View your monthly payment, total cost, and amortization schedule</li>
+    </ol>
+  </section>
+</ToolLayout>

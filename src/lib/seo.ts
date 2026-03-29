@@ -484,6 +484,20 @@ export function getCompoundInterestMeta(principal: number, rate: number, years: 
   }
 }
 
+// Loan calculator pSEO pages
+export function getLoanCalcMeta(amount: number, rate: number, years: number, monthly: number): MetaTags {
+  const a = amount.toLocaleString('en-US')
+  const m = monthly.toLocaleString('en-US', { maximumFractionDigits: 0 })
+  return {
+    title: `$${a} Loan at ${rate}% for ${years} Years — $${m}/mo | ${SITE_NAME}`,
+    description: `$${a} loan at ${rate}% interest for ${years} years: monthly payment $${m}. Free loan calculator with amortization schedule.`,
+    canonical: `${SITE_URL}/calculate/loan-${amount}-at-${rate}-percent-${years}-years`,
+    ogTitle: `$${a} Loan at ${rate}% for ${years} Years`,
+    ogDescription: `Monthly payment: $${m}. Free loan calculator.`,
+    ogType: 'website',
+  }
+}
+
 // Hub pages
 export function getHubMeta(title: string, description: string, path: string): MetaTags {
   return {

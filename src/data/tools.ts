@@ -99,6 +99,7 @@ export const toolAudienceMap: Record<string, ToolAudience> = {
   'timezone-converter': 'everyday',
   'date-calculator': 'everyday',
   'compound-interest-calculator': 'everyday',
+  'loan-calculator': 'everyday',
 }
 
 export const tools: Tool[] = [
@@ -518,7 +519,18 @@ export const tools: Tool[] = [
     path: '/compound-interest-calculator',
     icon: 'TrendingUp',
     keywords: ['compound interest', 'investment calculator', 'interest rate', 'savings growth'],
-    relatedTools: ['mortgage-calculator', 'percentage-calculator'],
+    relatedTools: ['mortgage-calculator', 'percentage-calculator', 'loan-calculator'],
+  },
+  {
+    id: 'loan-calculator',
+    name: 'Loan Calculator',
+    description: 'Calculate monthly loan payments and total interest. Full amortization schedule included.',
+    longDescription: 'Calculate monthly payments for any loan amount, interest rate, and term. See total interest paid, view a complete amortization schedule, and compare different loan scenarios.',
+    category: 'math',
+    path: '/loan-calculator',
+    icon: 'Landmark',
+    keywords: ['loan calculator', 'EMI calculator', 'amortization', 'monthly payment', 'interest rate'],
+    relatedTools: ['compound-interest-calculator', 'mortgage-calculator', 'percentage-calculator'],
   },
 ]
 

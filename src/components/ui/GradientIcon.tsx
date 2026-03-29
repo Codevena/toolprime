@@ -5,6 +5,7 @@ import {
   FileCode, FileDown, Table, FileImage, Code, Bot, Timer, Paintbrush,
   Home, Heart, HandCoins, DollarSign, Calendar, Divide, Globe, CalendarDays,
   TrendingUp,
+  Landmark,
 } from 'lucide-react'
 import { categoryGradients, type ToolCategory } from '@/data/tools'
 import type { LucideIcon } from 'lucide-react'
@@ -16,6 +17,7 @@ const iconMap: Record<string, LucideIcon> = {
   FileCode, FileDown, Table, FileImage, Code, Bot, Timer, Paintbrush,
   Home, Heart, HandCoins, DollarSign, Calendar, Divide, Globe, CalendarDays,
   TrendingUp,
+  Landmark,
 }
 
 interface GradientIconProps {

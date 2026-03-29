@@ -209,6 +209,11 @@ export const faqs: Record<string, Faq[]> = {
     { question: 'How is compound interest calculated?', answer: 'The formula is A = P(1 + r/n)^(nt), where P is the principal, r is the annual rate (as a decimal), n is the number of times interest compounds per year, and t is the number of years. Our calculator handles all of this automatically.' },
     { question: 'Is my data safe?', answer: 'Yes. All calculations happen locally in your browser. No financial data is sent to any server.' },
   ],
+  'loan-calculator': [
+    { question: 'How is the monthly payment calculated?', answer: 'Monthly payments are calculated using the standard amortization formula: M = P[r(1+r)^n]/[(1+r)^n-1], where P is the principal, r is the monthly interest rate, and n is the total number of payments. This ensures equal monthly payments over the loan term.' },
+    { question: 'What is an amortization schedule?', answer: 'An amortization schedule shows how each monthly payment is split between principal and interest over the life of the loan. Early payments go mostly to interest, while later payments go mostly to principal.' },
+    { question: 'Is my financial data safe?', answer: 'Yes. All calculations happen locally in your browser. No financial information is sent to any server or stored anywhere.' },
+  ],
   'timezone-converter': [
     { question: 'How does the time zone converter work?', answer: 'The converter uses the built-in Intl API and the IANA timezone database to calculate exact time differences between cities. It accounts for daylight saving time changes automatically.' },
     { question: 'Does it handle daylight saving time?', answer: 'Yes. The converter uses real timezone rules from the IANA database, which includes all historical and current DST transitions. The hour difference may change when a region enters or exits DST.' },
