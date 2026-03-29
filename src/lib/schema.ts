@@ -211,3 +211,95 @@ export function tipFaqSchema(faqs: Array<{ question: string; answer: string }>):
 export function bmiFaqSchema(faqs: Array<{ question: string; answer: string }>): string {
   return faqPageSchema(faqs)
 }
+
+// Currency conversion FAQ schema
+export function currencyFaqSchema(
+  amount: number,
+  fromCode: string,
+  toCode: string,
+  result: number,
+  rate: number,
+): string {
+  return faqPageSchema([
+    {
+      question: `How much is ${amount} ${fromCode} in ${toCode}?`,
+      answer: `${amount} ${fromCode} equals approximately ${result.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${toCode} at the current exchange rate of 1 ${fromCode} = ${rate} ${toCode}.`,
+    },
+    {
+      question: `What is the ${fromCode} to ${toCode} exchange rate?`,
+      answer: `The current exchange rate is 1 ${fromCode} = ${rate} ${toCode}. Rates are updated daily.`,
+    },
+    {
+      question: `Is this currency converter free?`,
+      answer: `Yes, ToolPrime's currency converter is 100% free with no signup required. It supports 50+ currencies including cryptocurrencies.`,
+    },
+  ])
+}
+
+// Age calculator FAQ schema
+export function ageFaqSchema(birthYear: number, ageYears: number, birthMonth?: string): string {
+  const monthPart = birthMonth ? ` ${birthMonth}` : ''
+  return faqPageSchema([
+    {
+      question: `How old am I if I was born in${monthPart} ${birthYear}?`,
+      answer: `If you were born in${monthPart} ${birthYear}, you are approximately ${ageYears} years old as of ${new Date().getFullYear()}.`,
+    },
+    {
+      question: `What generation is someone born in ${birthYear}?`,
+      answer: getGenerationAnswer(birthYear),
+    },
+    {
+      question: `How do I calculate my exact age?`,
+      answer: `Subtract your birth date from today's date. Our age calculator handles this automatically, giving you your exact age in years, months, and days.`,
+    },
+  ])
+}
+
+function getGenerationAnswer(year: number): string {
+  if (year >= 1997) return `Someone born in ${year} belongs to Generation Z (born 1997–2012) or Generation Alpha (born 2013+).`
+  if (year >= 1981) return `Someone born in ${year} is a Millennial (Generation Y), born between 1981 and 1996.`
+  if (year >= 1965) return `Someone born in ${year} belongs to Generation X, born between 1965 and 1980.`
+  if (year >= 1946) return `Someone born in ${year} is a Baby Boomer, born between 1946 and 1964.`
+  return `Someone born in ${year} belongs to the Silent Generation (born 1928–1945) or earlier.`
+}
+
+// Fraction calculator FAQ schema
+export function fractionFaqSchema(
+  n1: number, d1: number,
+  opSymbol: string,
+  n2: number, d2: number,
+  resultN: number, resultD: number,
+): string {
+  return faqPageSchema([
+    {
+      question: `What is ${n1}/${d1} ${opSymbol} ${n2}/${d2}?`,
+      answer: `${n1}/${d1} ${opSymbol} ${n2}/${d2} = ${resultN}/${resultD}.`,
+    },
+    {
+      question: `How do you ${opSymbol === '+' ? 'add' : opSymbol === '-' ? 'subtract' : opSymbol === '×' ? 'multiply' : 'divide'} fractions?`,
+      answer: opSymbol === '+' || opSymbol === '-'
+        ? `To ${opSymbol === '+' ? 'add' : 'subtract'} fractions, find a common denominator, then ${opSymbol === '+' ? 'add' : 'subtract'} the numerators.`
+        : opSymbol === '×'
+          ? `To multiply fractions, multiply the numerators together and the denominators together, then simplify.`
+          : `To divide fractions, multiply the first fraction by the reciprocal of the second.`,
+    },
+  ])
+}
+
+// Number base conversion FAQ schema
+export function numberBaseFaqSchema(value: number, toBase: string, result: string): string {
+  return faqPageSchema([
+    {
+      question: `What is ${value} in ${toBase}?`,
+      answer: `${value} in ${toBase} is ${result}.`,
+    },
+    {
+      question: `How do you convert decimal to ${toBase}?`,
+      answer: toBase === 'binary'
+        ? `Divide the number by 2 repeatedly, recording remainders. Read the remainders bottom-to-top.`
+        : toBase === 'hexadecimal'
+          ? `Divide the number by 16 repeatedly, recording remainders (using A-F for 10-15). Read bottom-to-top.`
+          : `Divide the number by ${toBase === 'octal' ? '8' : 'the base'} repeatedly, recording remainders. Read bottom-to-top.`,
+    },
+  ])
+}

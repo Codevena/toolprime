@@ -308,3 +308,142 @@ export function getBmiIndexMeta(): MetaTags {
     ogType: 'website',
   }
 }
+
+// Currency conversion pSEO pages
+export function getCurrencyConversionMeta(
+  amount: number,
+  fromCode: string,
+  fromName: string,
+  toCode: string,
+  toName: string,
+  result: number,
+): MetaTags {
+  const title = `${amount} ${fromCode} to ${toCode} — ${result.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${toCode} | ${SITE_NAME}`
+  const desc = `Convert ${amount} ${fromName} (${fromCode}) to ${toName} (${toCode}). ${amount} ${fromCode} = ${result.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${toCode}. Free currency converter.`
+  return {
+    title: title.length > 60 ? `${amount} ${fromCode} to ${toCode} | ${SITE_NAME}` : title,
+    description: desc.length > 160 ? desc.slice(0, 157) + '...' : desc,
+    canonical: `${SITE_URL}/convert/${amount}-${fromCode.toLowerCase()}-to-${toCode.toLowerCase()}`,
+    ogTitle: `${amount} ${fromCode} to ${toCode}`,
+    ogDescription: desc,
+    ogType: 'website',
+  }
+}
+
+// Currency hub pages (/currency/usd)
+export function getCurrencyHubMeta(code: string, name: string): MetaTags {
+  return {
+    title: `${name} (${code}) — Exchange Rates & Converter | ${SITE_NAME}`,
+    description: `${name} (${code}) exchange rates against 50+ currencies. Convert ${code} to USD, EUR, GBP, and more. Free online currency converter.`,
+    canonical: `${SITE_URL}/currency/${code.toLowerCase()}`,
+    ogTitle: `${name} (${code}) — Exchange Rates`,
+    ogDescription: `Current ${name} exchange rates and converter.`,
+    ogType: 'website',
+  }
+}
+
+// Age calculator pSEO pages
+export function getAgeMeta(birthYear: number, birthMonth?: string): MetaTags {
+  const now = new Date()
+  const currentYear = now.getFullYear()
+  const ageApprox = currentYear - birthYear
+  const monthPart = birthMonth ? ` ${birthMonth}` : ''
+  const slug = birthMonth
+    ? `age-born-${birthMonth.toLowerCase()}-${birthYear}`
+    : `age-born-${birthYear}`
+  return {
+    title: `How Old Am I If Born in${monthPart} ${birthYear}? — ${ageApprox} Years | ${SITE_NAME}`,
+    description: `If you were born in${monthPart} ${birthYear}, you are approximately ${ageApprox} years old. Calculate your exact age in years, months, and days.`,
+    canonical: `${SITE_URL}/calculate/${slug}`,
+    ogTitle: `Age Calculator — Born${monthPart} ${birthYear}`,
+    ogDescription: `Born in${monthPart} ${birthYear}? You're about ${ageApprox} years old.`,
+    ogType: 'website',
+  }
+}
+
+// Fraction calculator pSEO pages
+export function getFractionMeta(
+  n1: number, d1: number,
+  op: string, opSymbol: string,
+  n2: number, d2: number,
+  resultN: number, resultD: number,
+): MetaTags {
+  const expr = `${n1}/${d1} ${opSymbol} ${n2}/${d2}`
+  const result = `${resultN}/${resultD}`
+  const slug = `${n1}-${d1}-${op}-${n2}-${d2}`
+  return {
+    title: `${expr} = ${result} — Fraction Calculator | ${SITE_NAME}`,
+    description: `Calculate ${expr}. The answer is ${result}. Step-by-step solution with our free fraction calculator.`,
+    canonical: `${SITE_URL}/calculate/${slug}`,
+    ogTitle: `${expr} = ?`,
+    ogDescription: `${expr} = ${result}. Step-by-step fraction calculation.`,
+    ogType: 'website',
+  }
+}
+
+// Decimal-to-fraction pSEO pages
+export function getDecimalToFractionMeta(decimal: number, n: number, d: number): MetaTags {
+  return {
+    title: `${decimal} as a Fraction — ${n}/${d} | ${SITE_NAME}`,
+    description: `${decimal} as a fraction is ${n}/${d}. Convert decimals to fractions instantly with our free calculator.`,
+    canonical: `${SITE_URL}/convert/${String(decimal).replace('.', '-')}-to-fraction`,
+    ogTitle: `${decimal} as a Fraction`,
+    ogDescription: `${decimal} = ${n}/${d}`,
+    ogType: 'website',
+  }
+}
+
+// Number base conversion pSEO pages
+export function getNumberBaseMeta(
+  value: number,
+  fromBase: string,
+  toBase: string,
+  result: string,
+): MetaTags {
+  const slug = `${value}-to-${toBase}`
+  return {
+    title: `${value} in ${toBase.charAt(0).toUpperCase() + toBase.slice(1)} — ${result} | ${SITE_NAME}`,
+    description: `${value} (decimal) converted to ${toBase} is ${result}. Free number base converter for binary, octal, hex, and more.`,
+    canonical: `${SITE_URL}/convert/${slug}`,
+    ogTitle: `${value} in ${toBase}`,
+    ogDescription: `${value} = ${result} (${toBase})`,
+    ogType: 'website',
+  }
+}
+
+// Hex-to-decimal pSEO pages
+export function getHexToDecimalMeta(hex: string, decimal: number): MetaTags {
+  return {
+    title: `${hex} Hex to Decimal — ${decimal} | ${SITE_NAME}`,
+    description: `Hexadecimal ${hex} converted to decimal is ${decimal}. Free hex to decimal converter.`,
+    canonical: `${SITE_URL}/convert/${hex.toLowerCase()}-hex-to-decimal`,
+    ogTitle: `${hex} Hex to Decimal`,
+    ogDescription: `0x${hex} = ${decimal}`,
+    ogType: 'website',
+  }
+}
+
+// ASCII lookup pSEO pages
+export function getAsciiMeta(code: number, char: string): MetaTags {
+  const displayChar = code >= 33 && code <= 126 ? char : `(${char})`
+  return {
+    title: `ASCII ${code} — ${displayChar} | ASCII Table | ${SITE_NAME}`,
+    description: `ASCII code ${code} represents the character "${char}". Binary: ${code.toString(2)}, Hex: ${code.toString(16).toUpperCase()}, Octal: ${code.toString(8)}.`,
+    canonical: `${SITE_URL}/convert/ascii-${code}`,
+    ogTitle: `ASCII ${code} = ${displayChar}`,
+    ogDescription: `ASCII ${code} character lookup with binary, hex, and octal values.`,
+    ogType: 'website',
+  }
+}
+
+// Hub pages
+export function getHubMeta(title: string, description: string, path: string): MetaTags {
+  return {
+    title,
+    description,
+    canonical: `${SITE_URL}${path}`,
+    ogTitle: title.split('|')[0].trim(),
+    ogDescription: description,
+    ogType: 'website',
+  }
+}
