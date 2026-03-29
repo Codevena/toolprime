@@ -41,54 +41,58 @@ const twitterCardOptions = [
   'player',
 ]
 
+function escapeAttr(str: string): string {
+  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
 function generateHtml(fields: MetaFields): string {
   const lines: string[] = []
 
   if (fields.title) {
-    lines.push(`<title>${fields.title}</title>`)
+    lines.push(`<title>${escapeAttr(fields.title)}</title>`)
   }
   if (fields.description) {
-    lines.push(`<meta name="description" content="${fields.description}" />`)
+    lines.push(`<meta name="description" content="${escapeAttr(fields.description)}" />`)
   }
   if (fields.keywords) {
-    lines.push(`<meta name="keywords" content="${fields.keywords}" />`)
+    lines.push(`<meta name="keywords" content="${escapeAttr(fields.keywords)}" />`)
   }
   if (fields.author) {
-    lines.push(`<meta name="author" content="${fields.author}" />`)
+    lines.push(`<meta name="author" content="${escapeAttr(fields.author)}" />`)
   }
   if (fields.robots) {
-    lines.push(`<meta name="robots" content="${fields.robots}" />`)
+    lines.push(`<meta name="robots" content="${escapeAttr(fields.robots)}" />`)
   }
 
   // Open Graph
   const ogTitle = fields.ogTitle || fields.title
   const ogDesc = fields.ogDescription || fields.description
   if (ogTitle) {
-    lines.push(`<meta property="og:title" content="${ogTitle}" />`)
+    lines.push(`<meta property="og:title" content="${escapeAttr(ogTitle)}" />`)
   }
   if (ogDesc) {
-    lines.push(`<meta property="og:description" content="${ogDesc}" />`)
+    lines.push(`<meta property="og:description" content="${escapeAttr(ogDesc)}" />`)
   }
   if (fields.ogImage) {
-    lines.push(`<meta property="og:image" content="${fields.ogImage}" />`)
+    lines.push(`<meta property="og:image" content="${escapeAttr(fields.ogImage)}" />`)
   }
   if (fields.ogUrl) {
-    lines.push(`<meta property="og:url" content="${fields.ogUrl}" />`)
+    lines.push(`<meta property="og:url" content="${escapeAttr(fields.ogUrl)}" />`)
   }
   lines.push(`<meta property="og:type" content="website" />`)
 
   // Twitter
   if (fields.twitterCard) {
-    lines.push(`<meta name="twitter:card" content="${fields.twitterCard}" />`)
+    lines.push(`<meta name="twitter:card" content="${escapeAttr(fields.twitterCard)}" />`)
   }
   if (ogTitle) {
-    lines.push(`<meta name="twitter:title" content="${ogTitle}" />`)
+    lines.push(`<meta name="twitter:title" content="${escapeAttr(ogTitle)}" />`)
   }
   if (ogDesc) {
-    lines.push(`<meta name="twitter:description" content="${ogDesc}" />`)
+    lines.push(`<meta name="twitter:description" content="${escapeAttr(ogDesc)}" />`)
   }
   if (fields.ogImage) {
-    lines.push(`<meta name="twitter:image" content="${fields.ogImage}" />`)
+    lines.push(`<meta name="twitter:image" content="${escapeAttr(fields.ogImage)}" />`)
   }
 
   return lines.join('\n')

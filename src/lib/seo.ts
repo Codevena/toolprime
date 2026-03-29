@@ -291,7 +291,7 @@ export function getBmiMeta(heightCm: number, weightKg: number, bmi: number, cate
   return {
     title: `BMI for ${heightCm} cm & ${weightKg} kg — ${bmi} (${category}) | ${SITE_NAME}`,
     description: `BMI for ${heightCm} cm and ${weightKg} kg is ${bmi} (${category}). Free BMI calculator with healthy weight range and WHO categories.`,
-    canonical: `${SITE_URL}/calculators/bmi-${heightCm}cm-${weightKg}kg`,
+    canonical: `${SITE_URL}/calculators/bmi/bmi-${heightCm}cm-${weightKg}kg`,
     ogTitle: `BMI for ${heightCm} cm & ${weightKg} kg — ${bmi} (${category})`,
     ogDescription: `BMI is ${bmi} (${category}). Free online BMI calculator.`,
     ogType: 'website',
