@@ -34,9 +34,9 @@ function makeEntry(value: number, toBase: (typeof bases)[number]): NumberBaseEnt
   }
 }
 
-// 0-255 x 3 bases = 768
+// 0-1023 x 3 bases = 3072
 const byteRange: NumberBaseEntry[] = []
-for (let i = 0; i <= 255; i++) {
+for (let i = 0; i <= 1023; i++) {
   for (const b of bases) {
     byteRange.push(makeEntry(i, b))
   }

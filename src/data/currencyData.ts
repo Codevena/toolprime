@@ -197,8 +197,8 @@ export function getRelatedCurrencyEntries(
 
 // ─── pSEO entry generation ──────────────────────────────────────────────────
 
-const allAmounts = [1, 5, 10, 50, 100, 500, 1000, 5000, 10000]
-const cryptoAmounts = [1, 5, 10, 50, 100, 500, 1000]
+const allAmounts = [1, 2, 5, 10, 15, 20, 25, 50, 100, 200, 250, 500, 1000, 2000, 2500, 5000, 10000, 20000, 50000]
+const cryptoAmounts = [1, 2, 5, 10, 25, 50, 100, 250, 500, 1000]
 
 function isMajor(code: string): boolean {
   return (majorCodes as readonly string[]).includes(code)
@@ -229,12 +229,12 @@ function generateEntries(): CurrencyEntry[] {
     }
   }
 
-  // Other fiat: only vs anchor currencies (USD, EUR, GBP)
+  // Other fiat: vs all 10 major currencies (both directions)
   for (const from of fiatCurrencies.filter((c) => !isMajor(c.code))) {
-    for (const anchorCode of anchorCodes) {
+    for (const major of fiatCurrencies.filter((c) => isMajor(c.code))) {
       for (const amt of allAmounts) {
-        add(amt, from.code, anchorCode)
-        add(amt, anchorCode, from.code)
+        add(amt, from.code, major.code)
+        add(amt, major.code, from.code)
       }
     }
   }
