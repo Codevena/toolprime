@@ -41,6 +41,54 @@ const twitterCardOptions = [
   'player',
 ]
 
+const presets = [
+  {
+    label: 'Blog Post',
+    fields: {
+      title: 'How to Improve Core Web Vitals for Ecommerce Pages',
+      description: 'Practical strategies to improve LCP, CLS, and INP on ecommerce product and category pages.',
+      keywords: 'core web vitals, ecommerce seo, lcp, cls, inp',
+      author: 'ToolPrime',
+      robots: 'index, follow',
+      ogTitle: 'How to Improve Core Web Vitals for Ecommerce Pages',
+      ogDescription: 'A practical guide to faster ecommerce pages and better rankings.',
+      ogImage: 'https://example.com/images/core-web-vitals-guide.png',
+      ogUrl: 'https://example.com/blog/core-web-vitals-ecommerce',
+      twitterCard: 'summary_large_image',
+    },
+  },
+  {
+    label: 'Product Page',
+    fields: {
+      title: 'Noise-Cancelling Headphones - Free Shipping | Example Store',
+      description: 'Shop wireless noise-cancelling headphones with fast shipping, clear sound, and all-day battery life.',
+      keywords: 'noise cancelling headphones, wireless headphones, audio',
+      author: 'Example Store',
+      robots: 'index, follow',
+      ogTitle: 'Noise-Cancelling Headphones - Free Shipping',
+      ogDescription: 'Premium wireless headphones with long battery life and fast shipping.',
+      ogImage: 'https://example.com/images/headphones-og.jpg',
+      ogUrl: 'https://example.com/products/noise-cancelling-headphones',
+      twitterCard: 'summary_large_image',
+    },
+  },
+  {
+    label: 'Landing Page',
+    fields: {
+      title: 'Free AI Workflow Templates for Marketing Teams | Example SaaS',
+      description: 'Download ready-to-use AI workflow templates for campaigns, briefs, and reporting.',
+      keywords: 'ai workflow templates, marketing templates, saas',
+      author: 'Example SaaS',
+      robots: 'index, follow',
+      ogTitle: 'Free AI Workflow Templates for Marketing Teams',
+      ogDescription: 'Ready-to-use templates for briefs, campaigns, and reporting workflows.',
+      ogImage: 'https://example.com/images/ai-workflow-templates.png',
+      ogUrl: 'https://example.com/ai-workflow-templates',
+      twitterCard: 'summary_large_image',
+    },
+  },
+]
+
 function escapeAttr(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 }
@@ -126,6 +174,14 @@ export function MetaTagGenerator() {
     setFields(prev => ({ ...prev, [key]: value }))
   }
 
+  const applyPreset = (presetFields: MetaFields) => {
+    setFields(presetFields)
+  }
+
+  const clearAll = () => {
+    setFields(defaultFields)
+  }
+
   const html = useMemo(() => generateHtml(fields), [fields])
 
   const hasContent = fields.title || fields.description
@@ -136,6 +192,27 @@ export function MetaTagGenerator() {
 
   return (
     <div className="space-y-6">
+      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-[var(--color-text)]">Start from a template:</span>
+          {presets.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => applyPreset(preset.fields)}
+              className="px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
+            >
+              {preset.label}
+            </button>
+          ))}
+          <button
+            onClick={clearAll}
+            className="px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm text-[var(--color-text-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
+
       {/* SERP Preview */}
       <SerpPreview fields={fields} />
 
@@ -284,6 +361,27 @@ export function MetaTagGenerator() {
         <pre className="w-full p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm overflow-x-auto whitespace-pre-wrap">
           {html || '<!-- Fill in the fields above to generate meta tags -->'}
         </pre>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text)]">Search snippet</h3>
+          <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+            Keep titles concise and descriptions persuasive so the page earns clicks when it appears in search results.
+          </p>
+        </div>
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text)]">Social previews</h3>
+          <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+            Use Open Graph fields to control how links look when they are shared on Slack, LinkedIn, X, Facebook, and other apps.
+          </p>
+        </div>
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text)]">Implementation</h3>
+          <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+            Copy the generated tags into the page head, then test the final URL with a real preview validator before publishing.
+          </p>
+        </div>
       </div>
     </div>
   )

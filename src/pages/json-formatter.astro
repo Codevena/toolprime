@@ -10,6 +10,29 @@ if (!tool) throw new Error('Tool not found: json-formatter')
 <ToolLayout tool={tool}>
   <JsonFormatter client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="json-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="json-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">What This JSON Formatter Is Best For</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        Use this tool when an API response is unreadable, a configuration file fails to parse, or you need to validate JSON before sending it to another service. It is designed for quick debugging, cleanup, and validation without sending your data to a server.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">API Debugging</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Format minified API responses so nested fields, arrays, and metadata are readable again.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Validation</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Catch syntax mistakes like trailing commas, broken quoting, or missing brackets before deployment or import.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Minification</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Generate a compact JSON string when you need to reduce whitespace for transport or embedding.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the JSON Formatter</h2>
     <ol class="step-list" role="list">
@@ -19,5 +42,49 @@ if (!tool) throw new Error('Tool not found: json-formatter')
       <li>Choose between <strong>2-space</strong> or <strong>4-space</strong> indentation</li>
       <li>Errors display with <strong>line numbers</strong> and details</li>
     </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="json-notes">
+    <h2 id="json-notes" class="text-xl font-bold text-[var(--color-text)] mb-3">Common JSON Problems</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Trailing Commas</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">JavaScript object literals may allow patterns that strict JSON does not. Trailing commas are a frequent cause of invalid JSON.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Unquoted Keys</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">JSON requires double-quoted keys. <code>{'{'}name: "Alex"{'}'}</code> is not valid JSON, while <code>{'{'}&#34;name&#34;:&#34;Alex&#34;{'}'}</code> is.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Broken Escaping</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Strings copied from logs or shell output often contain invalid escapes or unescaped line breaks that break parsing.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Mismatch Between JSON and JS</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Objects with comments, single quotes, or `undefined` are valid JavaScript patterns but not valid JSON payloads.</p>
+      </div>
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="json-next-steps">
+    <h2 id="json-next-steps" class="text-xl font-bold text-[var(--color-text)] mb-3">Related Developer Workflows</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <a href="/diff-checker" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Diff Checker</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Compare two formatted payloads to spot changes between environments or API responses.</p>
+      </a>
+      <a href="/base64-encode-decode" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Base64 Encode & Decode</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Useful when JSON contains encoded tokens, binary payloads, or embedded values that need decoding.</p>
+      </a>
+      <a href="/regex-tester" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Regex Tester</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Extract fields, validate values, or test patterns against JSON snippets while debugging data flows.</p>
+      </a>
+      <a href="/blog/json-formatting-guide" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">JSON Formatting Guide</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Read the deeper guide if you need parsing tips, debugging strategies, and JSON best practices.</p>
+      </a>
+    </div>
   </section>
 </ToolLayout>

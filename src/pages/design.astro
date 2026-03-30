@@ -32,6 +32,71 @@ const meta = getHubMeta(hub.title, hub.description, '/design')
     </p>
   </section>
 
+  <section class="mb-12">
+    <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2">
+          <h2 class="text-xl font-bold text-[var(--color-text)] mb-3">Design Utilities for Faster Shipping</h2>
+          <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+            This hub is for the practical side of design work: choosing colors, generating gradients, compressing images, preparing favicons, and checking layout ratios. The goal is not to replace a full design suite, but to solve the small tasks that slow down delivery when you are building or polishing a web experience.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a href="/image-compressor" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+              <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Optimize Images</h3>
+              <p class="text-sm text-[var(--color-text-muted)]">Reduce page weight before publishing product shots, banners, and screenshots.</p>
+            </a>
+            <a href="/color-picker" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+              <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Choose Colors</h3>
+              <p class="text-sm text-[var(--color-text-muted)]">Work across HEX, RGB, and HSL while checking palette ideas and design tokens.</p>
+            </a>
+            <a href="/favicon-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+              <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Prepare Assets</h3>
+              <p class="text-sm text-[var(--color-text-muted)]">Generate favicon sets and web-ready image assets without leaving the browser.</p>
+            </a>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5">
+          <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">Flagship Tools</h2>
+          <div class="space-y-3">
+            <a href="/image-compressor" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+              <div class="font-semibold text-[var(--color-text)]">Image Compressor</div>
+              <div class="text-sm text-[var(--color-text-muted)]">Strong utility for web performance and asset prep.</div>
+            </a>
+            <a href="/css-gradient-generator" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+              <div class="font-semibold text-[var(--color-text)]">CSS Gradient Generator</div>
+              <div class="text-sm text-[var(--color-text-muted)]">Fast way to build backgrounds and visual direction.</div>
+            </a>
+            <a href="/color-picker" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+              <div class="font-semibold text-[var(--color-text)]">Color Picker</div>
+              <div class="text-sm text-[var(--color-text-muted)]">Reliable color conversion and visual reference tool.</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-xl font-bold text-[var(--color-text)] mb-4">Common Design Workflows</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-2">Web Asset Optimization</h3>
+        <p class="text-sm text-[var(--color-text-muted)] mb-3">Prepare visuals for production pages, favicons, and inline usage.</p>
+        <p class="text-sm text-[var(--color-text)]">Use: <a href="/image-compressor" class="text-[var(--color-primary)] underline hover:no-underline">Image Compressor</a> → <a href="/favicon-generator" class="text-[var(--color-primary)] underline hover:no-underline">Favicon Generator</a> → <a href="/image-to-base64" class="text-[var(--color-primary)] underline hover:no-underline">Image to Base64</a></p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-2">Color and Branding</h3>
+        <p class="text-sm text-[var(--color-text-muted)] mb-3">Move from raw color values to palettes and gradients for interfaces and brand systems.</p>
+        <p class="text-sm text-[var(--color-text)]">Use: <a href="/color-picker" class="text-[var(--color-primary)] underline hover:no-underline">Color Picker</a> → <a href="/color-palette-generator" class="text-[var(--color-primary)] underline hover:no-underline">Palette Generator</a> → <a href="/css-gradient-generator" class="text-[var(--color-primary)] underline hover:no-underline">Gradient Generator</a></p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-2">Layout and Visual Planning</h3>
+        <p class="text-sm text-[var(--color-text-muted)] mb-3">Check ratios and visual constraints before exporting or implementing a component.</p>
+        <p class="text-sm text-[var(--color-text)]">Use: <a href="/aspect-ratio-calculator" class="text-[var(--color-primary)] underline hover:no-underline">Aspect Ratio Calculator</a> → <a href="/image-compressor" class="text-[var(--color-primary)] underline hover:no-underline">Image Compressor</a> → <a href="/css-gradient-generator" class="text-[var(--color-primary)] underline hover:no-underline">Gradient Generator</a></p>
+      </div>
+    </div>
+  </section>
+
   {/* Subcategory Sections */}
   {hub.subcategories.map((sub) => {
     const subTools = sub.toolIds.map((id) => getToolById(id)).filter((t) => t !== undefined)

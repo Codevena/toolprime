@@ -10,6 +10,29 @@ if (!tool) throw new Error('Tool not found: meta-tag-generator')
 <ToolLayout tool={tool}>
   <MetaTagGenerator client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="meta-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="meta-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">What This Meta Tag Generator Helps You Do</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        Use this generator when you want cleaner search snippets, better social link previews, and more consistent metadata across pages. It is especially useful for blog posts, product pages, landing pages, and other URLs that need a strong first impression in search results or shared links.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Search Visibility</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Write titles and descriptions that are easier to scan and more likely to earn clicks from search results.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Social Sharing</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Control how your page appears when shared on messaging apps, social platforms, and collaboration tools.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Template Consistency</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Create a repeatable metadata structure for blogs, landing pages, product pages, and other templates.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Meta Tag Generator</h2>
     <ol class="step-list" role="list">
@@ -19,5 +42,45 @@ if (!tool) throw new Error('Tool not found: meta-tag-generator')
       <li>Preview how your page appears in <strong>Google search results</strong></li>
       <li><strong>Copy</strong> the generated HTML and paste it into your page's &lt;head&gt;</li>
     </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="meta-best-practices">
+    <h2 id="meta-best-practices" class="text-xl font-bold text-[var(--color-text)] mb-3">Meta Tag Best Practices</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Match the Actual Page Intent</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Strong metadata reflects what the page really delivers. Misleading titles may win a click but can damage engagement and trust.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Keep Social Fields Deliberate</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Open Graph and Twitter tags should not be an afterthought. They shape how your page looks outside search results.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Avoid Keyword Stuffing</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Clear, readable language almost always performs better than cramming titles and descriptions with too many repeated terms.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Use Templates Thoughtfully</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Templates speed up publishing, but the final title and description should still be tailored to each page.</p>
+      </div>
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="meta-next-steps">
+    <h2 id="meta-next-steps" class="text-xl font-bold text-[var(--color-text)] mb-3">Related SEO Workflows</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <a href="/meta-tags" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Meta Tag Templates</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Browse ready-to-use page-type templates for blogs, ecommerce, SaaS, restaurants, and more.</p>
+      </a>
+      <a href="/robots-txt-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">robots.txt Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Pair metadata with crawl-control rules when launching or auditing a site.</p>
+      </a>
+      <a href="/favicon-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Favicon Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Complete the page preview stack with favicon and app icon assets for browsers and devices.</p>
+      </a>
+    </div>
   </section>
 </ToolLayout>

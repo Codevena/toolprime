@@ -32,6 +32,71 @@ const meta = getHubMeta(hub.title, hub.description, '/developer')
     </p>
   </section>
 
+  <section class="mb-12">
+    <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2">
+          <h2 class="text-xl font-bold text-[var(--color-text)] mb-3">Start Here if You Need Fast Developer Utilities</h2>
+          <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+            This hub is built for the kinds of tasks that interrupt development flow: inspecting API payloads, formatting SQL, testing regex patterns, decoding strings, generating hashes, and converting data between formats. The fastest path is usually to start with the tool that matches the data in front of you, then move to a related workflow tool instead of starting over elsewhere.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a href="/json-formatter" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+              <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Debug JSON</h3>
+              <p class="text-sm text-[var(--color-text-muted)]">Format, validate, and inspect unreadable payloads before you compare or transform them.</p>
+            </a>
+            <a href="/regex-tester" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+              <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Test Patterns</h3>
+              <p class="text-sm text-[var(--color-text-muted)]">Prototype regular expressions and validate extraction logic on real text.</p>
+            </a>
+            <a href="/base64-encode-decode" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+              <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Decode Data</h3>
+              <p class="text-sm text-[var(--color-text-muted)]">Handle Base64 strings, tokens, and encoded blobs without leaving the browser.</p>
+            </a>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5">
+          <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">Flagship Tools</h2>
+          <div class="space-y-3">
+            <a href="/json-formatter" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+              <div class="font-semibold text-[var(--color-text)]">JSON Formatter</div>
+              <div class="text-sm text-[var(--color-text-muted)]">Best starting point for API and config debugging.</div>
+            </a>
+            <a href="/sql-formatter" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+              <div class="font-semibold text-[var(--color-text)]">SQL Formatter</div>
+              <div class="text-sm text-[var(--color-text-muted)]">Turn unreadable queries into something you can review.</div>
+            </a>
+            <a href="/timestamp-converter" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+              <div class="font-semibold text-[var(--color-text)]">Timestamp Converter</div>
+              <div class="text-sm text-[var(--color-text-muted)]">Quickly translate epoch values while debugging logs and APIs.</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-xl font-bold text-[var(--color-text)] mb-4">Common Developer Workflows</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-2">API Response Debugging</h3>
+        <p class="text-sm text-[var(--color-text-muted)] mb-3">Start with unreadable JSON, inspect structure, compare changes, and decode embedded values.</p>
+        <p class="text-sm text-[var(--color-text)]">Use: <a href="/json-formatter" class="text-[var(--color-primary)] underline hover:no-underline">JSON Formatter</a> → <a href="/diff-checker" class="text-[var(--color-primary)] underline hover:no-underline">Diff Checker</a> → <a href="/base64-encode-decode" class="text-[var(--color-primary)] underline hover:no-underline">Base64</a></p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-2">Validation and Parsing</h3>
+        <p class="text-sm text-[var(--color-text-muted)] mb-3">Test patterns, verify dates and strings, then clean up input before moving it through a system.</p>
+        <p class="text-sm text-[var(--color-text)]">Use: <a href="/regex-tester" class="text-[var(--color-primary)] underline hover:no-underline">Regex Tester</a> → <a href="/timestamp-converter" class="text-[var(--color-primary)] underline hover:no-underline">Timestamp Converter</a> → <a href="/url-encode-decode" class="text-[var(--color-primary)] underline hover:no-underline">URL Encode/Decode</a></p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-2">Config and Infra Setup</h3>
+        <p class="text-sm text-[var(--color-text-muted)] mb-3">Generate metadata and crawler rules when shipping a site, app, or integration surface.</p>
+        <p class="text-sm text-[var(--color-text)]">Use: <a href="/meta-tag-generator" class="text-[var(--color-primary)] underline hover:no-underline">Meta Tags</a> → <a href="/robots-txt-generator" class="text-[var(--color-primary)] underline hover:no-underline">robots.txt</a> → <a href="/cron-expression-generator" class="text-[var(--color-primary)] underline hover:no-underline">Cron</a></p>
+      </div>
+    </div>
+  </section>
+
   {/* Subcategory Sections */}
   {hub.subcategories.map((sub) => {
     const subTools = sub.toolIds.map((id) => getToolById(id)).filter((t) => t !== undefined)

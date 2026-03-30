@@ -10,6 +10,29 @@ if (!tool) throw new Error('Tool not found: robots-txt-generator')
 <ToolLayout tool={tool}>
   <RobotsTxtGenerator client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="robots-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="robots-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">What a robots.txt File Actually Does</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        A robots.txt file tells crawlers which areas of a site they should or should not request. It is useful for crawl management, not for true security. Use it to keep bots away from low-value sections like admin paths, internal search results, or duplicate utility endpoints, while still exposing your public pages and sitemap clearly.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Crawl Budget</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Reduce noise from low-value sections so crawlers spend more time on pages you actually want discovered.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Cleaner Site Launches</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Set clear crawl rules during deployment, especially when a site has staging paths, admin areas, or dynamic endpoints.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Sitemap Discovery</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Add a sitemap line so bots know where to start finding your public URLs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the robots.txt Generator</h2>
     <ol class="step-list" role="list">
@@ -19,5 +42,49 @@ if (!tool) throw new Error('Tool not found: robots-txt-generator')
       <li>Enter your <strong>sitemap URL</strong> so search engines can discover your pages</li>
       <li><strong>Copy</strong> or <strong>download</strong> the generated robots.txt file</li>
     </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="robots-best-practices">
+    <h2 id="robots-best-practices" class="text-xl font-bold text-[var(--color-text)] mb-3">robots.txt Best Practices</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Do Not Use It for Security</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">robots.txt is public. Sensitive content still needs authentication, authorization, or server-level protection.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Avoid Blocking Useful Assets</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Blocking CSS, JS, or image assets can confuse crawlers and hurt how they understand the page.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Use Search and Admin Rules Deliberately</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Internal search pages, admin areas, and duplicate utility endpoints are common candidates for disallow rules.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Ship a Sitemap Too</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Pair robots.txt with a sitemap reference to make public page discovery much easier for crawlers.</p>
+      </div>
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="robots-next-steps">
+    <h2 id="robots-next-steps" class="text-xl font-bold text-[var(--color-text)] mb-3">Related SEO Setup Tools</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <a href="/robots-txt" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">robots.txt Templates</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Browse framework and platform-specific robots.txt templates for common setups.</p>
+      </a>
+      <a href="/meta-tag-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Meta Tag Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Pair crawl directives with cleaner page metadata and stronger search/social previews.</p>
+      </a>
+      <a href="/meta-tags" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Meta Tag Templates</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Use page-type templates to keep SEO implementation more consistent across the site.</p>
+      </a>
+      <a href="/favicon-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Favicon Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Complete the technical launch checklist with browser and app icons after crawl and metadata setup.</p>
+      </a>
+    </div>
   </section>
 </ToolLayout>

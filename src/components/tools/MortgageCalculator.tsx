@@ -63,6 +63,41 @@ function formatCurrency(n: number): string {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
 
+const presets = [
+  {
+    label: 'Starter Home',
+    homePrice: '300000',
+    downPayment: '10',
+    downPaymentType: 'percent' as const,
+    rate: '6.5',
+    term: '30',
+  },
+  {
+    label: '20% Down',
+    homePrice: '450000',
+    downPayment: '20',
+    downPaymentType: 'percent' as const,
+    rate: '6.25',
+    term: '30',
+  },
+  {
+    label: 'Lower Interest',
+    homePrice: '400000',
+    downPayment: '80000',
+    downPaymentType: 'amount' as const,
+    rate: '5.5',
+    term: '30',
+  },
+  {
+    label: '15-Year Payoff',
+    homePrice: '350000',
+    downPayment: '70000',
+    downPaymentType: 'amount' as const,
+    rate: '5.75',
+    term: '15',
+  },
+]
+
 export function MortgageCalculator() {
   const [homePrice, setHomePrice] = useState('300000')
   const [downPayment, setDownPayment] = useState('60000')
@@ -85,6 +120,27 @@ export function MortgageCalculator() {
     [loanAmount, rate, term]
   )
 
+  const downPaymentValue = useMemo(() => {
+    const price = parseFloat(homePrice) || 0
+    const dp = parseFloat(downPayment) || 0
+    if (downPaymentType === 'percent') {
+      return price * (dp / 100)
+    }
+    return dp
+  }, [homePrice, downPayment, downPaymentType])
+
+  const downPaymentPercent = useMemo(() => {
+    const price = parseFloat(homePrice) || 0
+    if (price <= 0) return 0
+    return (downPaymentValue / price) * 100
+  }, [homePrice, downPaymentValue])
+
+  const loanToValue = useMemo(() => {
+    const price = parseFloat(homePrice) || 0
+    if (price <= 0) return 0
+    return (loanAmount / price) * 100
+  }, [homePrice, loanAmount])
+
   const summaryText = result
     ? `Monthly Payment: ${formatCurrency(result.monthlyPayment)}\nTotal Interest: ${formatCurrency(result.totalInterest)}\nTotal Cost: ${formatCurrency(result.totalCost)}\nLoan Amount: ${formatCurrency(loanAmount)}`
     : ''
@@ -96,6 +152,27 @@ export function MortgageCalculator() {
 
   return (
     <div className="space-y-6">
+      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-[var(--color-text)]">Try a common scenario:</span>
+          {presets.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => {
+                setHomePrice(preset.homePrice)
+                setDownPayment(preset.downPayment)
+                setDownPaymentType(preset.downPaymentType)
+                setRate(preset.rate)
+                setTerm(preset.term)
+              }}
+              className="px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Input form */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
@@ -176,8 +253,21 @@ export function MortgageCalculator() {
 
       {/* Loan amount display */}
       {loanAmount > 0 && (
-        <div className="text-sm text-[var(--color-text-muted)]">
-          Loan Amount: <span className="font-semibold text-[var(--color-text)]">{formatCurrency(loanAmount)}</span>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm">
+            <div className="text-[var(--color-text-muted)]">Loan Amount</div>
+            <div className="font-semibold text-[var(--color-text)]">{formatCurrency(loanAmount)}</div>
+          </div>
+          <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm">
+            <div className="text-[var(--color-text-muted)]">Down Payment</div>
+            <div className="font-semibold text-[var(--color-text)]">
+              {formatCurrency(downPaymentValue)} ({downPaymentPercent.toFixed(1)}%)
+            </div>
+          </div>
+          <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 text-sm">
+            <div className="text-[var(--color-text-muted)]">Loan-to-Value</div>
+            <div className="font-semibold text-[var(--color-text)]">{loanToValue.toFixed(1)}% LTV</div>
+          </div>
         </div>
       )}
 
@@ -207,6 +297,30 @@ export function MortgageCalculator() {
             </div>
             <div className="mt-4 flex justify-center">
               <CopyButton text={summaryText} />
+            </div>
+            <p className="mt-4 text-center text-sm text-[var(--color-text-muted)]">
+              Estimate includes principal and interest only. Property taxes, insurance, HOA fees, and PMI are not included.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">Affordability signal</h3>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                Use the monthly payment to compare this mortgage against your target monthly housing budget, not just the home price.
+              </p>
+            </div>
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">Rate sensitivity</h3>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                A small rate change can materially affect the lifetime interest cost. Test multiple rate scenarios before deciding.
+              </p>
+            </div>
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">Down payment impact</h3>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                A larger down payment reduces the loan amount, lowers monthly payments, and may help you avoid PMI.
+              </p>
             </div>
           </div>
 

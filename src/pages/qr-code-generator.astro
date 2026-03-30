@@ -10,6 +10,29 @@ if (!tool) throw new Error('Tool not found: qr-code-generator')
 <ToolLayout tool={tool}>
   <QrCodeGenerator client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="qr-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="qr-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">Where QR Codes Work Best</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        QR codes are useful when you want to move someone from a physical surface or a quick mobile interaction straight into a digital action. They work especially well for menus, business cards, flyers, packaging, event materials, WiFi sharing, and mobile-friendly links that should be easy to scan instead of typed manually.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Business and Marketing</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Send customers from packaging, posters, cards, or printed promos directly to a landing page or offer.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Events and Hospitality</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Use QR codes for menus, schedules, check-in flows, feedback forms, and venue WiFi credentials.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Contact and Access</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Share contact cards, phone numbers, email links, and WiFi access without forcing people to type anything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the QR Code Generator</h2>
     <ol class="step-list" role="list">
@@ -19,5 +42,49 @@ if (!tool) throw new Error('Tool not found: qr-code-generator')
       <li>Download as <strong>PNG</strong> or <strong>SVG</strong> format</li>
       <li>Test by <strong>scanning with your phone</strong> before printing</li>
     </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="qr-best-practices">
+    <h2 id="qr-best-practices" class="text-xl font-bold text-[var(--color-text)] mb-3">QR Code Best Practices</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Keep the Destination Clean</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Use short, reliable destinations when possible. Long or messy URLs can be harder to manage and less user-friendly if you ever need to update the destination later.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Match File Type to Use Case</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">PNG is convenient for quick digital use. SVG is usually the better choice for print, branding, and scaling inside design tools.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Test in Real Conditions</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">A code that scans well on screen can still fail when printed too small, placed on glare-heavy material, or used from a longer distance.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Use a Clear Call to Action</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">People scan more often when the reason is obvious: “View menu”, “Join WiFi”, “Download brochure”, or “Save contact”.</p>
+      </div>
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="qr-next-steps">
+    <h2 id="qr-next-steps" class="text-xl font-bold text-[var(--color-text)] mb-3">Related Tools for Sharing and Print Assets</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <a href="/color-picker" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Color Picker</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Match QR-adjacent branding colors and supporting graphics for posters, cards, or landing pages.</p>
+      </a>
+      <a href="/image-compressor" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Image Compressor</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Optimize surrounding graphics and marketing images before publishing the page or asset that contains the QR code.</p>
+      </a>
+      <a href="/favicon-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Favicon Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Carry simple brand assets and export-ready icons forward after defining QR-adjacent visuals and campaigns.</p>
+      </a>
+      <a href="/invoice-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Invoice Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Useful if you want to pair printed billing materials or client-facing documents with scannable payment or contact flows.</p>
+      </a>
+    </div>
   </section>
 </ToolLayout>

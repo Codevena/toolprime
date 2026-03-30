@@ -32,6 +32,71 @@ const meta = getHubMeta(hub.title, hub.description, '/everyday')
     </p>
   </section>
 
+  <section class="mb-12">
+    <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2">
+          <h2 class="text-xl font-bold text-[var(--color-text)] mb-3">Start With the Problem You Need to Solve</h2>
+          <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+            Everyday tools work best when they save a decision, not just a calculation. This hub groups the fastest utilities for budgeting, percentages, date math, unit conversion, and simple business tasks so you can get an answer quickly without installing anything or creating an account.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a href="/currency-converter" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+              <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Money and Travel</h3>
+              <p class="text-sm text-[var(--color-text-muted)]">Compare currencies, budgets, and amounts when you are planning payments or travel costs.</p>
+            </a>
+            <a href="/percentage-calculator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+              <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Quick Math</h3>
+              <p class="text-sm text-[var(--color-text-muted)]">Solve percentages, fractions, BMI, and date calculations without digging through spreadsheets.</p>
+            </a>
+            <a href="/invoice-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+              <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Simple Business Tasks</h3>
+              <p class="text-sm text-[var(--color-text-muted)]">Generate invoices, QR codes, and other practical assets for small daily workflows.</p>
+            </a>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-5">
+          <h2 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)] mb-3">Most Useful First</h2>
+          <div class="space-y-3">
+            <a href="/currency-converter" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+              <div class="font-semibold text-[var(--color-text)]">Currency Converter</div>
+              <div class="text-sm text-[var(--color-text-muted)]">Strong everyday utility for travel, pricing, and comparison.</div>
+            </a>
+            <a href="/percentage-calculator" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+              <div class="font-semibold text-[var(--color-text)]">Percentage Calculator</div>
+              <div class="text-sm text-[var(--color-text-muted)]">Fastest path for discounts, increases, and ratio questions.</div>
+            </a>
+            <a href="/date-calculator" class="block rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 hover:border-[var(--color-primary)] transition-colors">
+              <div class="font-semibold text-[var(--color-text)]">Date Calculator</div>
+              <div class="text-sm text-[var(--color-text-muted)]">Helpful for deadlines, planning, and everyday time math.</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-xl font-bold text-[var(--color-text)] mb-4">Common Everyday Workflows</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-2">Budget and Price Checks</h3>
+        <p class="text-sm text-[var(--color-text-muted)] mb-3">Compare costs, calculate discounts, and check payment amounts quickly.</p>
+        <p class="text-sm text-[var(--color-text)]">Use: <a href="/currency-converter" class="text-[var(--color-primary)] underline hover:no-underline">Currency Converter</a> → <a href="/percentage-calculator" class="text-[var(--color-primary)] underline hover:no-underline">Percentage Calculator</a> → <a href="/invoice-generator" class="text-[var(--color-primary)] underline hover:no-underline">Invoice Generator</a></p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-2">Planning and Scheduling</h3>
+        <p class="text-sm text-[var(--color-text-muted)] mb-3">Figure out age, durations, due dates, and time differences without manual counting.</p>
+        <p class="text-sm text-[var(--color-text)]">Use: <a href="/date-calculator" class="text-[var(--color-primary)] underline hover:no-underline">Date Calculator</a> → <a href="/age-calculator" class="text-[var(--color-primary)] underline hover:no-underline">Age Calculator</a> → <a href="/timezone-converter" class="text-[var(--color-primary)] underline hover:no-underline">Timezone Converter</a></p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-2">Sharing and Utility Tasks</h3>
+        <p class="text-sm text-[var(--color-text-muted)] mb-3">Create QR codes, count words, or convert units when you just need a fast answer.</p>
+        <p class="text-sm text-[var(--color-text)]">Use: <a href="/qr-code-generator" class="text-[var(--color-primary)] underline hover:no-underline">QR Code Generator</a> → <a href="/word-counter" class="text-[var(--color-primary)] underline hover:no-underline">Word Counter</a> → <a href="/unit-converter" class="text-[var(--color-primary)] underline hover:no-underline">Unit Converter</a></p>
+      </div>
+    </div>
+  </section>
+
   {/* Subcategory Sections */}
   {hub.subcategories.map((sub) => {
     const subTools = sub.toolIds.map((id) => getToolById(id)).filter((t) => t !== undefined)

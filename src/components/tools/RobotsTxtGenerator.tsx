@@ -39,6 +39,27 @@ function createId(): string {
   return `rule-${nextId++}`
 }
 
+const presetRules = [
+  {
+    label: 'Basic Site',
+    rules: [{ id: createId(), agent: '*', disallow: ['/admin/', '/private/'], allow: [] }],
+    sitemapUrl: 'https://example.com/sitemap.xml',
+    crawlDelay: '',
+  },
+  {
+    label: 'Staging Block',
+    rules: [{ id: createId(), agent: '*', disallow: ['/'], allow: [] }],
+    sitemapUrl: '',
+    crawlDelay: '',
+  },
+  {
+    label: 'Selective Crawl',
+    rules: [{ id: createId(), agent: '*', disallow: ['/search', '/api/'], allow: ['/'] }],
+    sitemapUrl: 'https://example.com/sitemap.xml',
+    crawlDelay: '',
+  },
+]
+
 function generateRobotsTxt(
   rules: UserAgentRule[],
   sitemapUrl: string,
@@ -79,6 +100,14 @@ export function RobotsTxtGenerator() {
     () => generateRobotsTxt(rules, sitemapUrl, crawlDelay),
     [rules, sitemapUrl, crawlDelay],
   )
+
+  const applyPreset = useCallback((label: string) => {
+    const preset = presetRules.find((item) => item.label === label)
+    if (!preset) return
+    setRules(preset.rules.map(rule => ({ ...rule, id: createId() })))
+    setSitemapUrl(preset.sitemapUrl)
+    setCrawlDelay(preset.crawlDelay)
+  }, [])
 
   const addRule = useCallback(() => {
     setRules(prev => [...prev, { id: createId(), agent: '*', disallow: [], allow: [] }])
@@ -141,6 +170,21 @@ export function RobotsTxtGenerator() {
 
   return (
     <div className="space-y-6">
+      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-[var(--color-text)]">Start from a template:</span>
+          {presetRules.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => applyPreset(preset.label)}
+              className="px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Configuration */}
         <div className="space-y-5">
@@ -297,6 +341,27 @@ export function RobotsTxtGenerator() {
           <pre className="w-full p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] font-mono text-sm overflow-x-auto whitespace-pre-wrap min-h-[300px]">
             {output || '# Your robots.txt will appear here'}
           </pre>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text)]">Crawl control</h3>
+          <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+            robots.txt is best for guiding crawlers, not for hiding sensitive content. Protected content still needs proper authentication or server rules.
+          </p>
+        </div>
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text)]">Sitemaps matter</h3>
+          <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+            Adding a sitemap line gives crawlers a cleaner entry point to important pages and can improve discovery on larger sites.
+          </p>
+        </div>
+        <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+          <h3 className="text-sm font-semibold text-[var(--color-text)]">Use carefully</h3>
+          <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+            Blocking the wrong path can remove useful pages from search discovery or break crawlers for assets your site actually needs.
+          </p>
         </div>
       </div>
     </div>

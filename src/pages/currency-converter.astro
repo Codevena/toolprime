@@ -10,6 +10,29 @@ if (!tool) throw new Error('Tool not found: currency-converter')
 <ToolLayout tool={tool}>
   <CurrencyConverter client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="currency-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="currency-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">When This Currency Converter Is Most Useful</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        Use this converter to compare travel budgets, check international prices, estimate invoice totals, or quickly translate crypto values into major fiat currencies. It is designed for fast decision-making when you need a practical exchange estimate, not a slow financial app workflow.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Travel Planning</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Compare spending power before a trip and translate hotel, food, or transport budgets into your home currency.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Business and Freelance Work</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Estimate invoice values, project budgets, or vendor costs when you work across countries and payment currencies.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Crypto Reference</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Quickly translate BTC, ETH, SOL, or DOGE into major currencies when you need a simple benchmark.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Currency Converter</h2>
     <ol class="step-list" role="list">
@@ -19,6 +42,28 @@ if (!tool) throw new Error('Tool not found: currency-converter')
       <li>View the <strong>converted amount</strong> instantly with live rates</li>
       <li>Use the <strong>swap button</strong> to reverse the conversion</li>
     </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="important-currency-notes">
+    <h2 id="important-currency-notes" class="text-xl font-bold text-[var(--color-text)] mb-3">Important Currency Conversion Notes</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Reference Rates, Not Final Checkout Prices</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Banks, cards, exchanges, and payment providers can apply spreads, fees, or different settlement rates. Your final charged amount may differ.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Crypto Is More Volatile</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Crypto values can move quickly. Treat conversions for BTC, ETH, SOL, and DOGE as quick estimates rather than long-lived quotes.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Use Pairs as a Shortcut</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Popular pairs like USD to EUR or EUR to USD are often enough for quick checks. Start there, then fine-tune the amount.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Compare Related Costs Too</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">If you are budgeting internationally, you may also want to compare loan costs, invoice totals, or unit conversions in the same session.</p>
+      </div>
+    </div>
   </section>
 
   <section slot="content" class="mt-8" aria-labelledby="popular-conversions">
@@ -39,6 +84,28 @@ if (!tool) throw new Error('Tool not found: currency-converter')
           <span class="text-sm font-medium">{link.label}</span>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="next-steps">
+    <h2 id="next-steps" class="text-xl font-bold text-[var(--color-text)] mb-3">Related Tools for International Planning</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <a href="/invoice-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Invoice Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Create invoices after checking cross-border pricing or estimating totals in the right billing currency.</p>
+      </a>
+      <a href="/loan-calculator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Loan Calculator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Compare borrowing costs after translating amounts into the currency you actually budget in.</p>
+      </a>
+      <a href="/percentage-calculator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Percentage Calculator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Check spreads, fees, VAT, discounts, or markup percentages after converting the base amount.</p>
+      </a>
+      <a href="/unit-converter" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Unit Converter</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Useful when international shopping or supplier research also requires size, weight, or volume conversions.</p>
+      </a>
     </div>
   </section>
 
@@ -64,6 +131,15 @@ if (!tool) throw new Error('Tool not found: currency-converter')
           <span class="text-sm font-medium">{c.label}</span>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="currency-disclaimer">
+    <div class="rounded-xl border px-4 py-3 text-sm" style="background: var(--color-warning-bg, var(--color-surface-alt)); border-color: var(--color-border); color: var(--color-text-muted);">
+      <h2 id="currency-disclaimer" class="font-semibold text-[var(--color-text)] mb-1">Planning Tool, Not Financial Advice</h2>
+      <p>
+        Exchange rates change constantly, and provider fees can affect the final amount you pay or receive. Use this tool for fast comparison and planning, then confirm the final rate with your bank, broker, exchange, or payment provider.
+      </p>
     </div>
   </section>
 </ToolLayout>

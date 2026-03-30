@@ -19,7 +19,7 @@ export interface CityTimeEntry {
 
 // 128 cities covering major world cities across all continents
 export const cities: City[] = [
-  // North America (20)
+  // North America (14)
   { name: 'New York', slug: 'new-york', timezone: 'America/New_York', country: 'US', flag: '🇺🇸' },
   { name: 'Los Angeles', slug: 'los-angeles', timezone: 'America/Los_Angeles', country: 'US', flag: '🇺🇸' },
   { name: 'Chicago', slug: 'chicago', timezone: 'America/Chicago', country: 'US', flag: '🇺🇸' },

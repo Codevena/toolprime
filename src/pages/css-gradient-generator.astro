@@ -10,15 +10,60 @@ if (!tool) throw new Error('Tool not found: css-gradient-generator')
 <ToolLayout tool={tool}>
   <CssGradientGenerator client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="gradient-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="gradient-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">What This CSS Gradient Generator Helps You Do</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        Use this tool when you want to build gradients for hero sections, cards, overlays, buttons, and other UI surfaces without manually writing CSS from scratch. It is designed for quick visual iteration, fast developer handoff, and practical export of gradient code that can go straight into a stylesheet or component.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Visual Exploration</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Try linear, radial, and conic gradients quickly while adjusting color stops and direction in real time.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">CSS Handoff</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Copy clean background declarations for landing pages, components, design systems, and production UI.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Preset-Led Iteration</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Start from a usable preset, then refine the palette and stop positions to match your brand or screen.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the CSS Gradient Generator</h2>
     <ol class="step-list" role="list">
-      <li>Choose a gradient type: linear, radial, or conic</li>
-      <li>Add color stops by clicking the gradient bar</li>
-      <li>Adjust the angle or direction with the slider</li>
-      <li>Copy the generated CSS code with one click</li>
-      <li>Browse preset gradients below for inspiration</li>
+      <li>Start with a built-in <strong>preset</strong> or keep the default gradient as your base</li>
+      <li>Choose the gradient type: <strong>linear</strong>, <strong>radial</strong>, or <strong>conic</strong></li>
+      <li>Adjust color values and stop positions until the preview matches the look you want</li>
+      <li>Change the angle for linear or conic gradients to test direction and visual emphasis</li>
+      <li>Copy the generated <strong>CSS output</strong> or <strong>background-image</strong> declaration into your project</li>
     </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="gradient-best-practices">
+    <h2 id="gradient-best-practices" class="text-xl font-bold text-[var(--color-text)] mb-3">Gradient Best Practices</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Start With a Job, Not Just a Palette</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">A background for a hero, card, or badge needs different contrast and energy. Decide the UI role first, then tune the gradient around it.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Keep Readability in Mind</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">If text sits on top of the gradient, check contrast and avoid mid-tone transitions that make headlines or buttons hard to read.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Use Fewer Stops for Cleaner UI</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Two or three well-placed stops often look more intentional than a crowded gradient with too many competing colors.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Match the Gradient to the Brand System</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">A strong gradient should still feel connected to the rest of the interface, especially buttons, accents, and card surfaces.</p>
+      </div>
+    </div>
   </section>
 
   <section slot="content" class="mt-8" aria-labelledby="related-content">
@@ -40,6 +85,28 @@ if (!tool) throw new Error('Tool not found: css-gradient-generator')
           </div>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="gradient-workflows">
+    <h2 id="gradient-workflows" class="text-xl font-bold text-[var(--color-text)] mb-3">Related Design Workflows</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <a href="/color-picker" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Color Picker</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Convert HEX, RGB, or HSL values before you lock a gradient into production CSS.</p>
+      </a>
+      <a href="/color-palette-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Color Palette Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Build a broader palette around your gradient so adjacent UI colors still feel consistent.</p>
+      </a>
+      <a href="/favicon-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Favicon Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Carry a chosen brand color direction into browser icons and app assets after defining your gradients.</p>
+      </a>
+      <a href="/image-compressor" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Image Compressor</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Compress exported social graphics or gradient-based design assets after your visual direction is set.</p>
+      </a>
     </div>
   </section>
 </ToolLayout>

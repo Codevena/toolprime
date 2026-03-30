@@ -4,6 +4,14 @@ import QRCode from 'qrcode'
 const SIZES = [256, 512, 1024] as const
 type Size = typeof SIZES[number]
 
+const presets = [
+  { label: 'Website', value: 'https://toolprime.dev' },
+  { label: 'WiFi', value: 'WIFI:T:WPA;S:MyWiFi;P:strongpassword123;;' },
+  { label: 'Email', value: 'mailto:hello@example.com?subject=Quick%20question' },
+  { label: 'Phone', value: 'tel:+491234567890' },
+  { label: 'vCard', value: 'BEGIN:VCARD\nVERSION:3.0\nFN:Alex Example\nORG:ToolPrime\nTEL:+491234567890\nEMAIL:alex@example.com\nEND:VCARD' },
+]
+
 export function QrCodeGenerator() {
   const [text, setText] = useState('https://toolprime.dev')
   const [size, setSize] = useState<Size>(256)
@@ -60,6 +68,21 @@ export function QrCodeGenerator() {
 
   return (
     <div className="space-y-6">
+      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-[var(--color-text)]">Popular presets:</span>
+          {presets.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => setText(preset.value)}
+              className="px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div>
         <label className="block text-sm font-medium mb-2">Text or URL</label>
         <input
@@ -69,6 +92,9 @@ export function QrCodeGenerator() {
           placeholder="Enter text or URL..."
           className="w-full p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
         />
+        <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+          Works for URLs, plain text, WiFi credentials, phone numbers, email links, and vCard contact info.
+        </p>
       </div>
 
       <div>
@@ -107,6 +133,27 @@ export function QrCodeGenerator() {
               Enter text above to generate QR code
             </div>
           )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <h3 className="text-sm font-semibold text-[var(--color-text)]">Print and signage</h3>
+            <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+              Use larger sizes for posters, menus, flyers, packaging, or in-store materials where scan distance matters.
+            </p>
+          </div>
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <h3 className="text-sm font-semibold text-[var(--color-text)]">Digital sharing</h3>
+            <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+              PNG is convenient for websites and slides. SVG is better when you need sharp scaling for print or design tools.
+            </p>
+          </div>
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+            <h3 className="text-sm font-semibold text-[var(--color-text)]">Testing</h3>
+            <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+              Always test the final QR code with a phone camera before distributing it, especially for printed assets.
+            </p>
+          </div>
         </div>
 
         <div className="flex gap-3">

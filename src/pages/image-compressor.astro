@@ -10,6 +10,29 @@ if (!tool) throw new Error('Tool not found: image-compressor')
 <ToolLayout tool={tool}>
   <ImageCompressor client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="image-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="image-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">Why Compress Images Before You Publish</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        Image compression reduces file size without forcing you into a slow design workflow. It helps pages load faster, reduces bandwidth usage, and makes uploads easier for websites, emails, marketplaces, and social posts. For most web images, even a moderate reduction can make a noticeable difference to page speed and conversion performance.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">SEO and Performance</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Smaller images reduce page weight and can improve load speed, Core Web Vitals, and mobile experience.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Uploads and Sharing</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Useful when sending files by email, uploading to marketplaces, or sharing product photos and screenshots.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Private Workflow</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Everything runs in your browser, so your images are not uploaded to a third-party server just to shrink the file.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Image Compressor</h2>
     <ol class="step-list" role="list">
@@ -18,5 +41,49 @@ if (!tool) throw new Error('Tool not found: image-compressor')
       <li>Preview the compressed result and compare file sizes</li>
       <li>Click <strong>Download</strong> to save the compressed image</li>
     </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="compression-tips">
+    <h2 id="compression-tips" class="text-xl font-bold text-[var(--color-text)] mb-3">Compression Tips</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Start Near 80% Quality</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">For blog images, product photos, and general website content, 80% is often a strong starting point with minimal visible quality loss.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Check Fine Details</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Zoom in on text, faces, logos, and sharp edges. Those are the areas where over-compression usually becomes obvious first.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Use Smaller Files for Faster Pages</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Large hero images and uncompressed screenshots are common reasons pages feel slow on mobile and low-bandwidth connections.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Keep Originals Separately</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Use compressed versions for publishing, but keep your original source files if you expect future edits or print use.</p>
+      </div>
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="image-next-steps">
+    <h2 id="image-next-steps" class="text-xl font-bold text-[var(--color-text)] mb-3">Related Design and Web Tools</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <a href="/css-gradient-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">CSS Gradient Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Pair optimized imagery with lightweight gradient surfaces for faster landing pages and cleaner visual hierarchy.</p>
+      </a>
+      <a href="/favicon-generator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Favicon Generator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Turn an optimized image into favicon files and app icons for websites and browsers.</p>
+      </a>
+      <a href="/image-to-base64" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Image to Base64</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Encode optimized images for inline usage after reducing file size first.</p>
+      </a>
+      <a href="/blog/optimize-images-for-the-web" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Image Optimization Guide</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Read the full guide on formats, compression, responsive images, and CDN optimization.</p>
+      </a>
+    </div>
   </section>
 </ToolLayout>

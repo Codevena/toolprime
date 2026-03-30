@@ -10,6 +10,29 @@ if (!tool) throw new Error('Tool not found: mortgage-calculator')
 <ToolLayout tool={tool}>
   <MortgageCalculator client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="mortgage-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="mortgage-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">What This Mortgage Estimate Helps You Answer</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        Use this calculator to estimate your monthly mortgage payment, total interest, and full repayment cost before you talk to a lender. It is most useful for comparing scenarios like 10% vs 20% down, 15-year vs 30-year terms, or how a higher interest rate changes the total cost of buying a home.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Budget Check</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">See whether a target home price fits your monthly payment range before you shop seriously.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Rate Comparison</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Compare multiple interest-rate scenarios to understand how sensitive your payment is to even small rate changes.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Term Tradeoffs</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Compare a 15-, 20-, and 30-year mortgage to see the balance between lower payments and lower lifetime interest.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Mortgage Calculator</h2>
     <ol class="step-list" role="list">
@@ -21,10 +44,63 @@ if (!tool) throw new Error('Tool not found: mortgage-calculator')
     </ol>
   </section>
 
+  <section slot="content" class="mt-8" aria-labelledby="important-notes">
+    <h2 id="important-notes" class="text-xl font-bold text-[var(--color-text)] mb-3">Important Mortgage Notes</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Principal and Interest Only</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">This estimate focuses on principal and interest. Your real monthly housing cost may also include taxes, homeowners insurance, HOA fees, and private mortgage insurance.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Down Payment Matters</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">A higher down payment lowers the loan amount and can improve your monthly payment. It may also reduce lending risk and help you avoid PMI at 20% down.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Shorter Terms Cost Less Overall</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">A shorter mortgage term usually means a higher monthly payment but substantially lower total interest over the life of the loan.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Use It for Scenario Planning</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Try several combinations before applying. That gives you a more realistic range and helps you compare tradeoffs before you commit.</p>
+      </div>
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="next-steps">
+    <h2 id="next-steps" class="text-xl font-bold text-[var(--color-text)] mb-3">Next Steps for Comparing Home Financing</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <a href="/loan-calculator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Loan Calculator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Compare general loan payments and test different borrowing amounts, rates, and repayment periods.</p>
+      </a>
+      <a href="/compound-interest-calculator" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Compound Interest Calculator</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Estimate what the same monthly payment could build elsewhere and compare financing cost against investment growth.</p>
+      </a>
+      <a href="/currency-converter" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Currency Converter</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Useful for relocation, overseas property research, or comparing home costs across currencies before deeper financing analysis.</p>
+      </a>
+      <a href="/calculators" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Pre-Calculated Mortgage Pages</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Jump into common mortgage combinations if you want a fast answer before adjusting the numbers yourself.</p>
+      </a>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="related-content">
     <h2 id="related-content" class="text-xl font-bold text-[var(--color-text)] mb-3">Pre-Calculated Mortgage Payments</h2>
     <p class="text-[var(--color-text-muted)]">
       Browse our <a href="/calculators" class="text-[var(--color-primary)] underline hover:no-underline">pre-calculated mortgage payment pages</a> for instant answers to common scenarios like "$200,000 mortgage at 5%" or "$500,000 mortgage at 7%". Over 650 combinations are available.
     </p>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="mortgage-disclaimer">
+    <div class="rounded-xl border px-4 py-3 text-sm" style="background: var(--color-warning-bg, var(--color-surface-alt)); border-color: var(--color-border); color: var(--color-text-muted);">
+      <h2 id="mortgage-disclaimer" class="font-semibold text-[var(--color-text)] mb-1">Planning Tool, Not Financial Advice</h2>
+      <p>
+        This calculator is designed for quick mortgage planning and comparison. Actual loan offers depend on your credit profile, lender requirements, taxes, insurance, fees, and market conditions.
+      </p>
+    </div>
   </section>
 </ToolLayout>

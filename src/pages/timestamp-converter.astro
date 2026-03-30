@@ -10,14 +10,81 @@ if (!tool) throw new Error('Tool not found: timestamp-converter')
 <ToolLayout tool={tool}>
   <TimestampConverter client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="timestamp-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="timestamp-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">What This Timestamp Converter Helps You Do</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        Use this tool when you need to turn Unix timestamps into readable dates, convert human-readable dates back into Unix time, or verify whether a system is using seconds or milliseconds. It is especially useful for API debugging, log review, database exports, analytics checks, and ops handoffs across timezones.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Debug Event Timelines</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Translate raw timestamps from logs, webhooks, and queue messages into times you can actually reason about.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Check UTC vs. Local Time</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Compare both formats side by side so timezone differences are explicit during debugging or incident review.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Catch Unit Mistakes</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">A timestamp that looks wildly wrong often comes from mixing up seconds and milliseconds. This tool makes that easy to verify.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Timestamp Converter</h2>
     <ol class="step-list" role="list">
-      <li>View the current Unix timestamp updating in real time</li>
-      <li>Enter a Unix timestamp to convert to a human-readable date</li>
-      <li>Or enter a date to convert to a Unix timestamp</li>
-      <li>Toggle between seconds and milliseconds</li>
-      <li>Copy any value with one click</li>
+      <li>Use the live <strong>current Unix timestamp</strong> as a quick reference or starting point</li>
+      <li>Pick a preset or paste your own timestamp to convert it into <strong>local time</strong>, <strong>UTC</strong>, and <strong>ISO 8601</strong></li>
+      <li>Switch between <strong>seconds</strong> and <strong>milliseconds</strong> if the output looks too early or too far in the future</li>
+      <li>Enter a date and time in the second panel to convert it back into a Unix timestamp</li>
+      <li>Copy the exact output you need for debugging notes, code, tickets, or data cleanup</li>
     </ol>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="timestamp-best-practices">
+    <h2 id="timestamp-best-practices" class="text-xl font-bold text-[var(--color-text)] mb-3">Timestamp Best Practices</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Confirm the Unit First</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Before debugging anything else, verify whether the source system stores Unix time in seconds or milliseconds. That single mismatch explains many bad dates.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Prefer UTC for Shared Debugging</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">UTC removes ambiguity when multiple developers, analysts, or systems in different regions need to discuss the same event timestamp.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Keep ISO 8601 Handy</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">ISO timestamps are usually the easiest format for APIs, docs, tickets, and logs because the structure is explicit and machine-friendly.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Compare Source and Output</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">When something looks wrong, compare the raw timestamp, UTC output, and local output together instead of relying on only one representation.</p>
+      </div>
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="timestamp-workflows">
+    <h2 id="timestamp-workflows" class="text-xl font-bold text-[var(--color-text)] mb-3">Related Developer Workflows</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <a href="/json-formatter" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">JSON Formatter</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Useful when timestamps are buried inside API payloads, event objects, or exported JSON files.</p>
+      </a>
+      <a href="/regex-tester" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Regex Tester</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Extract candidate timestamps from logs or freeform text before converting them into readable dates.</p>
+      </a>
+      <a href="/base64-encode-decode" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Base64 Encode & Decode</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Decode encoded event data first if the timestamp is wrapped inside a token or serialized payload.</p>
+      </a>
+      <a href="/diff-checker" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Diff Checker</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Compare two timeline exports or config snapshots after normalizing timestamp formats.</p>
+      </a>
+    </div>
   </section>
 </ToolLayout>

@@ -10,19 +10,64 @@ if (!tool) throw new Error('Tool not found: regex-tester')
 <ToolLayout tool={tool}>
   <RegexTester client:load />
 
+  <section slot="content" class="mt-8" aria-labelledby="regex-overview">
+    <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">
+      <h2 id="regex-overview" class="text-xl font-bold text-[var(--color-text)] mb-3">What This Regex Tester Is Best For</h2>
+      <p class="text-sm leading-relaxed text-[var(--color-text-muted)] mb-4">
+        Use this page when you need to validate a regular expression, inspect capture groups, or compare how flags change the result before you move the pattern into production code. It is especially useful for parsing logs, validating form inputs, extracting fields from text, and debugging search rules.
+      </p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Pattern Validation</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Catch invalid syntax and flag mistakes before the pattern reaches app code, automation, or a form validator.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Capture Group Debugging</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">See what each group actually extracts so replacements, parsers, and downstream transforms are easier to trust.</p>
+        </div>
+        <div class="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+          <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Flag Testing</h3>
+          <p class="text-sm text-[var(--color-text-muted)]">Compare global, multiline, case-insensitive, and dotall behavior against realistic sample text instead of guessing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section slot="content" class="mt-8" aria-labelledby="how-to-use">
     <h2 id="how-to-use" class="text-xl font-bold text-[var(--color-text)] mb-3">How to Use the Regex Tester</h2>
     <ol class="step-list" role="list">
-      <li>Enter your regex pattern in the pattern field</li>
-      <li>Toggle flags: global (g), case-insensitive (i), multiline (m)</li>
-      <li>Paste your test string in the text area</li>
-      <li>See matches highlighted in real time with capture groups</li>
-      <li>View match details including index positions</li>
+      <li>Start with one of the built-in <strong>examples</strong> or paste your own regex pattern</li>
+      <li>Toggle flags such as <strong>g</strong>, <strong>i</strong>, <strong>m</strong>, and <strong>s</strong> to mirror your real runtime behavior</li>
+      <li>Paste a sample string, payload, log line, or block of text into the test area</li>
+      <li>Review the <strong>highlighted matches</strong>, total match count, and any syntax errors immediately</li>
+      <li>Check <strong>capture groups and match indexes</strong> before copying the pattern into code or a validator</li>
     </ol>
   </section>
 
-  <section slot="content" class="mt-8" aria-labelledby="related-content">
-    <h2 id="related-content" class="text-xl font-bold text-[var(--color-text)] mb-3">Common Regex Patterns</h2>
+  <section slot="content" class="mt-8" aria-labelledby="regex-best-practices">
+    <h2 id="regex-best-practices" class="text-xl font-bold text-[var(--color-text)] mb-3">Regex Best Practices</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Test With Realistic Input</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">A pattern that works on a short demo string can still fail on multiline logs, escaped characters, or unexpected whitespace in production.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Use Flags Deliberately</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">The same pattern can behave very differently with or without global or multiline matching. Verify the exact combination you plan to ship.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Keep Capture Groups Intentional</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Only capture the pieces you actually need. Extra groups make replacement logic and downstream parsing harder to maintain.</p>
+      </div>
+      <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Validate Before Embedding</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Before you add a regex to app code, CMS rules, or data cleanup scripts, confirm it matches the intended values and nothing else.</p>
+      </div>
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="common-patterns">
+    <h2 id="common-patterns" class="text-xl font-bold text-[var(--color-text)] mb-3">Common Regex Patterns</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
       {[
         { slug: 'email-validation', name: 'Email' },
@@ -37,6 +82,28 @@ if (!tool) throw new Error('Tool not found: regex-tester')
           <span class="text-sm font-medium">Regex for {p.name}</span>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section slot="content" class="mt-8" aria-labelledby="regex-workflows">
+    <h2 id="regex-workflows" class="text-xl font-bold text-[var(--color-text)] mb-3">Related Developer Workflows</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <a href="/json-formatter" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">JSON Formatter</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Format payloads first, then test regex patterns against clearer nested values and string fields.</p>
+      </a>
+      <a href="/diff-checker" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Diff Checker</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Compare two text versions after a regex cleanup or replacement step to verify what changed.</p>
+      </a>
+      <a href="/base64-encode-decode" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Base64 Encode & Decode</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Decode tokens or encoded payloads before trying to extract values with regular expressions.</p>
+      </a>
+      <a href="/timestamp-converter" class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4 hover:border-[var(--color-primary)] transition-colors">
+        <h3 class="text-sm font-semibold text-[var(--color-text)] mb-1">Timestamp Converter</h3>
+        <p class="text-sm text-[var(--color-text-muted)]">Useful when your regex pulls Unix timestamps out of logs, events, or exported datasets.</p>
+      </a>
     </div>
   </section>
 </ToolLayout>

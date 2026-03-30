@@ -22,6 +22,15 @@ function formatResult(value: number): string {
   return value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
+const popularPairs = [
+  { label: 'USD -> EUR', from: 'USD', to: 'EUR', amount: 100 },
+  { label: 'EUR -> USD', from: 'EUR', to: 'USD', amount: 100 },
+  { label: 'USD -> GBP', from: 'USD', to: 'GBP', amount: 100 },
+  { label: 'USD -> JPY', from: 'USD', to: 'JPY', amount: 100 },
+  { label: 'USD -> CAD', from: 'USD', to: 'CAD', amount: 100 },
+  { label: 'BTC -> USD', from: 'BTC', to: 'USD', amount: 1 },
+]
+
 interface CurrencyConverterProps {
   defaultFrom?: string
   defaultTo?: string
@@ -72,6 +81,10 @@ export function CurrencyConverter({
   }, [parsedAmount, fromCode, toCode, rates])
 
   const rate = useMemo(() => convert(1, fromCode, toCode, rates), [fromCode, toCode, rates])
+  const reverseRate = useMemo(() => convert(1, toCode, fromCode, rates), [fromCode, toCode, rates])
+  const fromCurrency = useMemo(() => CURRENCIES.find((c) => c.code === fromCode), [fromCode])
+  const toCurrency = useMemo(() => CURRENCIES.find((c) => c.code === toCode), [toCode])
+  const amountValue = isNaN(parsedAmount) ? 0 : parsedAmount
 
   const handleSwap = useCallback(() => {
     setFromCode(toCode)
@@ -83,6 +96,25 @@ export function CurrencyConverter({
 
   return (
     <div className="space-y-6">
+      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-[var(--color-text)]">Popular pairs:</span>
+          {popularPairs.map((pair) => (
+            <button
+              key={pair.label}
+              onClick={() => {
+                setFromCode(pair.from)
+                setToCode(pair.to)
+                setAmount(String(pair.amount))
+              }}
+              className="px-3 py-1.5 rounded-full border border-[var(--color-border)] bg-[var(--color-surface-alt)] text-sm text-[var(--color-text)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-colors"
+            >
+              {pair.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Amount input */}
       <div>
         <label htmlFor="cc-amount" className="block text-sm font-medium mb-1">Amount</label>
@@ -168,13 +200,42 @@ export function CurrencyConverter({
           Please enter a positive amount.
         </div>
       ) : result !== null ? (
-        <div role="status" aria-live="polite" className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6">
-          <div className="text-sm text-[var(--color-text-muted)]">{amount} {fromCode} =</div>
-          <div className="text-3xl font-bold text-[var(--color-primary-text)]">
-            {formatResult(result)} {toCode}
+        <div role="status" aria-live="polite" className="space-y-4">
+          <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-6">
+            <div className="text-sm text-[var(--color-text-muted)]">{amount} {fromCode} =</div>
+            <div className="text-3xl font-bold text-[var(--color-primary-text)]">
+              {formatResult(result)} {toCode}
+            </div>
+            <div className="text-sm text-[var(--color-text-muted)] mt-1">
+              1 {fromCode} = {formatResult(rate)} {toCode}
+            </div>
+            <div className="text-sm text-[var(--color-text-muted)]">
+              1 {toCode} = {formatResult(reverseRate)} {fromCode}
+            </div>
+            <p className="mt-3 text-sm text-[var(--color-text-muted)]">
+              Use this estimate for travel budgets, invoice planning, online shopping comparisons, or quick crypto-to-fiat checks.
+            </p>
           </div>
-          <div className="text-sm text-[var(--color-text-muted)] mt-1">
-            1 {fromCode} = {formatResult(rate)} {toCode}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">Current pair</h3>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                {fromCurrency?.name ?? fromCode} to {toCurrency?.name ?? toCode}
+              </p>
+            </div>
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">Reference rate</h3>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                {formatResult(rate)} {toCode} per 1 {fromCode}
+              </p>
+            </div>
+            <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">Amount context</h3>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                {amountValue > 0 ? `${amountValue.toLocaleString('en-US')} ${fromCode} converted instantly using the latest available rate data.` : 'Enter an amount to compare currencies instantly.'}
+              </p>
+            </div>
           </div>
         </div>
       ) : null}

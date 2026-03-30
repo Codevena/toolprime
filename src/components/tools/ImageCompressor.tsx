@@ -16,6 +16,12 @@ function formatBytes(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`
 }
 
+const qualityPresets = [
+  { label: 'Web', value: 80, description: 'Balanced for websites and blog images' },
+  { label: 'Email', value: 65, description: 'Smaller files for attachments and sharing' },
+  { label: 'High', value: 90, description: 'Higher detail with lighter compression' },
+]
+
 export function ImageCompressor() {
   const [quality, setQuality] = useState(80)
   const [fileInfo, setFileInfo] = useState<FileInfo | null>(null)
@@ -41,10 +47,10 @@ export function ImageCompressor() {
       setFileInfo((prev) => {
         if (prev?.compressedUrl) URL.revokeObjectURL(prev.compressedUrl)
         return {
-          name: file.name,
-          originalSize: file.size,
+          name: prev?.name ?? file.name,
+          originalSize: prev?.originalSize ?? file.size,
           compressedSize: compressed.size,
-          originalUrl: prev?.originalUrl ?? URL.createObjectURL(file),
+          originalUrl: prev?.originalUrl ?? null,
           compressedUrl,
           compressedBlob: compressed,
         }
@@ -114,6 +120,26 @@ export function ImageCompressor() {
 
   return (
     <div className="space-y-6">
+      <div className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+        <div className="flex flex-wrap items-start gap-2">
+          <span className="text-sm font-medium text-[var(--color-text)]">Quick presets:</span>
+          {qualityPresets.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => setQuality(preset.value)}
+              className={`px-3 py-1.5 rounded-full border text-sm transition-colors ${
+                quality === preset.value
+                  ? 'border-[var(--color-primary)] text-[var(--color-primary)] bg-[var(--color-surface-alt)]'
+                  : 'border-[var(--color-border)] bg-[var(--color-surface-alt)] text-[var(--color-text)] hover:border-[var(--color-primary)]'
+              }`}
+              title={preset.description}
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Drop zone */}
       <div
         onClick={() => inputRef.current?.click()}
@@ -190,6 +216,52 @@ export function ImageCompressor() {
               {savings > 0 ? `${savings}% smaller` : 'No size reduction at this quality'}
             </div>
           )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-3">
+              <div className="text-sm font-medium text-[var(--color-text)] mb-2">Original</div>
+              <img
+                src={fileInfo.originalUrl}
+                alt="Original upload preview"
+                className="w-full max-h-64 object-contain rounded-lg bg-[var(--color-surface-alt)]"
+              />
+            </div>
+            <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-3">
+              <div className="text-sm font-medium text-[var(--color-text)] mb-2">Compressed preview</div>
+              {fileInfo.compressedUrl ? (
+                <img
+                  src={fileInfo.compressedUrl}
+                  alt="Compressed image preview"
+                  className="w-full max-h-64 object-contain rounded-lg bg-[var(--color-surface-alt)]"
+                />
+              ) : (
+                <div className="flex items-center justify-center h-64 rounded-lg bg-[var(--color-surface-alt)] text-sm text-[var(--color-text-muted)]">
+                  Preview will appear after compression.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">Web performance</h3>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                Smaller images reduce page weight and can improve Core Web Vitals, especially on mobile connections.
+              </p>
+            </div>
+            <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">Quality tradeoff</h3>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                Start around 80% for web use, then lower the quality until you notice visible artifacts.
+              </p>
+            </div>
+            <div className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-4">
+              <h3 className="text-sm font-semibold text-[var(--color-text)]">Privacy</h3>
+              <p className="mt-2 text-sm text-[var(--color-text-muted)]">
+                Compression happens locally in your browser, so product photos and sensitive images never leave your device.
+              </p>
+            </div>
+          </div>
 
           <button
             onClick={handleDownload}
