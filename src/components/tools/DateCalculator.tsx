@@ -31,6 +31,7 @@ export function DateCalculator() {
         {(['between', 'add', 'subtract'] as const).map((m) => (
           <button
             key={m}
+            type="button"
             onClick={() => setMode(m)}
             className={`px-4 py-2 rounded-lg border transition-colors text-sm font-medium ${
               mode === m

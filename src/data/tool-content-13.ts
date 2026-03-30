@@ -187,7 +187,7 @@ export const toolContent13: Record<string, ToolContent> = {
       headers: ['Frequency', 'Times/Year', '$10,000 at 8% for 10 Years', 'Total Interest'],
       rows: [
         ['Annual', '1', '$21,589', '$11,589'],
-        ['Quarterly', '4', '$21,911', '$11,911'],
+        ['Quarterly', '4', '$22,080', '$12,080'],
         ['Monthly', '12', '$22,196', '$12,196'],
         ['Daily', '365', '$22,253', '$12,253'],
       ],
@@ -253,8 +253,8 @@ export const toolContent13: Record<string, ToolContent> = {
       heading: 'Loan Term Comparison ($200,000 at 6%)',
       headers: ['Term', 'Monthly Payment', 'Total Interest', 'Total Paid'],
       rows: [
-        ['5 Years', '$3,867', '$31,990', '$231,990'],
-        ['10 Years', '$2,220', '$66,394', '$266,394'],
+        ['5 Years', '$3,867', '$31,994', '$231,994'],
+        ['10 Years', '$2,220', '$66,449', '$266,449'],
         ['15 Years', '$1,688', '$103,788', '$303,788'],
         ['20 Years', '$1,433', '$143,886', '$343,886'],
         ['30 Years', '$1,199', '$231,677', '$431,677'],

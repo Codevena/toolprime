@@ -163,7 +163,7 @@ export function CompoundInterestCalculator({ defaultPrincipal, defaultRate, defa
             <div className="mt-6">
               <h3 className="text-sm font-medium text-[var(--color-text-muted)] mb-2">Growth Over Time</h3>
               <div className="w-full" style={{ height: '200px' }}>
-                <canvas ref={canvasRef} className="w-full h-full" />
+                <canvas ref={canvasRef} className="w-full h-full" role="img" aria-label="Bar chart showing compound interest growth over time" />
               </div>
             </div>
           )}

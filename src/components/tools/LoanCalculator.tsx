@@ -170,7 +170,7 @@ export function LoanCalculator({ defaultAmount, defaultRate, defaultYears }: Pro
           <div className="mt-6 flex flex-col items-center">
             <h3 className="text-sm font-medium text-[var(--color-text-muted)] mb-2">Principal vs Interest</h3>
             <div style={{ width: '180px', height: '180px' }}>
-              <canvas ref={canvasRef} className="w-full h-full" />
+              <canvas ref={canvasRef} className="w-full h-full" role="img" aria-label="Donut chart showing principal versus interest breakdown" />
             </div>
             <div className="flex gap-4 mt-2 text-xs text-[var(--color-text-muted)]">
               <span className="flex items-center gap-1">

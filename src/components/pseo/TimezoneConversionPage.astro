@@ -26,6 +26,18 @@ const toOffset = getUtcOffset(to.timezone, now)
 const related = getRelatedPairEntries(from.slug, to.slug, 8)
 const ahead = hourDiff >= 0 ? 'ahead of' : 'behind'
 const diff = Math.abs(hourDiff)
+const diffHours = Math.floor(diff)
+const diffMinutes = Math.round((diff - diffHours) * 60)
+
+function formatHourRow(h: number, offsetHours: number): string {
+  const totalMinutes = h * 60 + Math.round(offsetHours * 60)
+  let m = ((totalMinutes % (24 * 60)) + 24 * 60) % (24 * 60)
+  const hr = Math.floor(m / 60)
+  const min = m % 60
+  const period = hr >= 12 ? 'PM' : 'AM'
+  const displayHr = hr === 0 ? 12 : hr > 12 ? hr - 12 : hr
+  return min === 0 ? `${displayHr}:00 ${period}` : `${displayHr}:${String(min).padStart(2, '0')} ${period}`
+}
 ---
 
 <SchemaMarkup json={timezoneFaqSchema(from.name, to.name, hourDiff)} />
@@ -40,7 +52,7 @@ const diff = Math.abs(hourDiff)
 </h1>
 
 <p class="text-[var(--color-text-muted)] mb-6">
-  {to.name} is <strong>{diff} hour{diff !== 1 ? 's' : ''} {ahead} {from.name}</strong>.
+  {to.name} is <strong>{diffMinutes > 0 ? `${diffHours} hour${diffHours !== 1 ? 's' : ''} ${diffMinutes} minutes` : `${diffHours} hour${diffHours !== 1 ? 's' : ''}`} {ahead} {from.name}</strong>.
   {from.name} is {fromOffset}, {to.name} is {toOffset}.
 </p>
 
@@ -65,10 +77,8 @@ const diff = Math.abs(hourDiff)
       </thead>
       <tbody>
         {Array.from({ length: 24 }, (_, h) => {
-          const fromHour = h === 0 ? '12:00 AM' : h < 12 ? `${h}:00 AM` : h === 12 ? '12:00 PM' : `${h - 12}:00 PM`
-          let toH = (h + hourDiff) % 24
-          if (toH < 0) toH += 24
-          const toHour = toH === 0 ? '12:00 AM' : toH < 12 ? `${toH}:00 AM` : toH === 12 ? '12:00 PM' : `${toH - 12}:00 PM`
+          const fromHour = formatHourRow(h, 0)
+          const toHour = formatHourRow(h, hourDiff)
           return (
             <tr class="border-b border-[var(--color-border)] last:border-0">
               <td class="py-1.5 px-3 font-mono">{fromHour}</td>

@@ -38,33 +38,24 @@ export const daysFromTodayEntries: DaysFromTodayEntry[] = daysValues.map((d) => 
   days: d,
 }))
 
-// Holiday countdowns (annual)
+// Holiday countdowns — fixed-date holidays only.
+// Moveable holidays (Mother's Day, Thanksgiving, etc.) and lunar/religious holidays
+// (Chinese New Year, Diwali, Ramadan, etc.) are excluded because they require
+// complex calendar calculations that cannot be done with fixed month/day values.
 export const holidays: HolidayCountdownEntry[] = [
   { slug: 'days-until-new-years-day', name: "New Year's Day", month: 1, day: 1 },
   { slug: 'days-until-valentines-day', name: "Valentine's Day", month: 2, day: 14 },
+  { slug: 'days-until-international-womens-day', name: "International Women's Day", month: 3, day: 8 },
   { slug: 'days-until-st-patricks-day', name: "St. Patrick's Day", month: 3, day: 17 },
   { slug: 'days-until-april-fools-day', name: "April Fools' Day", month: 4, day: 1 },
   { slug: 'days-until-earth-day', name: 'Earth Day', month: 4, day: 22 },
-  { slug: 'days-until-mothers-day', name: "Mother's Day (US)", month: 5, day: 11 },
-  { slug: 'days-until-fathers-day', name: "Father's Day (US)", month: 6, day: 15 },
+  { slug: 'days-until-world-environment-day', name: 'World Environment Day', month: 6, day: 5 },
   { slug: 'days-until-independence-day', name: 'Independence Day (US)', month: 7, day: 4 },
-  { slug: 'days-until-labor-day', name: 'Labor Day (US)', month: 9, day: 1 },
   { slug: 'days-until-halloween', name: 'Halloween', month: 10, day: 31 },
   { slug: 'days-until-veterans-day', name: 'Veterans Day', month: 11, day: 11 },
-  { slug: 'days-until-thanksgiving', name: 'Thanksgiving (US)', month: 11, day: 27 },
   { slug: 'days-until-christmas-eve', name: 'Christmas Eve', month: 12, day: 24 },
   { slug: 'days-until-christmas', name: 'Christmas Day', month: 12, day: 25 },
   { slug: 'days-until-new-years-eve', name: "New Year's Eve", month: 12, day: 31 },
-  { slug: 'days-until-black-friday', name: 'Black Friday', month: 11, day: 28 },
-  { slug: 'days-until-cyber-monday', name: 'Cyber Monday', month: 12, day: 1 },
-  { slug: 'days-until-chinese-new-year', name: 'Chinese New Year', month: 1, day: 29 },
-  { slug: 'days-until-international-womens-day', name: "International Women's Day", month: 3, day: 8 },
-  { slug: 'days-until-world-environment-day', name: 'World Environment Day', month: 6, day: 5 },
-  { slug: 'days-until-oktoberfest', name: 'Oktoberfest', month: 9, day: 20 },
-  { slug: 'days-until-diwali', name: 'Diwali', month: 10, day: 20 },
-  { slug: 'days-until-hanukkah', name: 'Hanukkah', month: 12, day: 14 },
-  { slug: 'days-until-ramadan', name: 'Ramadan', month: 2, day: 28 },
-  { slug: 'days-until-eid-al-fitr', name: 'Eid al-Fitr', month: 3, day: 30 },
 ]
 
 // Days between two dates (popular date ranges)

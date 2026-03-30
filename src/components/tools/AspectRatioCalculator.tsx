@@ -113,8 +113,9 @@ export function AspectRatioCalculator({ defaultWidth, defaultHeight }: AspectRat
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className={labelClass}>Width (px)</label>
+              <label htmlFor="calc-width" className={labelClass}>Width (px)</label>
               <input
+                id="calc-width"
                 type="number"
                 min="1"
                 value={calcWidth}
@@ -123,8 +124,9 @@ export function AspectRatioCalculator({ defaultWidth, defaultHeight }: AspectRat
               />
             </div>
             <div>
-              <label className={labelClass}>Height (px)</label>
+              <label htmlFor="calc-height" className={labelClass}>Height (px)</label>
               <input
+                id="calc-height"
                 type="number"
                 min="1"
                 value={calcHeight}
@@ -173,9 +175,10 @@ export function AspectRatioCalculator({ defaultWidth, defaultHeight }: AspectRat
         <div className="space-y-4">
           {/* Ratio inputs */}
           <div>
-            <label className={labelClass}>Aspect Ratio</label>
+            <label htmlFor="ratio-w" className={labelClass}>Aspect Ratio</label>
             <div className="flex items-center gap-2">
               <input
+                id="ratio-w"
                 type="number"
                 min="1"
                 value={ratioW}
@@ -185,6 +188,7 @@ export function AspectRatioCalculator({ defaultWidth, defaultHeight }: AspectRat
               />
               <span className="text-[var(--color-text-muted)] font-bold">:</span>
               <input
+                id="ratio-h"
                 type="number"
                 min="1"
                 value={ratioH}
@@ -231,8 +235,9 @@ export function AspectRatioCalculator({ defaultWidth, defaultHeight }: AspectRat
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className={labelClass}>Width (px)</label>
+              <label htmlFor="resize-width" className={labelClass}>Width (px)</label>
               <input
+                id="resize-width"
                 type="number"
                 min="1"
                 value={lockDim === 'width' ? resizeWidth : (resizeResult?.width.toString() ?? '')}
@@ -242,8 +247,9 @@ export function AspectRatioCalculator({ defaultWidth, defaultHeight }: AspectRat
               />
             </div>
             <div>
-              <label className={labelClass}>Height (px)</label>
+              <label htmlFor="resize-height" className={labelClass}>Height (px)</label>
               <input
+                id="resize-height"
                 type="number"
                 min="1"
                 value={lockDim === 'height' ? resizeHeight : (resizeResult?.height.toString() ?? '')}

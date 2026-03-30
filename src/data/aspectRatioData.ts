@@ -72,7 +72,7 @@ export const deviceEntries: DeviceEntry[] = [
   { slug: 'macbook-pro-16-resolution', name: 'MacBook Pro 16"', width: 3456, height: 2234, ratio: '1728:1117', ppi: 254, category: 'Laptop' },
   { slug: 'macbook-pro-14-resolution', name: 'MacBook Pro 14"', width: 3024, height: 1964, ratio: '756:491', ppi: 254, category: 'Laptop' },
   { slug: 'macbook-air-15-resolution', name: 'MacBook Air 15"', width: 2880, height: 1864, ratio: '360:233', ppi: 224, category: 'Laptop' },
-  { slug: 'macbook-air-13-resolution', name: 'MacBook Air 13"', width: 2560, height: 1664, ratio: '160:104', ppi: 224, category: 'Laptop' },
+  { slug: 'macbook-air-13-resolution', name: 'MacBook Air 13"', width: 2560, height: 1664, ratio: '20:13', ppi: 224, category: 'Laptop' },
   { slug: '4k-monitor-resolution', name: '4K UHD Monitor', width: 3840, height: 2160, ratio: '16:9', ppi: 163, category: 'Monitor' },
   { slug: '1440p-monitor-resolution', name: 'QHD Monitor', width: 2560, height: 1440, ratio: '16:9', ppi: 109, category: 'Monitor' },
   { slug: '1080p-monitor-resolution', name: 'Full HD Monitor', width: 1920, height: 1080, ratio: '16:9', ppi: 92, category: 'Monitor' },
