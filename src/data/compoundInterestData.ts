@@ -6,9 +6,9 @@ export interface CompoundInterestEntry {
   result: number
 }
 
-const principals = [1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000]
-const rates = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15]
-const periods = [1, 2, 3, 5, 10, 15, 20, 25, 30]
+const principals = [1000, 2000, 5000, 10000, 15000, 25000, 50000, 75000, 100000, 150000, 250000, 500000]
+const rates = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 20]
+const periods = [1, 2, 3, 5, 7, 10, 15, 20, 25, 30, 40]
 
 function compoundInterest(principal: number, rate: number, years: number): number {
   return principal * Math.pow(1 + rate / 100, years)
@@ -31,7 +31,7 @@ function generateEntries(): CompoundInterestEntry[] {
 }
 
 export const compoundInterestEntries = generateEntries()
-// 8 principals × 12 rates × 9 periods = 864 entries
+// 12 principals × 14 rates × 11 periods = 1,848 entries
 
 export { compoundInterest }
 
