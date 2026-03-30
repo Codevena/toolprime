@@ -27,10 +27,10 @@ const monthLabels = ['January', 'February', 'March', 'April', 'May', 'June',
 
 export { monthLabels }
 
-// "X days from today" pages: 1-365 + popular values
+// "X days from today" pages: 1-730 + popular values
 const daysValues = [
-  ...Array.from({ length: 365 }, (_, i) => i + 1),
-  400, 500, 730, 1000, 1095, 1460, 1825,
+  ...Array.from({ length: 730 }, (_, i) => i + 1),
+  1000, 1095, 1460, 1825,
 ]
 
 export const daysFromTodayEntries: DaysFromTodayEntry[] = daysValues.map((d) => ({
@@ -56,6 +56,18 @@ export const holidays: HolidayCountdownEntry[] = [
   { slug: 'days-until-christmas-eve', name: 'Christmas Eve', month: 12, day: 24 },
   { slug: 'days-until-christmas', name: 'Christmas Day', month: 12, day: 25 },
   { slug: 'days-until-new-years-eve', name: "New Year's Eve", month: 12, day: 31 },
+  { slug: 'days-until-groundhog-day', name: 'Groundhog Day', month: 2, day: 2 },
+  { slug: 'days-until-pi-day', name: 'Pi Day', month: 3, day: 14 },
+  { slug: 'days-until-star-wars-day', name: 'Star Wars Day', month: 5, day: 4 },
+  { slug: 'days-until-juneteenth', name: 'Juneteenth', month: 6, day: 19 },
+  { slug: 'days-until-bastille-day', name: 'Bastille Day', month: 7, day: 14 },
+  { slug: 'days-until-canada-day', name: 'Canada Day', month: 7, day: 1 },
+  { slug: 'days-until-day-of-the-dead', name: 'Day of the Dead', month: 11, day: 1 },
+  { slug: 'days-until-boxing-day', name: 'Boxing Day', month: 12, day: 26 },
+  { slug: 'days-until-german-unity-day', name: 'German Unity Day', month: 10, day: 3 },
+  { slug: 'days-until-australia-day', name: 'Australia Day', month: 1, day: 26 },
+  { slug: 'days-until-world-health-day', name: 'World Health Day', month: 4, day: 7 },
+  { slug: 'days-until-international-workers-day', name: "International Workers' Day", month: 5, day: 1 },
 ]
 
 // Days between two dates (popular date ranges)
@@ -95,7 +107,7 @@ export interface WeeksFromTodayEntry {
   weeks: number
 }
 
-export const weeksFromTodayEntries: WeeksFromTodayEntry[] = Array.from({ length: 104 }, (_, i) => ({
+export const weeksFromTodayEntries: WeeksFromTodayEntry[] = Array.from({ length: 156 }, (_, i) => ({
   slug: `${i + 1}-weeks-from-today`,
   weeks: i + 1,
 }))
@@ -105,7 +117,7 @@ export interface MonthsFromTodayEntry {
   months: number
 }
 
-export const monthsFromTodayEntries: MonthsFromTodayEntry[] = Array.from({ length: 60 }, (_, i) => ({
+export const monthsFromTodayEntries: MonthsFromTodayEntry[] = Array.from({ length: 120 }, (_, i) => ({
   slug: `${i + 1}-months-from-today`,
   months: i + 1,
 }))
@@ -115,7 +127,7 @@ export interface DaysAgoEntry {
   days: number
 }
 
-const daysAgoValues = Array.from({ length: 365 }, (_, i) => i + 1)
+const daysAgoValues = Array.from({ length: 730 }, (_, i) => i + 1)
 
 export const daysAgoEntries: DaysAgoEntry[] = daysAgoValues.map((d) => ({
   slug: `${d}-days-ago`,
@@ -147,12 +159,36 @@ export const extendedDaysBetweenEntries: DaysBetweenEntry[] = extendedDateRanges
     toDay: td,
   }))
 
+// Month-end to month-end pairs
+const monthEndDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+const monthEndPairs: [number, number, number, number][] = []
+for (let from = 0; from < 12; from++) {
+  for (let to = from + 1; to < 12; to++) {
+    monthEndPairs.push([from + 1, monthEndDays[from], to + 1, monthEndDays[to]])
+  }
+}
+
+export const monthEndDaysBetweenEntries: DaysBetweenEntry[] = monthEndPairs
+  .filter(([fm, fd, tm, td]) => {
+    const slug = `days-between-${monthNames[fm - 1]}-${fd}-and-${monthNames[tm - 1]}-${td}`
+    return !daysBetweenEntries.some((e) => e.slug === slug) &&
+      !extendedDaysBetweenEntries.some((e) => e.slug === slug)
+  })
+  .map(([fm, fd, tm, td]) => ({
+    slug: `days-between-${monthNames[fm - 1]}-${fd}-and-${monthNames[tm - 1]}-${td}`,
+    fromMonth: fm,
+    fromDay: fd,
+    toMonth: tm,
+    toDay: td,
+  }))
+
 // All date calc entries combined
 export const allDateCalcSlugs = [
   ...daysFromTodayEntries.map((e) => e.slug),
   ...holidays.map((e) => e.slug),
   ...daysBetweenEntries.map((e) => e.slug),
   ...extendedDaysBetweenEntries.map((e) => e.slug),
+  ...monthEndDaysBetweenEntries.map((e) => e.slug),
   ...weekNumberEntries.map((e) => e.slug),
   ...weeksFromTodayEntries.map((e) => e.slug),
   ...monthsFromTodayEntries.map((e) => e.slug),

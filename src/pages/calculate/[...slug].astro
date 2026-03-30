@@ -20,6 +20,7 @@ import {
   holidays,
   daysBetweenEntries,
   extendedDaysBetweenEntries,
+  monthEndDaysBetweenEntries,
   weekNumberEntries,
   weeksFromTodayEntries,
   monthsFromTodayEntries,
@@ -99,6 +100,19 @@ export function getStaticPaths() {
   }))
 
   const extendedDaysBetweenPaths = extendedDaysBetweenEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: {
+      type: 'dateCalc' as const,
+      age: null, fraction: null, decimal: null,
+      dateCalcType: 'daysBetween',
+      dateCalcProps: { fromMonth: entry.fromMonth, fromDay: entry.fromDay, toMonth: entry.toMonth, toDay: entry.toDay, slug: entry.slug },
+      dateCalcSlug: entry.slug,
+      dateCalcHeading: `Days Between ${monthLabels[entry.fromMonth - 1]} ${entry.fromDay} and ${monthLabels[entry.toMonth - 1]} ${entry.toDay}`,
+      dateCalcDescription: `Calculate the number of days between ${monthLabels[entry.fromMonth - 1]} ${entry.fromDay} and ${monthLabels[entry.toMonth - 1]} ${entry.toDay}.`,
+    },
+  }))
+
+  const monthEndDaysBetweenPaths = monthEndDaysBetweenEntries.map((entry) => ({
     params: { slug: entry.slug },
     props: {
       type: 'dateCalc' as const,
@@ -196,6 +210,7 @@ export function getStaticPaths() {
     ...holidayPaths,
     ...daysBetweenPaths,
     ...extendedDaysBetweenPaths,
+    ...monthEndDaysBetweenPaths,
     ...weekNumberPaths,
     ...weeksFromTodayPaths,
     ...monthsFromTodayPaths,
