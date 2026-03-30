@@ -58,6 +58,50 @@ export const words = [
   'trpc', 'drizzle', 'turbo', 'esbuild', 'rollup', 'babel', 'eslint',
   'prettier', 'github-actions', 'gitlab', 'bitbucket', 'jira', 'confluence',
   'slack', 'notion', 'obsidian', 'neovim',
+  // Tech / networking
+  'client', 'network', 'protocol', 'firewall', 'cipher', 'certificate',
+  'payload', 'exploit', 'malware', 'ransomware', 'phishing', 'binary',
+  'kernel', 'container', 'grafana', 'prometheus', 'elasticsearch', 'kibana',
+  'logstash', 'rabbitmq', 'kafka', 'nginx-proxy', 'haproxy', 'traefik',
+  'vault', 'consul', 'etcd', 'istio', 'envoy', 'grpc', 'protobuf',
+  'websocket', 'webhook', 'middleware', 'proxy', 'gateway', 'loadbalancer',
+  'cdn', 'vpc', 'subnet', 'cidr', 'nat', 'vpn', 'tls', 'rsa', 'aes',
+  'sha', 'hmac', 'pkcs', 'x509', 'pem', 'base64',
+  // Programming concepts
+  'function', 'variable', 'class', 'method', 'object', 'array', 'string',
+  'boolean', 'integer', 'float', 'null', 'undefined', 'async', 'promise',
+  'callback', 'closure', 'interface', 'enum', 'struct', 'tuple', 'list',
+  'dict', 'set', 'stack', 'queue', 'tree', 'graph', 'node', 'edge',
+  'recursion', 'iteration', 'loop', 'branch', 'merge', 'fork', 'clone',
+  'commit', 'rebase', 'deploy', 'build', 'release', 'staging', 'production',
+  'development', 'sandbox', 'pipeline', 'workflow', 'artifact', 'registry',
+  // Actions
+  'connect', 'launch', 'create', 'delete', 'update', 'insert', 'select',
+  'search', 'upload', 'download', 'install', 'configure', 'initialize',
+  'authenticate', 'authorize', 'validate', 'encrypt', 'decrypt', 'hash',
+  'encode', 'decode', 'parse', 'serialize', 'render', 'compile', 'execute',
+  'import', 'export', 'migrate', 'rollback', 'restore', 'monitor', 'alert',
+  // Nature / elements
+  'island', 'desert', 'canyon', 'glacier', 'volcano', 'tsunami', 'tornado',
+  'hurricane', 'blizzard', 'drought', 'eclipse', 'comet', 'meteor', 'nebula',
+  'galaxy', 'cosmos', 'aurora', 'horizon', 'zenith', 'solstice', 'equinox',
+  'tide', 'wave', 'current', 'geyser', 'plateau', 'valley', 'tundra',
+  // Animals
+  'dolphin', 'whale', 'shark', 'unicorn', 'jaguar', 'cheetah', 'gorilla',
+  'elephant', 'rhino', 'giraffe', 'zebra', 'hyena', 'mongoose', 'otter',
+  'beaver', 'badger', 'weasel', 'meerkat', 'lemur', 'iguana', 'gecko',
+  'python-snake', 'anaconda', 'crocodile', 'alligator', 'tortoise', 'heron',
+  'pelican', 'albatross', 'condor', 'osprey', 'kestrel',
+  // Colors / materials
+  'bronze', 'copper', 'platinum', 'titanium', 'carbon', 'neon', 'mercury',
+  'cobalt', 'amber', 'ivory', 'jade', 'onyx', 'ruby', 'sapphire', 'emerald',
+  'topaz', 'opal', 'quartz', 'granite', 'obsidian-rock', 'marble', 'steel',
+  'iron', 'nickel', 'chromium', 'tungsten', 'silicon', 'helium', 'argon',
+  // Everyday / common
+  'travel', 'autumn', 'sunrise', 'midnight', 'echo', 'signal', 'pulse',
+  'rhythm', 'harmony', 'melody', 'tempo', 'lyrics', 'chorus', 'verse',
+  'cinema', 'novel', 'poetry', 'canvas', 'palette', 'sculpture', 'gallery',
+  'library', 'archive', 'catalog', 'index', 'chapter', 'volume',
 ]
 
 function computeHash(algorithm: 'md5' | 'sha1' | 'sha256' | 'sha512', word: string): string {
