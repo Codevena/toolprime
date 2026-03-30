@@ -17,7 +17,7 @@ export interface CityTimeEntry {
   city: City
 }
 
-// 100 cities covering major world cities across all continents
+// 128 cities covering major world cities across all continents
 export const cities: City[] = [
   // North America (20)
   { name: 'New York', slug: 'new-york', timezone: 'America/New_York', country: 'US', flag: '🇺🇸' },
@@ -103,42 +103,110 @@ export const cities: City[] = [
   { name: 'Brisbane', slug: 'brisbane', timezone: 'Australia/Brisbane', country: 'AU', flag: '🇦🇺' },
   { name: 'Perth', slug: 'perth', timezone: 'Australia/Perth', country: 'AU', flag: '🇦🇺' },
   { name: 'Auckland', slug: 'auckland', timezone: 'Pacific/Auckland', country: 'NZ', flag: '🇳🇿' },
+  // Additional North America (6)
+  { name: 'Boston', slug: 'boston', timezone: 'America/New_York', country: 'US', flag: '🇺🇸' },
+  { name: 'Atlanta', slug: 'atlanta', timezone: 'America/New_York', country: 'US', flag: '🇺🇸' },
+  { name: 'Dallas', slug: 'dallas', timezone: 'America/Chicago', country: 'US', flag: '🇺🇸' },
+  { name: 'Las Vegas', slug: 'las-vegas', timezone: 'America/Los_Angeles', country: 'US', flag: '🇺🇸' },
+  { name: 'Montreal', slug: 'montreal', timezone: 'America/Toronto', country: 'CA', flag: '🇨🇦' },
+  { name: 'Calgary', slug: 'calgary', timezone: 'America/Edmonton', country: 'CA', flag: '🇨🇦' },
+  // Additional South America (4)
+  { name: 'Medellín', slug: 'medellin', timezone: 'America/Bogota', country: 'CO', flag: '🇨🇴' },
+  { name: 'Montevideo', slug: 'montevideo', timezone: 'America/Montevideo', country: 'UY', flag: '🇺🇾' },
+  { name: 'Quito', slug: 'quito', timezone: 'America/Guayaquil', country: 'EC', flag: '🇪🇨' },
+  { name: 'Caracas', slug: 'caracas', timezone: 'America/Caracas', country: 'VE', flag: '🇻🇪' },
+  // Additional Europe (10)
+  { name: 'Munich', slug: 'munich', timezone: 'Europe/Berlin', country: 'DE', flag: '🇩🇪' },
+  { name: 'Frankfurt', slug: 'frankfurt', timezone: 'Europe/Berlin', country: 'DE', flag: '🇩🇪' },
+  { name: 'Milan', slug: 'milan', timezone: 'Europe/Rome', country: 'IT', flag: '🇮🇹' },
+  { name: 'Barcelona', slug: 'barcelona', timezone: 'Europe/Madrid', country: 'ES', flag: '🇪🇸' },
+  { name: 'Brussels', slug: 'brussels', timezone: 'Europe/Brussels', country: 'BE', flag: '🇧🇪' },
+  { name: 'Edinburgh', slug: 'edinburgh', timezone: 'Europe/London', country: 'GB', flag: '🇬🇧' },
+  { name: 'Manchester', slug: 'manchester', timezone: 'Europe/London', country: 'GB', flag: '🇬🇧' },
+  { name: 'Kyiv', slug: 'kyiv', timezone: 'Europe/Kyiv', country: 'UA', flag: '🇺🇦' },
+  { name: 'Budapest', slug: 'budapest', timezone: 'Europe/Budapest', country: 'HU', flag: '🇭🇺' },
+  { name: 'Geneva', slug: 'geneva', timezone: 'Europe/Zurich', country: 'CH', flag: '🇨🇭' },
+  // Additional Asia (15)
+  { name: 'Shenzhen', slug: 'shenzhen', timezone: 'Asia/Shanghai', country: 'CN', flag: '🇨🇳' },
+  { name: 'Guangzhou', slug: 'guangzhou', timezone: 'Asia/Shanghai', country: 'CN', flag: '🇨🇳' },
+  { name: 'Chengdu', slug: 'chengdu', timezone: 'Asia/Shanghai', country: 'CN', flag: '🇨🇳' },
+  { name: 'Chennai', slug: 'chennai', timezone: 'Asia/Kolkata', country: 'IN', flag: '🇮🇳' },
+  { name: 'Hyderabad', slug: 'hyderabad', timezone: 'Asia/Kolkata', country: 'IN', flag: '🇮🇳' },
+  { name: 'Pune', slug: 'pune', timezone: 'Asia/Kolkata', country: 'IN', flag: '🇮🇳' },
+  { name: 'Lahore', slug: 'lahore', timezone: 'Asia/Karachi', country: 'PK', flag: '🇵🇰' },
+  { name: 'Abu Dhabi', slug: 'abu-dhabi', timezone: 'Asia/Dubai', country: 'AE', flag: '🇦🇪' },
+  { name: 'Kuwait City', slug: 'kuwait-city', timezone: 'Asia/Kuwait', country: 'KW', flag: '🇰🇼' },
+  { name: 'Muscat', slug: 'muscat', timezone: 'Asia/Muscat', country: 'OM', flag: '🇴🇲' },
+  { name: 'Kathmandu', slug: 'kathmandu', timezone: 'Asia/Kathmandu', country: 'NP', flag: '🇳🇵' },
+  { name: 'Yangon', slug: 'yangon', timezone: 'Asia/Yangon', country: 'MM', flag: '🇲🇲' },
+  { name: 'Phnom Penh', slug: 'phnom-penh', timezone: 'Asia/Phnom_Penh', country: 'KH', flag: '🇰🇭' },
+  { name: 'Almaty', slug: 'almaty', timezone: 'Asia/Almaty', country: 'KZ', flag: '🇰🇿' },
+  { name: 'Tashkent', slug: 'tashkent', timezone: 'Asia/Tashkent', country: 'UZ', flag: '🇺🇿' },
+  // Additional Africa (10)
+  { name: 'Dar es Salaam', slug: 'dar-es-salaam', timezone: 'Africa/Dar_es_Salaam', country: 'TZ', flag: '🇹🇿' },
+  { name: 'Kinshasa', slug: 'kinshasa', timezone: 'Africa/Kinshasa', country: 'CD', flag: '🇨🇩' },
+  { name: 'Luanda', slug: 'luanda', timezone: 'Africa/Luanda', country: 'AO', flag: '🇦🇴' },
+  { name: 'Kigali', slug: 'kigali', timezone: 'Africa/Kigali', country: 'RW', flag: '🇷🇼' },
+  { name: 'Kampala', slug: 'kampala', timezone: 'Africa/Kampala', country: 'UG', flag: '🇺🇬' },
+  { name: 'Abuja', slug: 'abuja', timezone: 'Africa/Lagos', country: 'NG', flag: '🇳🇬' },
+  { name: 'Tunis', slug: 'tunis', timezone: 'Africa/Tunis', country: 'TN', flag: '🇹🇳' },
+  { name: 'Algiers', slug: 'algiers', timezone: 'Africa/Algiers', country: 'DZ', flag: '🇩🇿' },
+  { name: 'Maputo', slug: 'maputo', timezone: 'Africa/Maputo', country: 'MZ', flag: '🇲🇿' },
+  { name: 'Dakar', slug: 'dakar', timezone: 'Africa/Dakar', country: 'SN', flag: '🇸🇳' },
+  // Additional Oceania (5)
+  { name: 'Adelaide', slug: 'adelaide', timezone: 'Australia/Adelaide', country: 'AU', flag: '🇦🇺' },
+  { name: 'Hobart', slug: 'hobart', timezone: 'Australia/Hobart', country: 'AU', flag: '🇦🇺' },
+  { name: 'Wellington', slug: 'wellington', timezone: 'Pacific/Auckland', country: 'NZ', flag: '🇳🇿' },
+  { name: 'Fiji', slug: 'fiji', timezone: 'Pacific/Fiji', country: 'FJ', flag: '🇫🇯' },
+  { name: 'Christchurch', slug: 'christchurch', timezone: 'Pacific/Auckland', country: 'NZ', flag: '🇳🇿' },
 ]
 
-// 30 "anchor" cities for cross-pair generation (most searched timezone conversions)
+// 55 "anchor" cities for cross-pair generation (most searched timezone conversions)
 const anchorSlugs = [
+  // Original 30
   'new-york', 'los-angeles', 'chicago', 'london', 'paris', 'berlin',
   'tokyo', 'shanghai', 'singapore', 'dubai', 'mumbai', 'sydney',
   'toronto', 'hong-kong', 'seoul', 'sao-paulo', 'moscow', 'istanbul',
   'bangkok', 'jakarta', 'cairo', 'lagos', 'nairobi', 'auckland',
   'mexico-city', 'buenos-aires', 'denver', 'miami', 'seattle', 'johannesburg',
+  // 25 new anchors
+  'san-francisco', 'vancouver', 'honolulu', 'lima', 'santiago',
+  'madrid', 'rome', 'amsterdam', 'lisbon', 'athens',
+  'delhi', 'bangalore', 'taipei', 'manila', 'riyadh',
+  'tel-aviv', 'kuala-lumpur', 'ho-chi-minh-city', 'melbourne', 'perth',
+  'cape-town', 'accra', 'casablanca', 'bogota', 'doha',
 ]
 
 function getCityBySlug(slug: string): City | undefined {
   return cities.find((c) => c.slug === slug)
 }
 
-/** Generate timezone pair pSEO entries: anchor cities × all other cities */
+/** Generate timezone pair pSEO entries: anchor cities × all other cities (both directions) */
 function generateTimezonePairEntries(): TimezonePairEntry[] {
   const entries: TimezonePairEntry[] = []
   const seen = new Set<string>()
 
   for (const anchorSlug of anchorSlugs) {
-    const from = getCityBySlug(anchorSlug)
-    if (!from) continue
+    const anchor = getCityBySlug(anchorSlug)
+    if (!anchor) continue
 
-    for (const to of cities) {
-      if (from.slug === to.slug) continue
-      // Skip pairs in same timezone
-      if (from.timezone === to.timezone) continue
+    for (const other of cities) {
+      if (anchor.slug === other.slug) continue
+      if (anchor.timezone === other.timezone) continue
 
-      const slug = `${from.slug}-to-${to.slug}`
-      const reverseSlug = `${to.slug}-to-${from.slug}`
-      // Only generate one direction per pair
-      if (seen.has(slug) || seen.has(reverseSlug)) continue
-      seen.add(slug)
+      // Generate anchor-to-other direction
+      const slug = `${anchor.slug}-to-${other.slug}`
+      if (!seen.has(slug)) {
+        seen.add(slug)
+        entries.push({ slug, from: anchor, to: other })
+      }
 
-      entries.push({ slug, from, to })
+      // Generate other-to-anchor direction
+      const reverseSlug = `${other.slug}-to-${anchor.slug}`
+      if (!seen.has(reverseSlug)) {
+        seen.add(reverseSlug)
+        entries.push({ slug: reverseSlug, from: other, to: anchor })
+      }
     }
   }
 
