@@ -11,8 +11,8 @@ export interface BmiPreset {
   relatedBmi: string[]
 }
 
-const HEIGHTS = [150, 155, 160, 165, 170, 175, 180, 185, 190, 195, 200] as const
-const WEIGHTS = [40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 130] as const
+const HEIGHTS = [146, 148, 150, 152, 155, 157, 160, 162, 165, 167, 170, 172, 175, 177, 180, 182, 185, 187, 190, 193, 195, 198, 200, 203] as const
+const WEIGHTS = [38, 40, 43, 45, 48, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 115, 120, 125, 130, 135, 140] as const
 
 function getBmiCategory(bmi: number): string {
   if (bmi < 18.5) return 'Underweight'
