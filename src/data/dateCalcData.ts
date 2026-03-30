@@ -62,7 +62,7 @@ export const holidays: HolidayCountdownEntry[] = [
   { slug: 'days-until-juneteenth', name: 'Juneteenth', month: 6, day: 19 },
   { slug: 'days-until-bastille-day', name: 'Bastille Day', month: 7, day: 14 },
   { slug: 'days-until-canada-day', name: 'Canada Day', month: 7, day: 1 },
-  { slug: 'days-until-day-of-the-dead', name: 'Day of the Dead', month: 11, day: 1 },
+  { slug: 'days-until-day-of-the-dead', name: 'Day of the Dead', month: 11, day: 2 },
   { slug: 'days-until-boxing-day', name: 'Boxing Day', month: 12, day: 26 },
   { slug: 'days-until-german-unity-day', name: 'German Unity Day', month: 10, day: 3 },
   { slug: 'days-until-australia-day', name: 'Australia Day', month: 1, day: 26 },
@@ -164,7 +164,7 @@ const monthEndDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 const monthEndPairs: [number, number, number, number][] = []
 for (let from = 0; from < 12; from++) {
   for (let to = from + 1; to < 12; to++) {
-    monthEndPairs.push([from + 1, monthEndDays[from], to + 1, monthEndDays[to]])
+    monthEndPairs.push([from + 1, monthEndDays[from] as number, to + 1, monthEndDays[to] as number])
   }
 }
 

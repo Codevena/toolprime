@@ -37,7 +37,7 @@ function formatCurrency(n: number): string {
   return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 }
 
-const amounts = [100000, 150000, 175000, 200000, 225000, 250000, 275000, 300000, 325000, 375000, 425000, 500000, 600000, 750000, 1000000]
+const amounts = [50000, 100000, 150000, 175000, 200000, 225000, 250000, 275000, 300000, 325000, 350000, 375000, 400000, 425000, 450000, 500000, 600000, 750000, 850000, 1000000]
 const rates = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8]
 const terms = [15, 20, 30]
 

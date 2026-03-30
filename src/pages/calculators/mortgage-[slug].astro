@@ -62,10 +62,10 @@ const related = preset.relatedMortgages
   <SchemaMarkup json={mortgageFaqSchema(preset.faqs)} />
   <Breadcrumbs items={[
     { name: 'Mortgage Calculator', url: 'https://toolprime.dev/mortgage-calculator' },
-    { name: `${formatCurrency(preset.amount)} at ${preset.rate}%`, url: meta.canonical },
+    { name: `${formatCurrency(preset.amount)} at ${preset.rate}%, ${preset.term}yr`, url: meta.canonical },
   ]} />
 
-  <h1 class="text-3xl font-bold mb-2">{formatCurrency(preset.amount)} Mortgage at {preset.rate}%</h1>
+  <h1 class="text-3xl font-bold mb-2">{formatCurrency(preset.amount)} Mortgage at {preset.rate}% for {preset.term} Years</h1>
 
   <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 mb-8">
     <p class="text-lg text-[var(--color-text-muted)] mb-1">Monthly Payment</p>
@@ -106,7 +106,7 @@ const related = preset.relatedMortgages
     <h2 class="text-xl font-semibold mb-4">Amortization Schedule (First 10 Years)</h2>
     <div class="overflow-x-auto rounded-xl border border-[var(--color-border)]">
       <table class="w-full text-sm">
-        <caption class="sr-only">Yearly amortization schedule for {formatCurrency(preset.amount)} at {preset.rate}%</caption>
+        <caption class="sr-only">Yearly amortization schedule for {formatCurrency(preset.amount)} at {preset.rate}% for {preset.term} years</caption>
         <thead>
           <tr class="border-b border-[var(--color-border)] bg-[var(--color-surface-alt)]">
             <th scope="col" class="px-4 py-2.5 text-left text-xs font-semibold text-[var(--color-text-muted)] uppercase">Year</th>
@@ -150,7 +150,7 @@ const related = preset.relatedMortgages
         {related.map((p) => (
           <a href={`/calculators/${p.slug}`}
             class="p-3 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-alt)] hover:border-[var(--color-primary)] transition-colors text-center">
-            <span class="text-sm font-medium">{formatCurrency(p.amount)} at {p.rate}%</span>
+            <span class="text-sm font-medium">{formatCurrency(p.amount)} at {p.rate}% ({p.term}yr)</span>
             <span class="block text-xs text-[var(--color-text-muted)]">{formatCurrencyCents(p.monthlyPayment)}/mo</span>
           </a>
         ))}

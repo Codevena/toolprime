@@ -29,7 +29,8 @@ function generateEntries(): LoanEntry[] {
         const monthlyPayment = calculateMonthlyPayment(amount, rate, years)
         const totalPaid = monthlyPayment * years * 12
         const totalInterest = totalPaid - amount
-        const slug = `loan-${amount}-at-${rate}-percent-${years}-years`
+        const rateStr = String(rate).replace('.', '-')
+        const slug = `loan-${amount}-at-${rateStr}-percent-${years}-years`
         entries.push({ slug, amount, rate, years, monthlyPayment, totalPaid, totalInterest })
       }
     }
