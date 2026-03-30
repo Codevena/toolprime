@@ -8,8 +8,8 @@ export interface LoanEntry {
   totalInterest: number
 }
 
-const amounts = [10000, 25000, 50000, 100000, 150000, 200000, 250000, 300000, 400000, 500000]
-const rates = [3, 4, 5, 6, 7, 8, 9, 10]
+const amounts = [5000, 10000, 15000, 25000, 50000, 75000, 100000, 150000, 175000, 200000, 250000, 300000, 350000, 400000, 500000, 600000, 750000, 1000000]
+const rates = [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 9, 10]
 const terms = [5, 10, 15, 20, 25, 30]
 
 function calculateMonthlyPayment(principal: number, annualRate: number, years: number): number {
@@ -39,7 +39,7 @@ function generateEntries(): LoanEntry[] {
 }
 
 export const loanEntries = generateEntries()
-// 10 amounts × 8 rates × 6 terms = 480 entries
+// 18 amounts × 13 rates × 6 terms = 1,404 entries
 
 export { calculateMonthlyPayment }
 
