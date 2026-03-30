@@ -2,13 +2,22 @@
 import ToolLayout from '@/layouts/ToolLayout.astro'
 import { CurrencyConverter } from '@/components/tools/CurrencyConverter'
 import { getToolById } from '@/data/tools'
+import { fetchRates, getRateDate } from '@/data/currencyData'
 
 const tool = getToolById('currency-converter')
 if (!tool) throw new Error('Tool not found: currency-converter')
+
+await fetchRates()
+const rateDate = getRateDate()
 ---
 
 <ToolLayout tool={tool}>
   <CurrencyConverter client:load />
+
+  <p slot="content" class="mt-4 text-sm text-[var(--color-text-muted)]">
+    Exchange rates from the <a href="https://www.ecb.europa.eu" class="underline hover:no-underline" rel="noopener">European Central Bank</a> via Frankfurter API.
+    {rateDate !== 'fallback' && rateDate !== 'unknown' && <> Rates as of <strong>{rateDate}</strong>. Updated daily.</>}
+  </p>
 
   <section slot="content" class="mt-8" aria-labelledby="currency-overview">
     <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] p-5">

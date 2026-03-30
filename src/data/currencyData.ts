@@ -134,6 +134,11 @@ export const fallbackRates: RateMap = {
 // ─── Rate fetching ──────────────────────────────────────────────────────────
 
 let cachedRates: RateMap | null = null
+let cachedRateDate: string | null = null
+
+export function getRateDate(): string {
+  return cachedRateDate ?? 'unknown'
+}
 
 export async function fetchRates(): Promise<RateMap> {
   if (cachedRates) return cachedRates
@@ -147,7 +152,8 @@ export async function fetchRates(): Promise<RateMap> {
     clearTimeout(timeout)
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const data = (await res.json()) as { rates: Record<string, number> }
+    const data = (await res.json()) as { date: string; rates: Record<string, number> }
+    cachedRateDate = data.date
 
     const rates: RateMap = { USD: 1, ...data.rates }
     // API doesn't support crypto — use fallback for those
@@ -161,6 +167,7 @@ export async function fetchRates(): Promise<RateMap> {
     return rates
   } catch {
     console.warn('Currency API fetch failed, using fallback rates')
+    cachedRateDate = 'fallback'
     cachedRates = { ...fallbackRates }
     return cachedRates
   }

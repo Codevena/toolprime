@@ -16,6 +16,7 @@ import AsciiPage from '@/components/pseo/AsciiPage.astro'
 import {
   currencyEntries,
   fetchRates,
+  getRateDate,
   convertCurrency,
   getCurrencyByCode,
   type CurrencyEntry,
@@ -169,12 +170,18 @@ if (props.type === 'format') {
   )}
 
   {props.type === 'currency' && (
-    <CurrencyConversionPage
-      amount={props.currency.amount}
-      fromCode={props.currency.fromCode}
-      toCode={props.currency.toCode}
-      rates={props.rates}
-    />
+    <>
+      <CurrencyConversionPage
+        amount={props.currency.amount}
+        fromCode={props.currency.fromCode}
+        toCode={props.currency.toCode}
+        rates={props.rates}
+      />
+      <p class="mt-4 text-xs text-[var(--color-text-muted)]">
+        Rates from the European Central Bank via Frankfurter API. Updated daily.
+        {getRateDate() !== 'fallback' && getRateDate() !== 'unknown' && <> As of <strong>{getRateDate()}</strong>.</>}
+      </p>
+    </>
   )}
 
   {props.type === 'numberBase' && (
