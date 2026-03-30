@@ -162,6 +162,7 @@
   - BMI: 180 → 478 pages (24 heights × 24 weights, filtered by realistic combos)
 - **4-agent code review (2 rounds)**: Round 1 found 5 issues (TS error, loan slug decimals, mortgage template missing term, removed amounts, Day of the Dead date). All fixed. Round 2: all 4 agents pass clean.
 - **73,359 pages total, 40 tools, 0 TypeScript errors, ~116s build**
+- **Pushed to GitHub** (b0e4e2f) — GitHub Actions deploying to CF Workers
 
 ## Current state
 
@@ -209,8 +210,9 @@ Astro 6.1.1 + @tailwindcss/node 4.2.2 has a race condition in the prerender phas
 
 ## What to do next (Session 11)
 
-### Priority 1: Push Phase 5c + Deploy
-- Phase 5c is committed locally (73,359 pages). Push to GitHub and verify deploy.
+### Priority 1: Verify Deploy + SEO Resubmission
+- Phase 5c pushed to GitHub (2026-03-30, b0e4e2f) — GitHub Actions deploying
+- Verify deploy on toolprime.dev (spot-check new pSEO pages)
 - Purge sitemap cache, resubmit to GSC (~73,359 pages)
 - Resubmit to Bing
 
