@@ -163,6 +163,14 @@
 - **4-agent code review (2 rounds)**: Round 1 found 5 issues (TS error, loan slug decimals, mortgage template missing term, removed amounts, Day of the Dead date). All fixed. Round 2: all 4 agents pass clean.
 - **73,359 pages total, 40 tools, 0 TypeScript errors, ~116s build**
 - **Pushed to GitHub** (b0e4e2f) — GitHub Actions deploying to CF Workers
+- **Codex Strategic Overhaul** — top pages, hubs, clusters upgraded:
+  - Top 5 money pages: mortgage, currency, image-compressor, json-formatter, qr-code (presets, trust sections, use-case content, cross-links)
+  - 3 hub pages: /developer, /everyday, /design (editorial intros, workflow sections, flagship highlights)
+  - 5 cluster pages: meta-tag, robots-txt, regex, timestamp, css-gradient (presets, best practices, workflow links)
+  - Strategy docs created: analysis.md (7.8/10 SWOT), roadmap.md (90-day plan), todo.md, monetization-notes.md
+  - 5 bugs fixed during review (JSX escaping, init order, broken link, timestamp unit, image URL leak)
+  - Build verified: 73,359 pages, 0 errors
+- **Pushed to GitHub** (de9f90e) — GitHub Actions deploying
 
 ## Current state
 
@@ -211,10 +219,12 @@ Astro 6.1.1 + @tailwindcss/node 4.2.2 has a race condition in the prerender phas
 ## What to do next (Session 11)
 
 ### Priority 1: Verify Deploy + SEO Resubmission
-- Phase 5c pushed to GitHub (2026-03-30, b0e4e2f) — GitHub Actions deploying
-- Verify deploy on toolprime.dev (spot-check new pSEO pages)
+- Phase 5c + Codex overhaul pushed (2026-03-30, de9f90e) — GitHub Actions deploying
+- Verify deploy on toolprime.dev (spot-check upgraded pages + new pSEO)
 - Purge sitemap cache, resubmit to GSC (~73,359 pages)
 - Resubmit to Bing
+- Spot-check URL Inspection on top 10 pages in GSC
+- Note 2026-03-30 as baseline date for Codex upgrade rollout
 
 ### Priority 2: Phase 5d — Push toward 100K pages
 Still expandable categories:
