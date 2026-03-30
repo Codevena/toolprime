@@ -51,6 +51,8 @@ export function TimezoneConverter({ defaultFrom, defaultTo }: TimezoneConverterP
   const fromOffset = useMemo(() => getOffset(fromTz, now), [fromTz, now])
   const toOffset = useMemo(() => getOffset(toTz, now), [toTz, now])
 
+  // Only recompute table when date changes (not every second)
+  const dateKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}`
   const hourTable = useMemo(() => {
     const rows: { fromHour: string; toHour: string }[] = []
     for (let h = 0; h < 24; h++) {
@@ -65,7 +67,8 @@ export function TimezoneConverter({ defaultFrom, defaultTo }: TimezoneConverterP
       rows.push({ fromHour: fromStr, toHour: toStr })
     }
     return rows
-  }, [fromTz, toTz, now])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fromTz, toTz, dateKey])
 
   function swap() {
     setFromTz(toTz)

@@ -36,7 +36,7 @@ type PageProps =
   | { type: 'age'; age: AgeEntry; fraction: null; decimal: null; compoundInterest?: undefined }
   | { type: 'fraction'; age: null; fraction: FractionEntry; decimal: null; compoundInterest?: undefined }
   | { type: 'decimalToFraction'; age: null; fraction: null; decimal: DecimalToFractionEntry; compoundInterest?: undefined }
-  | { type: 'dateCalc'; age: null; fraction: null; decimal: null; dateCalcType: string; dateCalcProps: Record<string, unknown>; dateCalcSlug: string; dateCalcHeading: string; dateCalcDescription: string; compoundInterest?: undefined }
+  | { type: 'dateCalc'; age: null; fraction: null; decimal: null; dateCalcType: 'daysFromToday' | 'daysAgo' | 'weeksFromToday' | 'monthsFromToday' | 'holiday' | 'daysBetween' | 'weekNumber'; dateCalcProps: Record<string, string | number>; dateCalcSlug: string; dateCalcHeading: string; dateCalcDescription: string; compoundInterest?: undefined }
   | { type: 'compoundInterest'; age: null; fraction: null; decimal: null; compoundInterest: CompoundInterestEntry }
   | { type: 'loan'; age: null; fraction: null; decimal: null; loan: LoanEntry }
   | { type: 'aspectRatio'; age: null; fraction: null; decimal: null; aspectRatio: AspectRatioEntry }
@@ -237,7 +237,7 @@ if (props.type === 'age') {
   {props.type === 'age' && <AgeCalculationPage entry={props.age} />}
   {props.type === 'fraction' && <FractionCalculationPage entry={props.fraction} />}
   {props.type === 'decimalToFraction' && <DecimalToFractionPage entry={props.decimal} />}
-  {props.type === 'dateCalc' && <DateCalcPage type={props.dateCalcType as any} {...props.dateCalcProps as any} />}
+  {props.type === 'dateCalc' && <DateCalcPage type={props.dateCalcType} {...props.dateCalcProps} />}
   {props.type === 'compoundInterest' && <CompoundInterestPage entry={props.compoundInterest} />}
   {props.type === 'loan' && <LoanCalcPage entry={props.loan} />}
   {props.type === 'aspectRatio' && <AspectRatioPage type="resolution" width={props.aspectRatio.width} height={props.aspectRatio.height} ratio={props.aspectRatio.ratio} slug={props.aspectRatio.slug} />}

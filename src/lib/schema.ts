@@ -315,11 +315,13 @@ export function timezoneFaqSchema(fromName: string, toName: string, hourDiff: nu
 }
 
 function formatHourOffset(hour: number, diff: number): string {
-  let h = (hour + diff) % 24
-  if (h < 0) h += 24
-  const period = h >= 12 ? 'PM' : 'AM'
-  const displayHour = h === 0 ? 12 : h > 12 ? h - 12 : h
-  return `${displayHour}:00 ${period}`
+  const totalMinutes = hour * 60 + Math.round(diff * 60)
+  let m = ((totalMinutes % (24 * 60)) + 24 * 60) % (24 * 60)
+  const hr = Math.floor(m / 60)
+  const min = m % 60
+  const period = hr >= 12 ? 'PM' : 'AM'
+  const displayHour = hr === 0 ? 12 : hr > 12 ? hr - 12 : hr
+  return min === 0 ? `${displayHour}:00 ${period}` : `${displayHour}:${String(min).padStart(2, '0')} ${period}`
 }
 
 // Number base conversion FAQ schema
