@@ -149,10 +149,24 @@
 - **53,957 pages total, 40 tools, 0 TypeScript errors, ~93s build**
 - **Pushed to GitHub** — GitHub Actions will deploy to CF Workers
 
+**Session 10 (2026-03-30):**
+- **Phase 5b deploy verified** — all 5 new tools live on toolprime.dev (timezone converter, date calc, compound interest, loan calc, aspect ratio)
+- **Phase 5c — pSEO Page Expansion** via subagent-driven development (8 tasks):
+  - Timezone: 1,941 → 11,032 pages (128 cities, 55 anchors, bidirectional pairs)
+  - Percentage: 2,340 → 8,022 pages (53 values × 84 bases)
+  - Hash: 1,000 → 2,000 pages (500 words × 4 algorithms)
+  - Date calc: 1,015 → 1,932 pages (730 days, 25 holidays, extended ranges)
+  - Compound interest: 864 → 1,848 pages (12 principals × 14 rates × 11 periods)
+  - Loan: 480 → 1,404 pages (18 amounts × 13 rates × 6 terms)
+  - Mortgage: 154 → 660 pages (20 amounts × 11 rates × 3 terms, now with variable terms)
+  - BMI: 180 → 478 pages (24 heights × 24 weights, filtered by realistic combos)
+- **4-agent code review (2 rounds)**: Round 1 found 5 issues (TS error, loan slug decimals, mortgage template missing term, removed amounts, Day of the Dead date). All fixed. Round 2: all 4 agents pass clean.
+- **73,359 pages total, 40 tools, 0 TypeScript errors, ~116s build**
+
 ## Current state
 
 - **Design C UI** — step-cards, grid cards, custom tables, privacy banner
-- **53,957 pages** building in ~93 seconds
+- **73,359 pages** building in ~116 seconds
 - **40 tools** across 6 categories (text, developer, image, math, design, business)
 - **3 audience hubs**: /everyday (16 tools), /developer (17 tools), /design (6 tools + Layout subcategory)
 - **183 unit conversions** across 12 categories (incl. 35 Cooking & Kitchen)
@@ -160,8 +174,8 @@
 - **~1,250 age calculator pages** (year + month variants)
 - **~8,100 fraction calculation pages** + 25 decimal-to-fraction
 - **~800 number base pages** + 128 ASCII + 17 hex-to-decimal
-- **~2,340 percentage pages** (forward + reverse + index)
-- **1,000 hash lookup pages** (4 algorithms × 250 words)
+- **~8,022 percentage pages** (forward + reverse + index)
+- **2,000 hash lookup pages** (4 algorithms × 500 words)
 - **40 regex pattern pages** with live tester
 - **50 gradient preset pages** with interactive editor
 - **66 "Convert X to Y" landing pages** with HowTo schema
@@ -169,13 +183,13 @@
 - **50 color palette pages** with CSS/Tailwind export
 - **20 meta tag template pages**
 - **15 robots.txt template pages**
-- **182 BMI preset pages**
-- **154 mortgage calculator pages**
+- **478 BMI preset pages**
+- **660 mortgage calculator pages** (variable terms: 15, 20, 30 years)
 - **28 tip calculator pages**
-- **~2,800 timezone pair pages** + 98 city time pages
-- **~1,000 date calculator pages** (days-from-today, days-ago, weeks, months, holidays, days-between, week numbers)
-- **864 compound interest pages** with growth tables
-- **480 loan calculator pages** with amortization tables
+- **~10,904 timezone pair pages** + 128 city time pages (bidirectional, 55 anchors)
+- **~1,932 date calculator pages** (730 days-from/ago, 25 holidays, weeks, months, days-between, week numbers)
+- **1,848 compound interest pages** with growth tables
+- **1,404 loan calculator pages** with amortization tables
 - **~155 aspect ratio pages** (resolutions + devices + video formats)
 - **Blog**: 10 articles + 40 how-to posts + 58 tag pages
 - **40 dynamic OG images** (Branded Card design, Satori + Sharp)
@@ -184,7 +198,7 @@
 - **ads.txt** placeholder ready (needs publisher ID)
 - **0 TypeScript errors**
 - **LIVE** at https://toolprime.dev (CF Workers + Assets)
-- **Google Search Console**: Verified, needs sitemap resubmission (~53,957 pages)
+- **Google Search Console**: Verified, needs sitemap resubmission (~73,359 pages)
 - **Bing Webmaster Tools**: Active
 - Analytics: Umami at analytics.codevena.dev
 - Branch: `main`
@@ -193,22 +207,21 @@
 
 Astro 6.1.1 + @tailwindcss/node 4.2.2 has a race condition in the prerender phase (`Cannot find module noop-entrypoint...`). This is environment-specific (Node 25) and non-deterministic — rebuilds usually succeed. Clean `rm -rf dist .astro` before build if it happens. Not caused by Phase 5a code.
 
-## What to do next (Session 10)
+## What to do next (Session 11)
 
-### Priority 1: SEO Resubmission
-- Phase 5b pushed to GitHub (2026-03-30) — GitHub Actions will deploy automatically
-- Purge sitemap cache, resubmit to GSC (~53,957 pages)
+### Priority 1: Push Phase 5c + Deploy
+- Phase 5c is committed locally (73,359 pages). Push to GitHub and verify deploy.
+- Purge sitemap cache, resubmit to GSC (~73,359 pages)
 - Resubmit to Bing
 
-### Priority 2: Phase 5c — Expand pSEO Page Counts
-Current page counts can be expanded:
-- Timezone pairs: ~2,800 (could add more anchor cities or all-to-all pairs)
-- Date calculator: ~1,000 (could extend days-from-today beyond 365, add more holidays)
-- Compound interest: 864 (could add monthly contribution scenarios)
-- Loan: 480 (could add more amount/rate/term combos)
+### Priority 2: Phase 5d — Push toward 100K pages
+Still expandable categories:
 - Aspect ratio: 155 (could add more device entries, social media sizes)
-- Currency: ~5,300 (spec: 15,000+) — add more cross-pairs and amounts
-- Number Base: ~950 (spec: 3,000+) — expand to 0-1023 range
+- Tip calculator: 28 (could add many more bill/tip combos)
+- Currency: 15,630 (could add more amounts: 50, 200, 500, 1000, 5000)
+- Fractions: 24,964 (could add more operations or denominators)
+- Age: 1,248 (could add more years)
+- New pSEO types: "X hours from now", "X minutes to hours", salary/hourly conversions
 
 ### Priority 3: Impressum Address
 - Use online-impressum.de service (~3 EUR/mo) for ladungsfähige Anschrift
