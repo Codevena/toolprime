@@ -53,8 +53,8 @@ const dateStr = '2026-03-29'
         </div>
       </header>
 
-      <div class="space-y-6 text-sm text-[var(--color-text-muted)] leading-relaxed">
-        <p class="text-base">{article.intro}</p>
+      <div class="space-y-6 text-base text-[var(--color-text-muted)] leading-relaxed">
+        <p>{article.intro}</p>
 
         {article.steps.map((step: { heading: string; body: string }, i: number) => (
           <div>
@@ -83,7 +83,7 @@ const dateStr = '2026-03-29'
             <div class="grid gap-3 sm:grid-cols-2">
               {(article as any).tips.map((tip: string) => (
                 <div class="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-alt)] p-4">
-                  <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">{tip}</p>
+                  <p class="text-sm text-[var(--color-text-muted)] leading-relaxed">{tip}</p>
                 </div>
               ))}
             </div>
