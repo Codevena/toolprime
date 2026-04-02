@@ -57,9 +57,9 @@ export function CurrencyConverter({
         const data = (await res.json()) as { rates: Record<string, number> }
         if (cancelled) return
         const live: Record<string, number> = { USD: 1, ...data.rates }
-        // Crypto always from fallback
-        for (const code of CRYPTO_CODES) {
-          if (FALLBACK_RATES[code] !== undefined) live[code] = FALLBACK_RATES[code]
+        // Fill in missing currencies (crypto + any fiat the API doesn't cover) from fallback
+        for (const [code, rate] of Object.entries(FALLBACK_RATES)) {
+          if (live[code] === undefined) live[code] = rate
         }
         setRates(live)
       } catch {

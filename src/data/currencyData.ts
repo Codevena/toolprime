@@ -156,9 +156,9 @@ export async function fetchRates(): Promise<RateMap> {
     cachedRateDate = data.date
 
     const rates: RateMap = { USD: 1, ...data.rates }
-    // API doesn't support crypto — use fallback for those
+    // Fill in missing currencies (crypto + any fiat the API doesn't cover) from fallback
     for (const c of currencies) {
-      if (c.isCrypto) {
+      if (rates[c.code] === undefined) {
         const fallback = fallbackRates[c.code]
         if (fallback !== undefined) rates[c.code] = fallback
       }
