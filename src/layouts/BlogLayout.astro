@@ -44,35 +44,43 @@ const displayDate = date.toLocaleDateString('en-US', { year: 'numeric', month: '
 
   <div class="lg:grid lg:grid-cols-[1fr_260px] lg:gap-8">
     <article class="min-w-0">
-      <header class="mb-8">
-        <h1 class="text-3xl font-extrabold text-[var(--color-text)] mb-3" style="letter-spacing: -0.02em;">{title}</h1>
+      <header class="mb-10 pb-8 border-b border-[var(--color-border)]">
+        <div class="flex flex-wrap gap-2 mb-4">
+          {tags.map(tag => (
+            <a href={`/blog/tag/${tag}`} class="inline-block rounded-full bg-[var(--color-primary)]/10 px-3 py-1 text-xs font-medium text-[var(--color-primary-text)] hover:bg-[var(--color-primary)]/20 transition-colors">{tag}</a>
+          ))}
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-[var(--color-text)] mb-4 leading-tight" style="letter-spacing: -0.03em;">{title}</h1>
+        <p class="text-lg text-[var(--color-text-muted)] mb-5">{description}</p>
         <div class="flex flex-wrap items-center gap-3 text-sm text-[var(--color-text-muted)]">
-          <span>ToolPrime Team</span>
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white text-xs font-bold">TP</div>
+            <span class="font-medium text-[var(--color-text)]">ToolPrime Team</span>
+          </div>
           <span aria-hidden="true">·</span>
           <time datetime={dateStr}>{displayDate}</time>
           <span aria-hidden="true">·</span>
           <span>{readingTime} min read</span>
         </div>
-        <div class="flex flex-wrap gap-2 mt-3">
-          {tags.map(tag => (
-            <a href={`/blog/tag/${tag}`} class="inline-block rounded-full border border-[var(--color-border)] px-3 py-0.5 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text)] hover:border-[var(--color-primary)] transition-colors">{tag}</a>
-          ))}
-        </div>
       </header>
 
-      <div class="prose prose-base dark:prose-invert max-w-none
+      <div class="prose prose-lg dark:prose-invert max-w-none
         prose-headings:text-[var(--color-text)] prose-headings:font-bold
+        prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-[var(--color-border)]
+        prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
         prose-p:text-[var(--color-text-muted)] prose-p:leading-relaxed
         prose-a:text-[var(--color-primary)] prose-a:underline prose-a:decoration-[var(--color-primary)]/30 hover:prose-a:decoration-[var(--color-primary)]
         prose-strong:text-[var(--color-text)]
-        prose-code:text-[var(--color-primary)] prose-code:bg-[var(--color-surface-alt)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs
-        prose-pre:bg-[var(--color-surface-alt)] prose-pre:border prose-pre:border-[var(--color-border)] prose-pre:rounded-xl
-        prose-li:text-[var(--color-text-muted)]
-        prose-blockquote:border-[var(--color-primary)] prose-blockquote:text-[var(--color-text-muted)]
-        prose-table:text-sm
-        prose-th:text-[var(--color-text)]
-        prose-td:text-[var(--color-text-muted)]
-        prose-img:rounded-xl">
+        prose-code:text-[var(--color-primary)] prose-code:bg-[var(--color-surface-alt)] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:font-normal
+        prose-pre:bg-[var(--color-surface-alt)] prose-pre:border prose-pre:border-[var(--color-border)] prose-pre:rounded-xl prose-pre:shadow-sm
+        prose-li:text-[var(--color-text-muted)] prose-li:leading-relaxed
+        prose-ol:space-y-2 prose-ul:space-y-2
+        prose-blockquote:border-l-4 prose-blockquote:border-[var(--color-primary)] prose-blockquote:bg-[var(--color-surface-alt)] prose-blockquote:rounded-r-xl prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:text-[var(--color-text-muted)] prose-blockquote:not-italic
+        prose-table:text-sm prose-table:rounded-xl prose-table:overflow-hidden
+        prose-th:text-[var(--color-text)] prose-th:bg-[var(--color-surface-alt)] prose-th:px-4 prose-th:py-2
+        prose-td:text-[var(--color-text-muted)] prose-td:px-4 prose-td:py-2
+        prose-hr:border-[var(--color-border)]
+        prose-img:rounded-xl prose-img:shadow-md">
         <slot />
       </div>
     </article>
