@@ -32,14 +32,15 @@ if [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
   fi
 fi
 
-# Push to main
+# Build locally
 echo ""
-echo "Pushing to origin/main..."
-git push origin main
+echo "Building site..."
+ASTRO_TELEMETRY_DISABLED=1 pnpm build
 
-# Show workflow link
+# Deploy to Cloudflare
 echo ""
-echo "Deploy triggered! Watch progress:"
-echo "  gh run watch"
+echo "Deploying to Cloudflare..."
+pnpm wrangler deploy
+
 echo ""
-echo "Or visit: https://github.com/$(git remote get-url origin | sed 's/.*github.com[:/]//' | sed 's/.git$//')/actions"
+echo "Done! Site is live at https://toolprime.dev"
